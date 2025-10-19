@@ -1,0 +1,189 @@
+@extends('layouts.app')
+
+@section('title', 'Dashboard - Pengeluaran Anak Kos')
+
+@section('content')
+    <!-- Dashboard Cards -->
+    @include('components.dashboard-cards')
+
+    <!-- Action Bar dengan Search Box -->
+    @include('components.search-box')
+
+    <!-- Data Table -->
+    @include('components.table-pengeluaran')
+@endsection
+
+@section('scripts')
+<script>
+    // DOM Elements
+    const btnTambah = document.getElementById('btn-tambah');
+    const btnProfile = document.getElementById('btn-profile');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const modalForm = document.getElementById('modal-form');
+    const modalDelete = document.getElementById('modal-delete');
+    const closeModal = document.getElementById('close-modal');
+    const cancelForm = document.getElementById('cancel-form');
+    const cancelDelete = document.getElementById('cancel-delete');
+    const pengeluaranForm = document.getElementById('pengeluaran-form');
+    const deleteForm = document.getElementById('delete-form');
+    const searchInput = document.getElementById('search-input');
+    const sortableHeaders = document.querySelectorAll('.sortable');
+
+    // Toggle dropdown profil
+    function toggleProfileDropdown() {
+        if (profileDropdown.classList.contains('hidden')) {
+            profileDropdown.classList.remove('hidden');
+        } else {
+            profileDropdown.classList.add('hidden');
+        }
+    }
+
+    // Show modal form
+    btnTambah.addEventListener('click', () => {
+        document.getElementById('modal-title').textContent = 'Tambah Pengeluaran';
+        pengeluaranForm.reset();
+        document.getElementById('edit-id').value = '';
+        hideAllErrors();
+        showModal(modalForm, document.getElementById('modal-form-content'));
+    });
+    
+    // Toggle dropdown profil
+    btnProfile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfileDropdown();
+    });
+    
+    // Tutup dropdown profil ketika klik di luar
+    document.addEventListener('click', (e) => {
+        if (!profileDropdown.contains(e.target) && !btnProfile.contains(e.target)) {
+            profileDropdown.classList.add('hidden');
+        }
+    });
+    
+    // Edit pengeluaran
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            // Dalam implementasi nyata, Anda akan fetch data via AJAX
+            // Untuk contoh, kita set nilai default
+            document.getElementById('modal-title').textContent = 'Edit Pengeluaran';
+            document.getElementById('edit-id').value = id;
+            
+            // Set action form untuk update
+            pengeluaranForm.action = '{{ route("pengeluaran.update", "") }}/' + id;
+            const tempAction = pengeluaranForm.action;
+            
+            // Tambahkan method spoofing untuk PUT
+            if (!document.getElementById('method-spoof')) {
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'PUT';
+                methodInput.id = 'method-spoof';
+                pengeluaranForm.appendChild(methodInput);
+            }
+            
+            hideAllErrors();
+            showModal(modalForm, document.getElementById('modal-form-content'));
+        });
+    });
+    
+    // Show delete confirmation
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            deleteForm.action = '{{ route("pengeluaran.destroy", "") }}/' + id;
+            showModal(modalDelete, document.getElementById('modal-delete-content'));
+        });
+    });
+    
+    // Close modals
+    closeModal.addEventListener('click', () => hideModal(modalForm, document.getElementById('modal-form-content')));
+    cancelForm.addEventListener('click', () => hideModal(modalForm, document.getElementById('modal-form-content')));
+    cancelDelete.addEventListener('click', () => hideModal(modalDelete, document.getElementById('modal-delete-content')));
+    
+    // Form validation
+    pengeluaranForm.addEventListener('submit', (e) => {
+        const kategori = document.getElementById('kategori').value;
+        const keterangan = document.getElementById('keterangan').value;
+        const jumlah = document.getElementById('jumlah').value;
+        const tanggal = document.getElementById('tanggal').value;
+        
+        let isValid = true;
+        hideAllErrors();
+        
+        if (!kategori) {
+            document.getElementById('error-kategori').classList.remove('hidden');
+            isValid = false;
+        }
+        
+        if (!keterangan) {
+            document.getElementById('error-keterangan').classList.remove('hidden');
+            isValid = false;
+        }
+        
+        if (!jumlah) {
+            document.getElementById('error-jumlah').classList.remove('hidden');
+            isValid = false;
+        }
+        
+        if (!tanggal) {
+            document.getElementById('error-tanggal').classList.remove('hidden');
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            showAlert('Harap periksa kembali form Anda', 'error');
+        }
+    });
+
+    // Fungsi sorting
+    function sortData(field) {
+        // Redirect dengan parameter sort
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', field);
+        url.searchParams.set('direction', 
+            currentSort.field === field && currentSort.direction === 'asc' ? 'desc' : 'asc'
+        );
+        window.location.href = url.toString();
+    }
+
+    // Event listener untuk sorting
+    sortableHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const field = header.getAttribute('data-sort');
+            sortData(field);
+        });
+    });
+
+    // Event listener untuk pencarian
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const keyword = e.target.value;
+            if (keyword) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('search', keyword);
+                window.location.href = url.toString();
+            } else {
+                // Jika search kosong, hapus parameter search
+                const url = new URL(window.location.href);
+                url.searchParams.delete('search');
+                window.location.href = url.toString();
+            }
+        }
+    });
+</script>
+@endsection
+
+
+
+
+
+
+
+
+
+
+
+

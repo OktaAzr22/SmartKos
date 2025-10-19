@@ -12,7 +12,7 @@ class Pengeluaran extends Model
     protected $table = 'pengeluaran';
     protected $primaryKey = 'id_pengeluaran';
     protected $fillable = [
-        'id_user', 'id_kategori', 'jumlah', 'tanggal_pengeluaran', 'deskripsi', 'gambar'
+        'id_user', 'id_kategori', 'jumlah', 'tanggal_pengeluaran', 'deskripsi'
     ];
 
     public function kategori()

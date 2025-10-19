@@ -10,8 +10,8 @@ class UangSaku extends Model
 
     protected $table = 'uang_saku';
     protected $primaryKey = 'id_uang_saku';
-    protected $fillable = ['id_user', 'jumlah', 'tanggal_setor', 'keterangan'];
-
+    protected $fillable = ['id_user', 'jumlah', 'keterangan'];
+public $timestamps = true;
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');

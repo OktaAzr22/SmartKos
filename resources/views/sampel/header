@@ -1,0 +1,15 @@
+<header class="bg-white shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <i class="fas fa-home text-blue-500 text-2xl mr-3"></i>
+            <h1 class="text-xl font-bold text-gray-800">Pengeluaran Anak Kos</h1>
+        </div>
+        <div class="flex items-center space-x-4 relative">
+            <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                <i class="fas fa-wallet mr-1"></i>
+                <span id="saldo">Rp {{ number_format($saldo ?? 0, 0, ',', '.') }}</span>
+            </div>
+            @include('components.profile-dropdown')
+        </div>
+    </div>
+</header>

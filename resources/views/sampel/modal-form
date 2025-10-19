@@ -1,0 +1,58 @@
+<div id="modal-form" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+    <div class="bg-white rounded-xl shadow-lg w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-form-content">
+        <div class="flex justify-between items-center p-6 border-b">
+            <h3 class="text-lg font-semibold text-gray-800" id="modal-title">Tambah Pengeluaran</h3>
+            <button id="close-modal" class="text-gray-400 hover:text-gray-500 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <form id="pengeluaran-form" class="p-6" action="{{ route('pengeluaran.store') }}" method="POST">
+            @csrf
+            <input type="hidden" id="edit-id" name="id">
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="kategori">
+                    Kategori
+                </label>
+                <select id="kategori" name="kategori" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <option value="">Pilih Kategori</option>
+                    <option value="Makan & Minum">Makan & Minum</option>
+                    <option value="Transportasi">Transportasi</option>
+                    <option value="Hiburan">Hiburan</option>
+                    <option value="Kebutuhan Pokok">Kebutuhan Pokok</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+                <p id="error-kategori" class="text-red-500 text-xs mt-1 hidden">Kategori harus dipilih</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="keterangan">
+                    Keterangan
+                </label>
+                <input type="text" id="keterangan" name="keterangan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="Masukkan keterangan">
+                <p id="error-keterangan" class="text-red-500 text-xs mt-1 hidden">Keterangan harus diisi</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="jumlah">
+                    Jumlah (Rp)
+                </label>
+                <input type="number" id="jumlah" name="jumlah" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="Masukkan jumlah">
+                <p id="error-jumlah" class="text-red-500 text-xs mt-1 hidden">Jumlah harus diisi</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-medium mb-2" for="tanggal">
+                    Tanggal
+                </label>
+                <input type="date" id="tanggal" name="tanggal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                <p id="error-tanggal" class="text-red-500 text-xs mt-1 hidden">Tanggal harus diisi</p>
+            </div>
+            <div class="flex justify-end space-x-3 mt-6">
+                <button type="button" id="cancel-form" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors">
+                    Batal
+                </button>
+                <button type="submit" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all font-medium transform hover:scale-105 shadow-md">
+                    Simpan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

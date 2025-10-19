@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengeluaran Anak Kos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-down': 'slideDown 0.3s ease-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'progress': 'progress 5s linear forwards',
+                        'dropdown': 'dropdown 0.2s ease-out'
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideDown: {
+                            '0%': { transform: 'translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        progress: {
+                            '0%': { width: '100%' },
+                            '100%': { width: '0%' }
+                        },
+                        dropdown: {
+                            '0%': { transform: 'scale(0.95) translateY(-10px)', opacity: '0' },
+                            '100%': { transform: 'scale(1) translateY(0)', opacity: '1' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- Alert Area -->
+    <div id="alert-container" class="fixed top-4 right-4 z-50 w-80 space-y-3"></div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-home text-blue-500 text-2xl mr-3"></i>
+                <h1 class="text-xl font-bold text-gray-800">Pengeluaran Anak Kos</h1>
+            </div>
+            <div class="flex items-center space-x-4 relative">
+                <div class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-wallet mr-1"></i>
+                    <span id="saldo">Rp 1.250.000</span>
+                </div>
+                <div class="relative">
+                    <button id="btn-profile" class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold hover:bg-blue-600 transition-colors">
+                        AK
+                    </button>
+                    
+                    <!-- Dropdown Profil -->
+                    <div id="profile-dropdown" class="absolute right-0 top-12 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-40 hidden animate-dropdown">
+                        <div class="p-4 border-b border-gray-100">
+                            <div class="flex items-center">
+                                <div class="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-bold mr-3">
+                                    AK
+                                </div>
+                                <div>
+                                    <h2 class="font-bold text-gray-800">Andi Koswara</h2>
+                                    <p class="text-sm text-gray-600">andi.koswara@email.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4 border-b border-gray-100">
+                            <h3 class="font-medium text-gray-700 mb-2 text-sm">Statistik Keuangan</h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="text-center bg-green-50 p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Total Saldo</p>
+                                    <p class="text-sm font-bold text-green-600">Rp 1.250.000</p>
+                                </div>
+                                <div class="text-center bg-red-50 p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Pengeluaran Bulan Ini</p>
+                                    <p class="text-sm font-bold text-red-600">Rp 750.000</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-4">
+                            <h3 class="font-medium text-gray-700 mb-2 text-sm">Riwayat Saldo</h3>
+                            <div class="space-y-3 max-h-40 overflow-y-auto">
+                                <div class="flex justify-between items-center text-sm">
+                                    <div>
+                                        <p class="font-medium">Oktober 2023</p>
+                                        <p class="text-xs text-gray-500">Saldo Awal: Rp 2.000.000</p>
+                                    </div>
+                                    <p class="font-medium text-green-600">Rp 1.250.000</p>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <div>
+                                        <p class="font-medium">September 2023</p>
+                                        <p class="text-xs text-gray-500">Saldo Awal: Rp 2.500.000</p>
+                                    </div>
+                                    <p class="font-medium text-green-600">Rp 1.800.000</p>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <div>
+                                        <p class="font-medium">Agustus 2023</p>
+                                        <p class="text-xs text-gray-500">Saldo Awal: Rp 3.000.000</p>
+                                    </div>
+                                    <p class="font-medium text-green-600">Rp 2.200.000</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="p-3 bg-gray-50 rounded-b-xl border-t border-gray-200">
+                            <button class="w-full py-2 text-center text-blue-600 font-medium hover:bg-blue-50 rounded-lg transition-colors">
+                                <i class="fas fa-cog mr-2"></i> Pengaturan Akun
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Dashboard Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow p-6 animate-fade-in">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Total Pengeluaran Bulan Ini</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 750.000</h3>
+                    </div>
+                    <div class="bg-red-100 p-3 rounded-lg">
+                        <i class="fas fa-money-bill-wave text-red-500 text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-down mr-1"></i> 5% dari bulan lalu
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 animate-fade-in" style="animation-delay: 0.1s;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Pengeluaran Terbesar</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 350.000</h3>
+                        <p class="text-sm text-gray-600 mt-1">Makan & Minum</p>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg">
+                        <i class="fas fa-utensils text-yellow-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 animate-fade-in" style="animation-delay: 0.2s;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Pengeluaran Terkecil</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 15.000</h3>
+                        <p class="text-sm text-gray-600 mt-1">Transportasi</p>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg">
+                        <i class="fas fa-bus text-green-500 text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow p-6 animate-fade-in" style="animation-delay: 0.3s;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-gray-500 text-sm">Rata-rata Harian</p>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-1">Rp 25.000</h3>
+                    </div>
+                    <div class="bg-purple-100 p-3 rounded-lg">
+                        <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                    </div>
+                </div>
+                <p class="text-green-500 text-sm mt-2">
+                    <i class="fas fa-arrow-up mr-1"></i> 2% dari minggu lalu
+                </p>
+            </div>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h2 class="text-xl font-bold text-gray-800">Daftar Pengeluaran</h2>
+            <div class="flex flex-col md:flex-row gap-3 w-full md:w-auto">
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Cari pengeluaran..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full md:w-64">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <button id="btn-tambah" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center justify-center transition-all transform hover:scale-105">
+                    <i class="fas fa-plus mr-2"></i> Tambah Pengeluaran
+                </button>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="bg-white rounded-xl shadow overflow-hidden animate-fade-in" style="animation-delay: 0.4s;">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors sortable" data-sort="tanggal">
+                                <div class="flex items-center">
+                                    <span>Tanggal</span>
+                                    <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors sortable" data-sort="kategori">
+                                <div class="flex items-center">
+                                    <span>Kategori</span>
+                                    <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors sortable" data-sort="keterangan">
+                                <div class="flex items-center">
+                                    <span>Keterangan</span>
+                                    <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 transition-colors sortable" data-sort="jumlah">
+                                <div class="flex items-center">
+                                    <span>Jumlah</span>
+                                    <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                </div>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="table-body">
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">15 Okt 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Makan & Minum</span>
+                            </td>
+                            <td class="px-6 py-4">Makan siang di warung</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">Rp 25.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-btn transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">14 Okt 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Transportasi</span>
+                            </td>
+                            <td class="px-6 py-4">Isi bensin motor</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">Rp 30.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-btn transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">13 Okt 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs">Hiburan</span>
+                            </td>
+                            <td class="px-6 py-4">Nonton bioskop</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">Rp 50.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-btn transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">12 Okt 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Kebutuhan Pokok</span>
+                            </td>
+                            <td class="px-6 py-4">Beli sabun dan sampo</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">Rp 45.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-btn transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap">11 Okt 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs">Lainnya</span>
+                            </td>
+                            <td class="px-6 py-4">Beli pulsa</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">Rp 100.000</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-500 hover:text-red-700 delete-btn transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Form -->
+    <div id="modal-form" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-md mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-form-content">
+            <div class="flex justify-between items-center p-6 border-b">
+                <h3 class="text-lg font-semibold text-gray-800" id="modal-title">Tambah Pengeluaran</h3>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-500 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="pengeluaran-form" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="kategori">
+                        Kategori
+                    </label>
+                    <select id="kategori" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <option value="">Pilih Kategori</option>
+                        <option value="Makan & Minum">Makan & Minum</option>
+                        <option value="Transportasi">Transportasi</option>
+                        <option value="Hiburan">Hiburan</option>
+                        <option value="Kebutuhan Pokok">Kebutuhan Pokok</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <p id="error-kategori" class="text-red-500 text-xs mt-1 hidden">Kategori harus dipilih</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="keterangan">
+                        Keterangan
+                    </label>
+                    <input type="text" id="keterangan" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="Masukkan keterangan">
+                    <p id="error-keterangan" class="text-red-500 text-xs mt-1 hidden">Keterangan harus diisi</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="jumlah">
+                        Jumlah (Rp)
+                    </label>
+                    <input type="number" id="jumlah" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors" placeholder="Masukkan jumlah">
+                    <p id="error-jumlah" class="text-red-500 text-xs mt-1 hidden">Jumlah harus diisi</p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-medium mb-2" for="tanggal">
+                        Tanggal
+                    </label>
+                    <input type="date" id="tanggal" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                    <p id="error-tanggal" class="text-red-500 text-xs mt-1 hidden">Tanggal harus diisi</p>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" id="cancel-form" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all font-medium transform hover:scale-105">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="modal-delete" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+        <div class="bg-white rounded-xl shadow-lg w-full max-w-sm mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modal-delete-content">
+            <div class="p-6">
+                <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800 text-center mb-2">Hapus Data?</h3>
+                <p class="text-gray-600 text-center mb-6">Data yang dihapus tidak dapat dikembalikan</p>
+                <div class="flex justify-center space-x-3">
+                    <button id="cancel-delete" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium transition-colors">
+                        Batal
+                    </button>
+                    <button id="confirm-delete" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all font-medium transform hover:scale-105">
+                        Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data untuk aplikasi
+        let dataPengeluaran = [
+            { id: 1, tanggal: '2023-10-15', kategori: 'Makan & Minum', keterangan: 'Makan siang di warung', jumlah: 25000 },
+            { id: 2, tanggal: '2023-10-14', kategori: 'Transportasi', keterangan: 'Isi bensin motor', jumlah: 30000 },
+            { id: 3, tanggal: '2023-10-13', kategori: 'Hiburan', keterangan: 'Nonton bioskop', jumlah: 50000 },
+            { id: 4, tanggal: '2023-10-12', kategori: 'Kebutuhan Pokok', keterangan: 'Beli sabun dan sampo', jumlah: 45000 },
+            { id: 5, tanggal: '2023-10-11', kategori: 'Lainnya', keterangan: 'Beli pulsa', jumlah: 100000 }
+        ];
+
+        let currentSort = { field: 'tanggal', direction: 'desc' };
+        let deleteId = null;
+
+        // DOM Elements
+        const btnTambah = document.getElementById('btn-tambah');
+        const btnProfile = document.getElementById('btn-profile');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const modalForm = document.getElementById('modal-form');
+        const modalDelete = document.getElementById('modal-delete');
+        const closeModal = document.getElementById('close-modal');
+        const cancelForm = document.getElementById('cancel-form');
+        const cancelDelete = document.getElementById('cancel-delete');
+        const confirmDelete = document.getElementById('confirm-delete');
+        const pengeluaranForm = document.getElementById('pengeluaran-form');
+        const alertContainer = document.getElementById('alert-container');
+        const searchInput = document.getElementById('search-input');
+        const tableBody = document.getElementById('table-body');
+        const sortableHeaders = document.querySelectorAll('.sortable');
+
+        // Format tanggal
+        function formatTanggal(tanggal) {
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return new Date(tanggal).toLocaleDateString('id-ID', options);
+        }
+
+        // Format mata uang
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Render tabel
+        function renderTable(data = dataPengeluaran) {
+            tableBody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-8 text-center text-gray-500">
+                            <i class="fas fa-inbox text-4xl mb-2 block"></i>
+                            <p>Tidak ada data pengeluaran</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-gray-50 transition-colors';
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">${formatTanggal(item.tanggal)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 py-1 ${getCategoryClass(item.kategori)} rounded-full text-xs">${item.kategori}</span>
+                    </td>
+                    <td class="px-6 py-4">${item.keterangan}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-red-500 font-medium">${formatRupiah(item.jumlah)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <button class="text-blue-500 hover:text-blue-700 mr-3 edit-btn transition-colors" data-id="${item.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="text-red-500 hover:text-red-700 delete-btn transition-colors" data-id="${item.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+            
+            // Tambahkan event listener untuk tombol edit dan hapus
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    editPengeluaran(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = parseInt(btn.getAttribute('data-id'));
+                    showDeleteConfirmation(id);
+                });
+            });
+        }
+
+        // Dapatkan class CSS untuk kategori
+        function getCategoryClass(kategori) {
+            const classes = {
+                'Makan & Minum': 'bg-blue-100 text-blue-800',
+                'Transportasi': 'bg-green-100 text-green-800',
+                'Hiburan': 'bg-purple-100 text-purple-800',
+                'Kebutuhan Pokok': 'bg-yellow-100 text-yellow-800',
+                'Lainnya': 'bg-indigo-100 text-indigo-800'
+            };
+            return classes[kategori] || 'bg-gray-100 text-gray-800';
+        }
+
+        // Fungsi sorting
+        function sortData(field) {
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+            
+            dataPengeluaran.sort((a, b) => {
+                let aValue = a[field];
+                let bValue = b[field];
+                
+                if (field === 'tanggal') {
+                    aValue = new Date(aValue);
+                    bValue = new Date(bValue);
+                }
+                
+                if (field === 'jumlah') {
+                    aValue = parseInt(aValue);
+                    bValue = parseInt(bValue);
+                }
+                
+                if (aValue < bValue) return currentSort.direction === 'asc' ? -1 : 1;
+                if (aValue > bValue) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+            
+            renderTable();
+            updateSortIcons();
+        }
+
+        // Update icon sorting
+        function updateSortIcons() {
+            sortableHeaders.forEach(header => {
+                const icon = header.querySelector('i');
+                const field = header.getAttribute('data-sort');
+                
+                if (field === currentSort.field) {
+                    icon.className = currentSort.direction === 'asc' 
+                        ? 'fas fa-sort-up ml-1 text-blue-500' 
+                        : 'fas fa-sort-down ml-1 text-blue-500';
+                } else {
+                    icon.className = 'fas fa-sort ml-1 text-gray-400';
+                }
+            });
+        }
+
+        // Fungsi pencarian
+        function searchData(keyword) {
+            if (!keyword) {
+                renderTable();
+                return;
+            }
+            
+            const filteredData = dataPengeluaran.filter(item => 
+                item.keterangan.toLowerCase().includes(keyword.toLowerCase()) ||
+                item.kategori.toLowerCase().includes(keyword.toLowerCase())
+            );
+            
+            renderTable(filteredData);
+        }
+
+        // Tampilkan modal dengan animasi
+        function showModal(modal, content) {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        // Sembunyikan modal dengan animasi
+        function hideModal(modal, content) {
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Toggle dropdown profil
+        function toggleProfileDropdown() {
+            if (profileDropdown.classList.contains('hidden')) {
+                profileDropdown.classList.remove('hidden');
+            } else {
+                profileDropdown.classList.add('hidden');
+            }
+        }
+
+        // Show modal form
+        btnTambah.addEventListener('click', () => {
+            document.getElementById('modal-title').textContent = 'Tambah Pengeluaran';
+            pengeluaranForm.reset();
+            hideAllErrors();
+            showModal(modalForm, document.getElementById('modal-form-content'));
+        });
+        
+        // Toggle dropdown profil
+        btnProfile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleProfileDropdown();
+        });
+        
+        // Tutup dropdown profil ketika klik di luar
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target) && !btnProfile.contains(e.target)) {
+                profileDropdown.classList.add('hidden');
+            }
+        });
+        
+        // Edit pengeluaran
+        function editPengeluaran(id) {
+            const item = dataPengeluaran.find(p => p.id === id);
+            if (item) {
+                document.getElementById('modal-title').textContent = 'Edit Pengeluaran';
+                document.getElementById('kategori').value = item.kategori;
+                document.getElementById('keterangan').value = item.keterangan;
+                document.getElementById('jumlah').value = item.jumlah;
+                document.getElementById('tanggal').value = item.tanggal;
+                
+                // Simpan ID yang sedang diedit di form
+                pengeluaranForm.setAttribute('data-edit-id', id);
+                
+                hideAllErrors();
+                showModal(modalForm, document.getElementById('modal-form-content'));
+            }
+        }
+        
+        // Show delete confirmation
+        function showDeleteConfirmation(id) {
+            deleteId = id;
+            showModal(modalDelete, document.getElementById('modal-delete-content'));
+        }
+        
+        // Close modals
+        closeModal.addEventListener('click', () => hideModal(modalForm, document.getElementById('modal-form-content')));
+        cancelForm.addEventListener('click', () => hideModal(modalForm, document.getElementById('modal-form-content')));
+        cancelDelete.addEventListener('click', () => hideModal(modalDelete, document.getElementById('modal-delete-content')));
+        
+        // Confirm delete
+        confirmDelete.addEventListener('click', () => {
+            if (deleteId) {
+                dataPengeluaran = dataPengeluaran.filter(item => item.id !== deleteId);
+                renderTable();
+                hideModal(modalDelete, document.getElementById('modal-delete-content'));
+                showAlert('Data berhasil dihapus', 'success');
+                deleteId = null;
+            }
+        });
+        
+        // Form validation and submission
+        pengeluaranForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const kategori = document.getElementById('kategori').value;
+            const keterangan = document.getElementById('keterangan').value;
+            const jumlah = document.getElementById('jumlah').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const editId = pengeluaranForm.getAttribute('data-edit-id');
+            
+            let isValid = true;
+            hideAllErrors();
+            
+            if (!kategori) {
+                document.getElementById('error-kategori').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            if (!keterangan) {
+                document.getElementById('error-keterangan').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            if (!jumlah) {
+                document.getElementById('error-jumlah').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            if (!tanggal) {
+                document.getElementById('error-tanggal').classList.remove('hidden');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                if (editId) {
+                    // Edit existing item
+                    const index = dataPengeluaran.findIndex(item => item.id === parseInt(editId));
+                    if (index !== -1) {
+                        dataPengeluaran[index] = {
+                            ...dataPengeluaran[index],
+                            kategori,
+                            keterangan,
+                            jumlah: parseInt(jumlah),
+                            tanggal
+                        };
+                    }
+                    pengeluaranForm.removeAttribute('data-edit-id');
+                    showAlert('Pengeluaran berhasil diubah', 'success');
+                } else {
+                    // Add new item
+                    const newId = dataPengeluaran.length > 0 
+                        ? Math.max(...dataPengeluaran.map(item => item.id)) + 1 
+                        : 1;
+                    
+                    dataPengeluaran.unshift({
+                        id: newId,
+                        tanggal,
+                        kategori,
+                        keterangan,
+                        jumlah: parseInt(jumlah)
+                    });
+                    showAlert('Pengeluaran berhasil ditambahkan', 'success');
+                }
+                
+                renderTable();
+                hideModal(modalForm, document.getElementById('modal-form-content'));
+            } else {
+                showAlert('Harap periksa kembali form Anda', 'error');
+            }
+        });
+        
+        // Helper functions
+        function hideAllErrors() {
+            document.querySelectorAll('[id^="error-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+        }
+        
+        function showAlert(message, type) {
+            const alertId = 'alert-' + Date.now();
+            const alert = document.createElement('div');
+            alert.id = alertId;
+            alert.className = `p-4 rounded-lg shadow-md animate-slide-down ${type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'}`;
+            
+            alert.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} mr-2"></i>
+                        <span>${message}</span>
+                    </div>
+                    <button class="text-gray-500 hover:text-gray-700 close-alert">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-1 mt-2">
+                    <div class="h-1 rounded-full ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} animate-progress"></div>
+                </div>
+            `;
+            
+            alertContainer.appendChild(alert);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                const alertElement = document.getElementById(alertId);
+                if (alertElement) {
+                    alertElement.classList.remove('animate-slide-down');
+                    alertElement.classList.add('animate-slide-up');
+                    setTimeout(() => {
+                        if (alertElement.parentNode) {
+                            alertElement.parentNode.removeChild(alertElement);
+                        }
+                    }, 300);
+                }
+            }, 5000);
+            
+            // Close button functionality
+            alert.querySelector('.close-alert').addEventListener('click', () => {
+                alert.classList.remove('animate-slide-down');
+                alert.classList.add('animate-slide-up');
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.parentNode.removeChild(alert);
+                    }
+                }, 300);
+            });
+        }
+
+        // Event listener untuk sorting
+        sortableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const field = header.getAttribute('data-sort');
+                sortData(field);
+            });
+        });
+
+        // Event listener untuk pencarian
+        searchInput.addEventListener('input', (e) => {
+            searchData(e.target.value);
+        });
+
+        // Inisialisasi
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+            updateSortIcons();
+            
+            // Set tanggal hari ini sebagai default di form
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('tanggal').value = today;
+        });
+    </script>
+</body>
+</html>
