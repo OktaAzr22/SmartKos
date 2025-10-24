@@ -16,45 +16,57 @@ class UangSakuController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'jumlah' => 'required|numeric|min:1',
-            'keterangan' => 'nullable|string|max:255',
-        ]);
-
-        $userId = Auth::id();
-
-        // 1️⃣ Simpan ke tabel uang_saku
-        $uangSaku = UangSaku::create([
-            'id_user' => $userId,
-            'jumlah' => $request->jumlah,
-            'keterangan' => $request->keterangan,
-        ]);
-
-        // 2️⃣ Update saldo_user
-        $bulan = date('F');
-        $tahun = date('Y');
-
-        // Cari saldo aktif user di bulan & tahun tersebut
-        $saldo = SaldoUser::where('id_user', $userId)
-            ->where('bulan', $bulan)
-            ->where('tahun', $tahun)
-            ->first();
-
-        if ($saldo) {
-            // Update saldo yang sudah ada
-            $saldo->saldo_sekarang += $request->jumlah;
-            $saldo->save();
-        } else {
-            // Jika belum ada saldo bulan ini, buat baru
-            SaldoUser::create([
-                'id_user' => $userId,
-                'saldo_awal' => $request->jumlah,
-                'saldo_sekarang' => $request->jumlah,
-                'bulan' => $bulan,
-                'tahun' => $tahun,
+        try {
+            $request->validate([
+                'jumlah' => 'required|numeric|min:1',
+                'keterangan' => 'nullable|string|max:255',
             ]);
-        }
 
-        return redirect()->back()->with('success', 'Setoran uang saku berhasil disimpan!');
+            $userId = Auth::id();
+
+            // 1️⃣ Simpan ke tabel uang_saku
+            $uangSaku = UangSaku::create([
+                'id_user' => $userId,
+                'jumlah' => $request->jumlah,
+                'keterangan' => $request->keterangan,
+            ]);
+
+            // 2️⃣ Update saldo_user
+            $bulan = date('F');
+            $tahun = date('Y');
+
+            // Cari saldo aktif user di bulan & tahun tersebut
+            $saldo = SaldoUser::where('id_user', $userId)
+                ->where('bulan', $bulan)
+                ->where('tahun', $tahun)
+                ->first();
+
+            if ($saldo) {
+                // Update saldo yang sudah ada
+                $saldo->saldo_sekarang += $request->jumlah;
+                $saldo->save();
+            } else {
+                // Jika belum ada saldo bulan ini, buat baru
+                SaldoUser::create([
+                    'id_user' => $userId,
+                    'saldo_awal' => $request->jumlah,
+                    'saldo_sekarang' => $request->jumlah,
+                    'bulan' => $bulan,
+                    'tahun' => $tahun,
+                ]);
+            }
+
+            // ✅ Redirect dengan pesan sukses
+            return redirect()
+                ->back()
+                ->with('success', 'Setoran uang saku berhasil disimpan!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Jika validasi gagal, buka kembali modal
+            return redirect()
+                ->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('modal', 'modalPemasukan'); 
+        }
     }
 }

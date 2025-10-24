@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('total_pemasukan', 12, 2)->default(0);
             $table->decimal('total_pengeluaran', 12, 2)->default(0);
             $table->decimal('saldo_akhir', 12, 2)->default(0);
-            $table->date('tanggal_rekap');
+            
             $table->timestamps();
         });
     }

@@ -1,25 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-4">Tambah Kategori Pengeluaran</h2>
+<div class="max-w-lg mx-auto p-6">
+    <h2 class="text-2xl font-semibold mb-4">Tambah Kategori Pengeluaran</h2>
 
-    @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-2 mb-4 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    <form action="{{ route('kategori.store') }}" method="POST">
+    <form action="{{ route('kategori.store') }}" method="POST" class="space-y-4">
         @csrf
-        <div class="mb-4">
-            <label for="nama_kategori" class="block text-sm font-medium">Nama Kategori</label>
-            <input type="text" name="nama_kategori" id="nama_kategori" class="w-full border rounded p-2" placeholder="Contoh: Makan, Transportasi, Tagihan" required>
+        <div>
+            <label class="block mb-1 font-medium">Nama Kategori</label>
+            <input type="text" name="nama_kategori" value="{{ old('nama_kategori') }}"
+                class="w-full border rounded-lg px-3 py-2 focus:ring focus:ring-blue-200" required>
+            @error('nama_kategori')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
         </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-            Simpan
-        </button>
+        <div class="flex justify-end">
+            <a href="{{ route('kategori.index') }}" class="px-4 py-2 bg-gray-300 rounded-lg mr-2">Batal</a>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Simpan</button>
+        </div>
     </form>
 </div>
 @endsection
