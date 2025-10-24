@@ -35,7 +35,8 @@ Route::middleware('auth')->group(function () {
     // 💸 Pengeluaran
     Route::resource('pengeluaran', PengeluaranController::class)->except(['show', 'edit', 'update']);
 
-    
+     Route::get('/rekap', [RekapBulananController::class, 'index'])->name('rekap.index');
+    Route::post('/rekap/generate', [RekapBulananController::class, 'generate'])->name('rekap.generate');
 
     // 🚪 Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

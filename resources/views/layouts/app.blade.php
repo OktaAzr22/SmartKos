@@ -17,7 +17,7 @@
             <a href="{{ route('kategori.index') }}" class="hover:text-blue-600">Kategori</a>
             <a href="{{ route('pengeluaran.index') }}" class="hover:text-blue-600">Pengeluaran</a>
             <a href="{{ route('uang-saku.create') }}" class="hover:text-blue-600">Saldo</a>
-
+            <a href="{{ route('rekap.index') }}">Rekap</a>
 
             <a href="{{ route('profile') }}" class="hover:text-blue-600">Profil</a>
 
