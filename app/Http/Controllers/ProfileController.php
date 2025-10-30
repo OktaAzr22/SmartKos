@@ -50,7 +50,8 @@ class ProfileController extends Controller
             // Simpan foto baru
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/profile_images', $imageName);
+            $image->storeAs('profile_images', $imageName, 'public');
+
 
             // Simpan path ke database
             $user->image = 'profile_images/' . $imageName;
