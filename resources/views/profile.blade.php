@@ -6,15 +6,12 @@
     <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="p-6 space-y-6">
             <div class="flex flex-col md:flex-row gap-8">
-                {{-- FOTO PROFIL --}}
                 <div class="md:w-1/3">
                     <div class="relative profile-photo-container">
                         <div id="profile-image"
                             class="w-40 h-48 bg-gradient-to-r from-primary-500 to-primary-700 rounded-md flex items-center justify-center text-white text-4xl font-semibold mx-auto overflow-hidden">
                             @if($user->image)
-                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile"class="w-full h-full object-cover" alt="Profile">
-
-                                     
+                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile"class="w-full h-full object-cover" alt="Profile">  
                             @else
                                 JD
                             @endif
@@ -25,15 +22,29 @@
                         </button>
                     </div>
                     <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-800">{{ $user->first_name }} {{ $user->last_name }}</h3>
-                        <p class="text-sm text-gray-900">{{ $user->status ?? 'Belum diatur' }}</p>
+                        <h3 class="text-lg font-semibold text-gray-800">{{ $user->full_name }}</h3>
+                        @php
+                            $statusColors = [
+                                'mahasiswa' => 'bg-blue-100 text-blue-800',
+                                'pelajar' => 'bg-green-100 text-green-800',
+                                'pekerja keras' => 'bg-yellow-100 text-yellow-800',
+                            ];
+
+                            $status = $user->status ?? 'Belum diatur';
+                            $badgeColor = $statusColors[strtolower($status)] ?? 'bg-gray-100 text-gray-800';
+                        @endphp
+
+                        <span class="px-2.5 py-0.5 text-xs font-medium rounded-full {{ $badgeColor }}">
+                            {{ ucfirst($status) }}
+                        </span>
+
+
                     </div>
                 </div>
 
-                {{-- INFORMASI PERSONAL --}}
                 <div class="md:w-2/3">
                     <div class="relative bg-gray-50 rounded-xl border border-gray-100 p-6">
-                        <button id="open-info-modal"
+                        <button onclick="showModal('modalProfile')"
                             class="absolute top-4 right-4 flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-blue-600 border border-gray-200 rounded-full hover:bg-blue-50 transition">
                             <i class="fas fa-edit"></i>
                             Edit
@@ -64,6 +75,66 @@
     </div>
 </div>
 
+<!-- Preferences -->
+<div class="space-y-6 mt-8">
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="relative p-6 space-y-6 bg-gray-50 rounded-xl border border-gray-100">
+            <!-- Tombol Edit -->
+            <button class="absolute top-4 right-4 flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-blue-600 border border-gray-200 rounded-full hover:bg-blue-50 transition">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+
+            <!-- Header -->
+            <h3 class="text-base font-semibold text-gray-800 mb-6">Preferences</h3>
+
+            <!-- Preferences Settings -->
+            <div class="space-y-6 text-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Email Notifications</p>
+                        <p class="text-xs text-gray-500">Receive email notifications for important updates</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Push Notifications</p>
+                        <p class="text-xs text-gray-500">Receive push notifications on your device</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Dark Mode</p>
+                        <p class="text-xs text-gray-500">Switch to dark mode for better visibility</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="pt-4 border-t border-gray-200">
+                    <p class="font-medium text-gray-900 mb-2">Language</p>
+                    <select class="w-full p-2 border border-gray-300 rounded-lg bg-white text-sm">
+                        <option selected>English</option>
+                        <option>Indonesian</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {{-- ============== MODAL EDIT GAMBAR PROFIL (NEW STYLE) ============== --}}
 <div id="profile-image-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
     <div class="modal-content bg-white rounded-xl w-full max-w-md">
@@ -84,11 +155,15 @@
                 <label for="profile-photo" class="block text-sm font-medium text-gray-700 mb-2">Upload New Photo</label>
                 <input type="file" id="profile-photo" name="image" accept="image/*"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                @error('image')
+                    <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
+                @enderror
             </div>
 
-            <div id="image-preview-container" class="image-preview-container">
+            <div id="image-preview-container" class="image-preview-container" style="display: none;">
                 <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
                 <img id="image-preview" class="image-preview" src="" alt="Preview">
+                
             </div>
 
             <div class="flex justify-end space-x-3 pt-4">
@@ -104,6 +179,8 @@
         </form>
     </div>
 </div>
+
+
 
 {{-- ============== STYLE ============== --}}
 <style>
@@ -169,103 +246,160 @@
         }
     });
 </script>
-<!-- ============== MODAL EDIT PERSONAL INFO (ANIMATED) ============== -->
-<div id="info-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-    <div class="modal-content bg-white rounded-xl w-full max-w-2xl overflow-y-auto">
-        <div class="p-6 border-b border-gray-200 flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-800">Edit Personal Information</h3>
-            <button id="close-info-modal" class="text-gray-400 hover:text-gray-600">
-                <i class="fas fa-times text-xl"></i>
-            </button>
+@if ($errors->any() && session('modal'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                showModal('{{ session('modal') }}');
+            });
+        </script>
+    @endif
+<x-animated-modal id="modalProfile" title="Edit Personal Information" size="max-w-lg">
+    <form action="{{ route('profile.update') }}" method="POST" id="formProfile">
+        @csrf
+        @method('PUT')
+
+        {{-- Grid 2 kolom --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {{-- First Name --}}
+            <div>
+                <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">
+                    First Name
+                </label>
+                <input
+                    type="text"
+                    name="first_name"
+                    id="first_name"
+                    value="{{ old('first_name', $user->first_name ?? '') }}"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Masukkan nama depan">
+                @error('first_name')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Last Name --}}
+            <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">
+                    Last Name
+                </label>
+                <input
+                    type="text"
+                    name="last_name"
+                    id="last_name"
+                    value="{{ old('last_name', $user->last_name ?? '') }}"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Masukkan nama belakang">
+                @error('last_name')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Phone --}}
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                    Phone
+                </label>
+                <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    value="{{ old('phone', $user->phone ?? '') }}"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Masukkan nomor telepon">
+                @error('phone')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- Status --}}
+            <div>
+                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+                    Status
+                </label>
+                <select
+                    name="status"
+                    id="status"
+                    required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="">Pilih status</option>
+                    <option value="mahasiswa" {{ old('status', $user->status ?? '') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                    <option value="pelajar" {{ old('status', $user->status ?? '') == 'pelajar' ? 'selected' : '' }}>Pelajar</option>
+                    <option value="pekerja keras" {{ old('status', $user->status ?? '') == 'pekerja keras' ? 'selected' : '' }}>Pekerja Keras</option>
+                </select>
+                @error('status')
+                    <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
-        <form action="{{ route('profile.update') }}" method="POST" class="p-6 space-y-6">
-            @csrf
-            @method('PUT')
+        {{-- Garis pemisah --}}
+        <hr class="my-6 border-gray-200">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                    <input type="text" name="first_name" 
-                        value="{{ old('first_name', $user->first_name) }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                </div>
+        {{-- Tombol Aksi --}}
+        <div class="flex justify-end space-x-3">
+            <button type="button"
+                    onclick="hideModal('modalProfile')"
+                    class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium rounded-lg border border-gray-300">
+                Cancel
+            </button>
+            <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all transform hover:scale-105">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</x-animated-modal>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                    <input type="text" name="last_name" 
-                        value="{{ old('last_name', $user->last_name) }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                    <input type="text" name="phone" 
-                        value="{{ old('phone', $user->phone) }}"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                </div>
+<x-animated-modal id="modalProfileImage" title="Edit Profile Image" size="max-w-md">
+    <form action="{{ route('profile.updateImage') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+        @csrf
+        @method('PUT')
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <select name="status"
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                        <option value="pelajar" {{ $user->status == 'pelajar' ? 'selected' : '' }}>Pelajar</option>
-                        <option value="mahasiswa" {{ $user->status == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
-                        <option value="pekerja keras" {{ $user->status == 'pekerja keras' ? 'selected' : '' }}>Pekerja Keras</option>
-                    </select>
-                </div>
-            </div>
+        {{-- Upload Gambar --}}
+        <div>
+            <label for="profile-photo" class="block text-sm font-medium text-gray-700 mb-2">
+                Upload New Photo
+            </label>
+            <input
+                type="file"
+                id="profile-photo"
+                name="image"
+                accept="image/*"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                onchange="previewImage(event)">
+            @error('image')
+                <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
+            @enderror
+        </div>
 
-            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                <button type="button" id="cancel-info-modal"
-                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                    Cancel
-                </button>
-                <button type="submit"
-                    class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-                    Save Changes
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+        {{-- Preview Gambar --}}
+        <div id="image-preview-container" class="hidden">
+            <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+            <img id="image-preview" class="w-32 h-32 rounded-full object-cover border border-gray-200 shadow-sm" src="" alt="Preview">
+        </div>
 
-{{-- ============== STYLE & SCRIPT ============== --}}
-<style>
-    /* Animasi untuk modal */
-    .modal {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .modal.show {
-        opacity: 1;
-        visibility: visible;
-    }
-
-    .modal-content {
-        transform: scale(0.9);
-        transition: transform 0.3s ease;
-    }
-
-    .modal.show .modal-content {
-        transform: scale(1);
-    }
-</style>
-
-<script>
-    const infoModal = document.getElementById('info-modal');
-    const openInfoBtn = document.getElementById('open-info-modal');
-    const closeInfoBtn = document.getElementById('close-info-modal');
-    const cancelInfoBtn = document.getElementById('cancel-info-modal');
-
-    // Buka modal
-    openInfoBtn.addEventListener('click', () => infoModal.classList.add('show'));
-
-    // Tutup modal
-    closeInfoBtn.addEventListener('click', () => infoModal.classList.remove('show'));
-    cancelInfoBtn.addEventListener('click', () => infoModal.classList.remove('show'));
-</script>
-
+        {{-- Tombol Aksi --}}
+        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+            <button type="button"
+                onclick="hideModal('modalProfileImage')"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                Cancel
+            </button>
+            <button type="submit"
+                class="px-4 py-2 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-lg hover:bg-primary-600 transition">
+                Save Image
+            </button>
+        </div>
+    </form>
+</x-animated-modal>
+<button 
+    type="button"
+    onclick="showModal('modalProfileImage')"
+    class="mt-4 flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-700 text-white font-medium rounded-lg hover:opacity-90 transition transform hover:scale-105 mx-auto"
+>
+    <i class="fas fa-camera"></i>
+    <span>Edit Profile Image</span>
+</button>
 @endsection

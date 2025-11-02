@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\QueryException;
 
 class ProfileController extends Controller
 {
@@ -18,10 +19,11 @@ class ProfileController extends Controller
     // 🔹 Update data pribadi
     public function update(Request $request)
     {
+        try {
         $user = Auth::user();
 
         $request->validate([
-            'first_name' => 'required|string|max:100',
+            'first_name' => 'required|string|max:100|min:2',
             'last_name'  => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'status'     => 'required|in:mahasiswa,pelajar,pekerja keras',
@@ -29,7 +31,18 @@ class ProfileController extends Controller
 
         $user->update($request->only('first_name', 'last_name', 'phone', 'status'));
 
-        return back()->with('success', 'Data pribadi berhasil diperbarui.');
+        return redirect()
+                ->back()
+                ->with('success', 'Data pribadi berhasil diperbarui.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()
+                ->back()
+                ->withErrors($e->validator)
+                ->withInput()
+                ->with('modal', 'modalProfile');
+        }
+
+        
     }
 
     // 🖼️ Update foto profil

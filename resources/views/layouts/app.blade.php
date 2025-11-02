@@ -100,6 +100,31 @@
       @include('components.header')
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')
+       <footer class="mt-8 border-t border-gray-200 bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
+        <div class="mb-2 sm:mb-0 text-center sm:text-left">
+            © {{ date('Y') }} 
+            <span class="text-primary-600 font-semibold">SmartKos</span>. 
+            All rights reserved.
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <a href="#" class="hover:text-primary-600 transition-colors">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="hover:text-primary-600 transition-colors">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="hover:text-primary-600 transition-colors">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="hover:text-primary-600 transition-colors">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </div>
+    </div>
+</footer>
+
       </main>
     </div>
   </div>

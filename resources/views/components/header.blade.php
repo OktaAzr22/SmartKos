@@ -17,21 +17,31 @@
                           <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
                       </button>
                         <div class="relative">
-                          <button id="profile-dropdown-btn" class="flex items-center space-x-3 focus:outline-none">
-                              <div class="flex flex-col items-end">
-                                  <span class="text-sm font-medium text-gray-900">{{ Auth::user()->name ?? 'Tidak diketahui' }}</span>
-                                  <span class="text-xs text-gray-500">-</span>
-                              </div>
-                              <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold">
-                                  JD
-                              </div>
-                              <i class="fas fa-chevron-down text-gray-500 text-xs transition-transform duration-200" id="profile-chevron"></i>
-                          </button>
+                            <button id="profile-dropdown-btn" class="flex items-center space-x-3 focus:outline-none">
+                                <div class="flex flex-col items-end">
+                                    <span class="text-sm font-medium text-gray-900">{{ Auth::user()->full_name ?? 'Guest' }}</span>
+                                    <span class="text-xs text-gray-500">-</span>
+                                </div>
+
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-700 
+                                            rounded-full flex items-center justify-center text-white font-semibold overflow-hidden">
+                                    @if(Auth::user() && Auth::user()->image)
+                                        <img src="{{ asset('storage/' . Auth::user()->image) }}" 
+                                            alt="Profile" 
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        {{ strtoupper(substr(Auth::user()->full_name ?? 'JD', 0, 2)) }}
+                                    @endif
+                                </div>
+
+                                <i class="fas fa-chevron-down text-gray-500 text-xs transition-transform duration-200" id="profile-chevron"></i>
+                            </button>
+
 
                           <!-- Dropdown Menu -->
                           <div id="profile-dropdown" class="profile-dropdown absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 border border-gray-100">
                               <div class="px-4 py-3 border-b border-gray-100">
-                                  <p class="text-sm font-medium text-gray-900">{{ Auth::user()->name ?? 'Tidak diketahui' }}</p>
+                                  <p class="text-sm font-medium text-gray-900">{{ Auth::user()->full_name ?? 'Guest' }}</p>
                                   <p class="text-sm text-gray-500 truncate">{{ Auth::user()->email ?? 'Tidak diketahui' }}</p>
                               </div>
                               <a href="{{ route('profile') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
