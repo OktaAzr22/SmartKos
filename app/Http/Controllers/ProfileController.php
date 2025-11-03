@@ -9,14 +9,12 @@ use Illuminate\Database\QueryException;
 
 class ProfileController extends Controller
 {
-    // 🔹 Menampilkan profil user yang sedang login
     public function index()
     {
         $user = Auth::user();
         return view('profile', compact('user'));
     }
 
-    // 🔹 Update data pribadi
     public function update(Request $request)
     {
         try {
@@ -41,11 +39,8 @@ class ProfileController extends Controller
                 ->withInput()
                 ->with('modal', 'modalProfile');
         }
-
-        
     }
 
-    // 🖼️ Update foto profil
     public function updateImage(Request $request)
     {
         $user = Auth::user();
@@ -55,18 +50,15 @@ class ProfileController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Hapus foto lama jika ada
+
             if ($user->image && Storage::exists('public/' . $user->image)) {
                 Storage::delete('public/' . $user->image);
             }
 
-            // Simpan foto baru
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('profile_images', $imageName, 'public');
 
-
-            // Simpan path ke database
             $user->image = 'profile_images/' . $imageName;
             $user->save();
         }

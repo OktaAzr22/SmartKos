@@ -42,7 +42,6 @@ class PengeluaranController extends Controller
             DB::transaction(function () use ($request) {
                 $userId = Auth::id();
 
-                // Ambil saldo bulan ini
                 $saldo = SaldoUser::firstOrCreate(
                     [
                         'id_user' => $userId,
@@ -55,14 +54,10 @@ class PengeluaranController extends Controller
                     ]
                 );
 
-                // 🔴 Cek apakah saldo mencukupi
                 if ($saldo->saldo_sekarang < $request->jumlah) {
                     throw new \Exception('Saldo tidak mencukupi untuk pengeluaran ini.');
                 }
 
-                
-
-                // Simpan ke tabel pengeluaran
                 Pengeluaran::create([
                     'id_user' => $userId,
                     'id_kategori' => $request->id_kategori,
@@ -72,7 +67,6 @@ class PengeluaranController extends Controller
                     
                 ]);
 
-                // Kurangi saldo
                 $saldo->saldo_sekarang -= $request->jumlah;
                 $saldo->save();
             });
@@ -101,8 +95,6 @@ class PengeluaranController extends Controller
             $saldo->saldo_sekarang += $pengeluaran->jumlah;
             $saldo->save();
         }
-
-        
 
         $pengeluaran->delete();
 

@@ -66,7 +66,7 @@
             <span class="font-medium">Anggaran</span>
         </button> 
       </nav>
-      <div class="p-4 border-t border-gray-100">
+      {{-- <div class="p-4 border-t border-gray-100">
         <div class="bg-primary-50 rounded-lg p-4">
           <h3 class="text-sm font-medium text-primary-700">Upgrade to Pro</h3>
           <p class="text-xs text-primary-600 mt-1">Get access to all features</p>
@@ -78,5 +78,5 @@
             </button>
           </form>
         </div>
-      </div>
+      </div> --}}
     </div>

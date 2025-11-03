@@ -75,66 +75,7 @@
     </div>
 </div>
 
-<!-- Preferences -->
-<div class="space-y-6 mt-8">
-    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="relative p-6 space-y-6 bg-gray-50 rounded-xl border border-gray-100">
-            <!-- Tombol Edit -->
-            <button class="absolute top-4 right-4 flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-blue-600 border border-gray-200 rounded-full hover:bg-blue-50 transition">
-                <i class="fas fa-edit"></i> Edit
-            </button>
 
-            <!-- Header -->
-            <h3 class="text-base font-semibold text-gray-800 mb-6">Preferences</h3>
-
-            <!-- Preferences Settings -->
-            <div class="space-y-6 text-sm">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="font-medium text-gray-900">Email Notifications</p>
-                        <p class="text-xs text-gray-500">Receive email notifications for important updates</p>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer" checked>
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
-                    </label>
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="font-medium text-gray-900">Push Notifications</p>
-                        <p class="text-xs text-gray-500">Receive push notifications on your device</p>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer" checked>
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
-                    </label>
-                </div>
-
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="font-medium text-gray-900">Dark Mode</p>
-                        <p class="text-xs text-gray-500">Switch to dark mode for better visibility</p>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
-                    </label>
-                </div>
-
-                <div class="pt-4 border-t border-gray-200">
-                    <p class="font-medium text-gray-900 mb-2">Language</p>
-                    <select class="w-full p-2 border border-gray-300 rounded-lg bg-white text-sm">
-                        <option selected>English</option>
-                        <option>Indonesian</option>
-                        <option>Spanish</option>
-                        <option>French</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {{-- ============== MODAL EDIT GAMBAR PROFIL (NEW STYLE) ============== --}}
 <div id="profile-image-modal" class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
     <div class="modal-content bg-white rounded-xl w-full max-w-md">
@@ -352,54 +293,65 @@
 </x-animated-modal>
 
 
-<x-animated-modal id="modalProfileImage" title="Edit Profile Image" size="max-w-md">
-    <form action="{{ route('profile.updateImage') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        @csrf
-        @method('PUT')
 
-        {{-- Upload Gambar --}}
-        <div>
-            <label for="profile-photo" class="block text-sm font-medium text-gray-700 mb-2">
-                Upload New Photo
-            </label>
-            <input
-                type="file"
-                id="profile-photo"
-                name="image"
-                accept="image/*"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                onchange="previewImage(event)">
-            @error('image')
-                <p class="text-sm text-red-500 mt-2">{{ $message }}</p>
-            @enderror
-        </div>
 
-        {{-- Preview Gambar --}}
-        <div id="image-preview-container" class="hidden">
-            <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-            <img id="image-preview" class="w-32 h-32 rounded-full object-cover border border-gray-200 shadow-sm" src="" alt="Preview">
-        </div>
-
-        {{-- Tombol Aksi --}}
-        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
-            <button type="button"
-                onclick="hideModal('modalProfileImage')"
-                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">
-                Cancel
-            </button>
-            <button type="submit"
-                class="px-4 py-2 text-sm font-medium text-white bg-primary-500 border border-transparent rounded-lg hover:bg-primary-600 transition">
-                Save Image
-            </button>
-        </div>
-    </form>
-</x-animated-modal>
-<button 
-    type="button"
-    onclick="showModal('modalProfileImage')"
-    class="mt-4 flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-700 text-white font-medium rounded-lg hover:opacity-90 transition transform hover:scale-105 mx-auto"
->
-    <i class="fas fa-camera"></i>
-    <span>Edit Profile Image</span>
-</button>
 @endsection
+
+
+<!-- Preferences -->
+{{-- <div class="space-y-6 mt-8">
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="relative p-6 space-y-6 bg-gray-50 rounded-xl border border-gray-100">
+            <button class="absolute top-4 right-4 flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-blue-600 border border-gray-200 rounded-full hover:bg-blue-50 transition">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+
+            <h3 class="text-base font-semibold text-gray-800 mb-6">Preferences</h3>
+
+            <div class="space-y-6 text-sm">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Email Notifications</p>
+                        <p class="text-xs text-gray-500">Receive email notifications for important updates</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Push Notifications</p>
+                        <p class="text-xs text-gray-500">Receive push notifications on your device</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="font-medium text-gray-900">Dark Mode</p>
+                        <p class="text-xs text-gray-500">Switch to dark mode for better visibility</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-500"></div>
+                    </label>
+                </div>
+
+                <div class="pt-4 border-t border-gray-200">
+                    <p class="font-medium text-gray-900 mb-2">Language</p>
+                    <select class="w-full p-2 border border-gray-300 rounded-lg bg-white text-sm">
+                        <option selected>English</option>
+                        <option>Indonesian</option>
+                        <option>Spanish</option>
+                        <option>French</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
