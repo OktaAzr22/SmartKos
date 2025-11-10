@@ -94,7 +94,181 @@
     </div>
 </div>
 
+<div class="bg-white rounded-xl shadow mb-4 border border-gray-100">
+  <!-- Header Section -->
+  <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <h2 class="text-lg font-semibold text-gray-900">Ringkasan Transaksi</h2>
+    <select id="filterMode" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+      <option value="bulan" selected>Bulan Ini</option>
+      <option value="semua">Semua Waktu</option>
+    </select>
+  </div>
 
+  <!-- Charts Grid -->
+  <div class="p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Chart 1 - Pemasukan vs Pengeluaran -->
+      <div class="chart-card bg-gray-50 rounded-xl p-5 border border-gray-200">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="font-medium text-gray-900">Pemasukan vs Pengeluaran</h4>
+          <div class="flex space-x-2">
+            <button class="text-xs text-gray-500 hover:text-primary-600">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+        </div>
+        <div class="h-64">
+          <canvas id="summaryChart"></canvas>
+        </div>
+        
+      </div>
+
+      <!-- Chart 2 - Pengeluaran per Kategori (Pie Chart seperti Market Share) -->
+      <div class="chart-card bg-gray-50 rounded-xl p-5 border border-gray-200">
+        <div class="flex justify-between items-center mb-4">
+          <h4 class="font-medium text-gray-900">Pengeluaran per Kategori</h4>
+          <div class="flex space-x-2">
+            <button class="text-xs text-gray-500 hover:text-primary-600">
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+          </div>
+        </div>
+        <div class="h-64">
+          <canvas id="kategoriChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .chart-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.1), 0 6px 8px -5px rgba(0, 0, 0, 0.04);
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const filterMode = document.getElementById('filterMode');
+  const ctxSummary = document.getElementById('summaryChart').getContext('2d');
+  const ctxKategori = document.getElementById('kategoriChart').getContext('2d');
+
+  // Chart 1 - Pemasukan vs Pengeluaran
+  const summaryChart = new Chart(ctxSummary, {
+    type: 'doughnut',
+    data: {
+      labels: ['Pemasukan', 'Pengeluaran'],
+      datasets: [{
+        data: [0, 0],
+        backgroundColor: [
+          'rgb(14 165 233)',
+          'rgb(99 102 241)'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { 
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            padding: 20
+          }
+        }
+      },
+      cutout: '65%'
+    }
+  });
+
+  // Chart 2 - Pengeluaran per Kategori (Pie Chart seperti Market Share)
+  const kategoriChart = new Chart(ctxKategori, {
+    type: 'pie',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        backgroundColor: [
+          'rgba(14, 165, 233, 0.8)',   // Blue
+          'rgba(99, 102, 241, 0.8)',    // Purple
+          'rgba(139, 92, 246, 0.8)',    // Violet
+          'rgba(236, 72, 153, 0.8)',    // Pink
+          'rgba(249, 115, 22, 0.8)',    // Orange
+          'rgba(16, 185, 129, 0.8)',    // Green
+          'rgba(245, 158, 11, 0.8)',    // Amber
+          'rgba(6, 182, 212, 0.8)'      // Cyan
+        ],
+        borderColor: [
+          'rgba(14, 165, 233, 1)',
+          'rgba(99, 102, 241, 1)',
+          'rgba(139, 92, 246, 1)',
+          'rgba(236, 72, 153, 1)',
+          'rgba(249, 115, 22, 1)',
+          'rgba(16, 185, 129, 1)',
+          'rgba(245, 158, 11, 1)',
+          'rgba(6, 182, 212, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true,
+            padding: 20,
+            font: {
+              size: 12
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // === Fungsi Load Data Chart ===
+  function loadCharts(mode = 'bulan') {
+    // Chart 1 - pemasukan vs pengeluaran
+    fetch(`/dashboard/chart-data?mode=${mode}`)
+      .then(res => res.json())
+      .then(data => {
+        summaryChart.data.datasets[0].data = [data.pemasukan, data.pengeluaran];
+        summaryChart.update();
+      });
+
+    // Chart 2 - pengeluaran per kategori
+    fetch(`/dashboard/chart-kategori?mode=${mode}`)
+      .then(res => res.json())
+      .then(data => {
+        kategoriChart.data.labels = data.map(k => k.nama_kategori);
+        kategoriChart.data.datasets[0].data = data.map(k => k.total_transaksi);
+        kategoriChart.update();
+      })
+      .catch(err => console.error('Gagal memuat chart kategori:', err));
+  }
+
+  // Load awal
+  loadCharts(filterMode.value);
+
+  // Update ketika dropdown berubah
+  filterMode.addEventListener('change', () => loadCharts(filterMode.value));
+});
+</script>
+
+
+
+
+{{--  --}}
     <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900">Riwayat Transaksi</h3>

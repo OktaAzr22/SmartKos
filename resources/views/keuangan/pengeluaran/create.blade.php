@@ -4,7 +4,6 @@
 
 <x-breadcrumb />
 <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-    <!-- Header -->
     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
         <h3 class="text-lg font-semibold text-gray-900">Catat Pengeluaran</h3>
         <a href="{{ route('pengeluaran.index') }}" 
@@ -13,15 +12,12 @@
         </a>
     </div>
 
-    <!-- Form -->
     <div class="p-6">
         <form action="{{ route('pengeluaran.store') }}" method="POST">
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Kolom Kiri -->
                 <div class="space-y-6">
-                    <!-- Kategori -->
                     <div>
                         <label for="id_kategori" class="block text-sm font-medium text-gray-700 mb-2">
                             Kategori Pengeluaran
@@ -42,7 +38,6 @@
                         @enderror
                     </div>
 
-                    <!-- Jumlah -->
                     <div>
                         <label for="jumlah" class="block text-sm font-medium text-gray-700 mb-2">
                             Jumlah Pengeluaran
@@ -62,7 +57,6 @@
                         @enderror
                     </div>
 
-                    <!-- Tanggal -->
                     <div>
                         <label for="tanggal_pengeluaran" class="block text-sm font-medium text-gray-700 mb-2">
                             Tanggal Pengeluaran
@@ -77,7 +71,6 @@
                     </div>
                 </div>
 
-                <!-- Kolom Kanan -->
                 <div>
                     <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">
                         Deskripsi
@@ -92,7 +85,6 @@
                 </div>
             </div>
 
-            <!-- Tombol Aksi -->
             <div class="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
                 <a href="{{ route('pengeluaran.index') }}"
                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 

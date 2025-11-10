@@ -22,7 +22,6 @@
     </div> 
     
     @if($pengeluaran->count() > 0)
-    <!-- Container dengan tinggi tetap dan scroll otomatis -->
     <div class="max-h-96 overflow-y-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50 sticky top-0 z-10">

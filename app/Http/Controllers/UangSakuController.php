@@ -11,7 +11,6 @@ class UangSakuController extends Controller
 {
     public function index()
     {
-        
         $uangSaku = UangSaku::where('id_user', Auth::id())
             ->latest()
             ->paginate(5);
@@ -43,32 +42,28 @@ class UangSakuController extends Controller
                 'jumlah.max' => 'Masukkan jumlah nominal yang valid (tidak boleh terlalu besar).',
             ]);
 
-
             $userId = Auth::id();
 
-            
             $uangSaku = UangSaku::create([
                 'id_user' => $userId,
                 'jumlah' => $request->jumlah,
                 'keterangan' => $request->keterangan,
             ]);
 
-            
             $bulan = date('F');
             $tahun = date('Y');
 
-            
             $saldo = SaldoUser::where('id_user', $userId)
                 ->where('bulan', $bulan)
                 ->where('tahun', $tahun)
                 ->first();
 
             if ($saldo) {
-                // Update saldo yang sudah ada
+    
                 $saldo->saldo_sekarang += $request->jumlah;
                 $saldo->save();
             } else {
-                // Jika belum ada saldo bulan ini, buat baru
+
                 SaldoUser::create([
                     'id_user' => $userId,
                     'saldo_awal' => $request->jumlah,
@@ -78,7 +73,6 @@ class UangSakuController extends Controller
                 ]);
             }
 
-            
             return redirect()
                 ->back()
                 ->with('success', 'Setoran uang saku berhasil disimpan!');
@@ -90,7 +84,7 @@ class UangSakuController extends Controller
                 ->withInput()
                 ->with('modal', 'modalPemasukan');
         } catch (\Throwable $th) {
-            // ✅ Tangani error lain (misal DB overflow atau lainnya)
+
             return redirect()
                 ->back()
                 ->with('error', 'Terjadi kesalahan saat menyimpan data. Pastikan jumlah nominal valid.')

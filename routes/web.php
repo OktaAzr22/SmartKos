@@ -13,42 +13,36 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest')->name('home');
 
-// 🔐 Auth (Guest Only)
+// Auth (Guest Only)
 Route::middleware(['guest', 'throttle:5,1'])->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 });
 
-// 🧾 Dashboard & Fitur (Auth Only)
+//  Dashboard & Fitur (Auth Only)
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-  
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-Route::put('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.updateImage');
+    Route::get('/dashboard/chart-data', [DashboardController::class, 'chartData'])->name('dashboard.chartData');
+Route::get('/dashboard/chart-kategori', [DashboardController::class, 'chartKategori']);
 
-    // 💰 Uang Saku
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.updateImage');
+
     Route::resource('uang-saku', UangSakuController::class)->only(['index', 'store']);
 
-    
+    Route::resource('/kategori', KategoriPengeluaranController::class)->names('keuangan.kategori');
 
-
-    // 📂 Kategori
-    Route::resource('keuangan/kategori', KategoriPengeluaranController::class)->names('keuangan.kategori');
-
-
-
-    // 💸 Pengeluaran
     Route::resource('pengeluaran', PengeluaranController::class)->except(['show', 'edit', 'update']);
 
-     Route::get('/rekap', [RekapBulananController::class, 'index'])->name('rekap.index');
+    Route::get('/rekap', [RekapBulananController::class, 'index'])->name('rekap.index');
     Route::post('/rekap/generate', [RekapBulananController::class, 'generate'])->name('rekap.generate');
 
-    // 🚪 Logout
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); 
 
-    
+    Route::get('/test-error', function () {
+    abort(500);
 });
 
-
+});

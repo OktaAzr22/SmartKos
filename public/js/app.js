@@ -25,30 +25,25 @@
         }
     });
 
-    // Toggle dropdown menu dengan animasi
-        document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
-            const dropdown = document.getElementById('profile-dropdown');
-            const chevron = document.getElementById('profile-chevron');
+    document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
+        const dropdown = document.getElementById('profile-dropdown');
+        const chevron = document.getElementById('profile-chevron');
             
-            dropdown.classList.toggle('show');
-            chevron.classList.toggle('rotate-180');
-        });
+        dropdown.classList.toggle('show');
+        chevron.classList.toggle('rotate-180');
+    });
 
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('profile-dropdown');
-            const button = document.getElementById('profile-dropdown-btn');
-            const chevron = document.getElementById('profile-chevron');
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('profile-dropdown');
+        const button = document.getElementById('profile-dropdown-btn');
+        const chevron = document.getElementById('profile-chevron');
             
-            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
-                dropdown.classList.remove('show');
-                chevron.classList.remove('rotate-180');
-            }
-        });
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+            chevron.classList.remove('rotate-180');
+        }
+    });
 
-    
-
-    // ====== SIDEBAR SUBMENU TOGGLE ======
     document.querySelectorAll('.sidebar-toggle').forEach(button => {
         button.addEventListener('click', function() {
             const submenu = this.nextElementSibling;
@@ -65,7 +60,6 @@
         const cancelDelete = document.getElementById('cancel-delete');
         const deleteForm = document.getElementById('delete-form');
 
-        // Fungsi untuk menampilkan modal
         function showModal(modal, content) {
             modal.classList.remove('hidden');
             setTimeout(() => {
@@ -74,7 +68,6 @@
             }, 50);
         }
 
-        // Fungsi untuk menyembunyikan modal
         function hideModal(modal, content) {
             content.classList.remove('scale-100', 'opacity-100');
             content.classList.add('scale-95', 'opacity-0');
@@ -83,15 +76,12 @@
             }, 200);
         }
 
-        // Klik tombol batal
         cancelDelete?.addEventListener('click', () => hideModal(modalDelete, modalContent));
 
-        // Klik di luar modal untuk menutup
         modalDelete?.addEventListener('click', (e) => {
             if (e.target === modalDelete) hideModal(modalDelete, modalContent);
         });
 
-        // Global listener untuk tombol hapus
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const actionUrl = btn.getAttribute('data-action');
@@ -102,5 +92,3 @@
             });
         });
     });
-
-    
