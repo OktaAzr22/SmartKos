@@ -4,7 +4,7 @@
     'size' => 'max-w-md',
 ])
 
-<div id="{{ $id }}" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 hidden">
+<div id="{{ $id }}" class="fixed inset-0 bg-gray-800/50 dark:bg-gray-900/70 flex items-center justify-center z-40 hidden">
     <div id="{{ $id }}-content"
          class="bg-white rounded-xl shadow-lg w-full {{ $size }} mx-4 transform transition-all duration-300 scale-95 opacity-0">
         <div class="flex justify-between items-center p-6 border-b">

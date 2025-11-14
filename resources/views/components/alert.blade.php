@@ -1,50 +1,60 @@
-
 @if (session('success') || session('error') || session('info') || session('warning'))
-    <div id="toast-container" class="fixed top-5 right-5 z-50"></div>
+    <div id="toast-container" class="fixed top-5 right-5 z-50 space-y-3"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const alerts = {
+
+            const types = {
                 success: {
-                    bg: "bg-emerald-900 border border-emerald-700 text-emerald-400",
-                    icon: "fa-check-circle"
+                    bg: "bg-emerald-100 border border-emerald-300 text-emerald-800 dark:bg-emerald-900 dark:border-emerald-700 dark:text-emerald-300",
+                    icon: "fa-check-circle",
+                    close: "text-emerald-800 dark:text-emerald-300 hover:text-emerald-600 dark:hover:text-emerald-200"
                 },
                 error: {
-                    bg: "bg-red-900 border border-red-700 text-red-400",
-                    icon: "fa-times-circle"
+                    bg: "bg-red-100 border border-red-300 text-red-800 dark:bg-red-900 dark:border-red-700 dark:text-red-300",
+                    icon: "fa-times-circle",
+                    close: "text-red-800 dark:text-red-300 hover:text-red-600 dark:hover:text-red-200"
                 },
                 info: {
-                    bg: "bg-blue-900 border border-blue-700 text-blue-400",
-                    icon: "fa-info-circle"
+                    bg: "bg-blue-100 border border-blue-300 text-blue-800 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300",
+                    icon: "fa-info-circle",
+                    close: "text-blue-800 dark:text-blue-300 hover:text-blue-600 dark:hover:text-blue-200"
                 },
                 warning: {
-                    bg: "bg-yellow-900 border border-yellow-700 text-yellow-400",
-                    icon: "fa-exclamation-circle"
+                    bg: "bg-yellow-100 border border-yellow-300 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-300",
+                    icon: "fa-exclamation-circle",
+                    close: "text-yellow-800 dark:text-yellow-300 hover:text-yellow-600 dark:hover:text-yellow-200"
                 }
             };
 
             const type = @json(session('success') ? 'success' :
-                        (session('error') ? 'error' :
-                        (session('info') ? 'info' : 'warning')));
+                              (session('error') ? 'error' :
+                              (session('info') ? 'info' : 'warning')));
 
-            const message = @json(session('success') ?? session('error') ?? session('info') ?? session('warning'));
+            const message = @json(session('success') ??
+                                  session('error') ??
+                                  session('info') ??
+                                  session('warning'));
 
             const container = document.getElementById("toast-container");
 
             const toast = document.createElement("div");
             toast.className = `
-                ${alerts[type].bg}
-                flex items-center justify-between gap-3 px-4 py-3 rounded-lg shadow-lg mb-3
-                transition-all duration-500 ease-out opacity-0 translate-y-4 scale-95
-                min-w-[320px] max-w-[400px]
+                ${types[type].bg}
+                flex items-center justify-between gap-3 px-4 py-3 rounded-lg shadow-lg
+                transition-all duration-500 ease-out
+                opacity-0 translate-y-4 scale-95
+                min-w-[320px] max-w-[420px]
             `;
 
             toast.innerHTML = `
                 <div class="flex items-center gap-3">
-                    <i class="fa-solid ${alerts[type].icon} text-lg"></i>
+                    <i class="fa-solid ${types[type].icon} text-lg"></i>
                     <span class="text-sm font-medium">${message}</span>
                 </div>
-                <button class="text-${type}-400 hover:text-${type}-200 transition" onclick="this.parentElement.remove()">
+
+                <button class="${types[type].close}"
+                        onclick="this.parentElement.remove()">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             `;

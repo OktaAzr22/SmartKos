@@ -23,7 +23,7 @@
             const id = e.target.closest('.close-modal').dataset.modal;
             hideModal(id);
         }
-    });
+    }); -
 
     document.addEventListener('DOMContentLoaded', () => {
         const modalDelete = document.getElementById('modal-delete');
@@ -155,3 +155,28 @@
     document.addEventListener('DOMContentLoaded', function() {
         openActiveSubmenu();
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const html = document.documentElement;
+    const toggle = document.getElementById("dark-mode-toggle");
+
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        html.classList.add("dark");
+        toggle.checked = true; 
+    } else {
+        html.classList.remove("dark");
+        toggle.checked = false; 
+    }
+
+    toggle.addEventListener("change", function () {
+        if (this.checked) {
+            html.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+        } else {
+            html.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+        }
+    });
+});
