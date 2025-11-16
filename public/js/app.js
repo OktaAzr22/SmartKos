@@ -30,6 +30,7 @@
         const modalContent = document.getElementById('modal-delete-content');
         const cancelDelete = document.getElementById('cancel-delete');
         const deleteForm = document.getElementById('delete-form');
+        
 
         function showModal(modal, content) {
             modal.classList.remove('hidden');

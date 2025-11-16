@@ -3,7 +3,7 @@
 @section('content')
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
     {{-- Sisa Saldo Saat Ini --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-sm font-medium text-gray-500">Sisa Saldo Saat Ini</p>
@@ -21,13 +21,13 @@
         </div>
     </div>
     {{--Total Pemasukan Bulan Ini  --}}
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">Total Pemasukan Bulan Ini</p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">Rp {{ number_format($pemasukanBulan, 0, ',', '.') }}</p>
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Pemasukan Bulan Ini</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">Rp {{ number_format($pemasukanBulan, 0, ',', '.') }}</p>
             </div>
-            <div class="p-2 bg-green-50 rounded-lg">
+            <div class="p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                 <i class="fas fa-check-circle text-green-500"></i>
             </div>
         </div>
@@ -35,7 +35,7 @@
             <span class="text-xs text-green-500 font-medium flex items-center">
                 <i class="fas fa-arrow-up mr-1"></i> 5%
             </span>
-            <span class="text-xs text-gray-500 ml-2">from last month</span>
+            <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">from last month</span>
         </div>
     </div>
     {{--Total Pemasukan Selama Ini  --}}
@@ -94,11 +94,11 @@
     </div>
 </div>
 
-<div class="bg-white rounded-xl shadow mb-4 border border-gray-100">
+<div class="bg-white dark:bg-slate-800 rounded-xl shadow mb-4 border border-gray-100 dark:border-slate-700">
   <!-- Header Section -->
-  <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-    <h2 class="text-lg font-semibold text-gray-900">Ringkasan Transaksi</h2>
-    <select id="filterMode" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+  <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Ringkasan Transaksi</h2>
+    <select id="filterMode" class="border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700 dark:text-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500">
       <option value="bulan" selected>Bulan Ini</option>
       <option value="semua">Semua Waktu</option>
     </select>
@@ -108,7 +108,7 @@
   <div class="p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <!-- Chart 1 - Pemasukan vs Pengeluaran -->
-      <div class="chart-card bg-gray-50 rounded-xl p-5 border border-gray-200">
+      <div class="chart-card bg-gray-50 dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700">
         <div class="flex justify-between items-center mb-4">
           <h4 class="font-medium text-gray-900">Pemasukan vs Pengeluaran</h4>
           <div class="flex space-x-2">
@@ -269,9 +269,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 {{--  --}}
-    <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-900">Riwayat Transaksi</h3>
+    <div class="mt-6 bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-slate-700 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Riwayat Transaksi</h3>
             <div class="flex space-x-2">
                 <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
                     <i class="fas fa-plus"></i>
@@ -282,8 +282,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
+                <thead class="bg-gray-50 dark:bg-slate-700">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-700 transition duration-150">
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             <div class="flex items-center">
                                 <span>Tanggal</span>

@@ -60,36 +60,25 @@
                             </tr>
 
                             <x-animated-modal id="modalEditKategori-{{ $item->id_kategori }}" title="Edit Kategori" size="max-w-md">
-                                <form action="{{ route('keuangan.kategori.update', $item->id_kategori) }}" method="POST">
+                                <form id="a" action="{{ route('keuangan.kategori.update', $item->id_kategori) }}" method="POST">
                                     @csrf
                                     @method('PUT')
 
-                                    <div class="mb-4">
-                                        <label for="nama_kategori_{{ $item->id_kategori }}" class="block text-gray-700 text-sm font-medium mb-2">
-                                            Nama Kategori
-                                        </label>
-                                        <input 
-                                            type="text"
-                                            name="nama_kategori"
-                                            id="nama_kategori_{{ $item->id_kategori }}"
-                                            value="{{ old('nama_kategori', $item->nama_kategori) }}"
-                                            class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                                            required>
+                                    <x-input-text 
+            label="Nama Kategori"
+            name="nama_kategori"
+            id="nama_kategori_{{ $item->id_kategori }}"
+            :value="old('nama_kategori', $item->nama_kategori)"
+            required
+        />
 
-                                        @if ($errors->any() && session('modal') === 'modalEditKategori-' . $item->id_kategori)
-                                            @error('nama_kategori')
-                                                <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                                            @enderror
-                                        @endif
-                                    </div>
 
                                     <div class="flex justify-end space-x-3 mt-6">
                                         <button type="button" onclick="hideModal('modalEditKategori-{{ $item->id_kategori }}')" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
                                             Batal
                                         </button>
-                                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105">
-                                            Simpan
-                                        </button>
+                                        <x-btn-save form="a"/>
+                                        
                                     </div>
                                 </form>
                             </x-animated-modal>
@@ -117,33 +106,22 @@
     <x-animated-modal id="modalKategori" title="Tambah Kategori" size="max-w-md">
         <form action="{{ route('keuangan.kategori.store') }}" method="POST" id="formKategori">
             @csrf
-                <div class="mb-4">
-                    <label for="nama_kategori" class="block text-gray-700 text-sm font-medium mb-2">
-                        Nama Kategori
-                    </label>
-                    <input
-                        type="text"
-                        name="nama_kategori"
-                        id="nama_kategori"
-                        required
-                        value="{{ old('nama_kategori') }}"
-                        class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                        placeholder="Masukkan nama kategori">
-                    @error('nama_kategori')
-                        <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
+                <x-input-text 
+            label="Nama Kategori"
+            name="nama_kategori"
+            :value="old('nama_kategori')"
+            required
+        />
+
+                
                 
                 <div class="flex justify-end space-x-3 mt-6">
-                    <button type="button"
-                            onclick="hideModal('modalKategori')"
-                            class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
-                        Batal
-                    </button>
-                    <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105">
-                        Simpan
-                    </button>
+                    
+                    
+                    <x-btn-cancel onclick="hideModal('modalKategori')"  />
+
+                    <x-btn-save form="formKategori"/>
+
                 </div>
         </form>
     </x-animated-modal>
