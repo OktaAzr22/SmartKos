@@ -32,7 +32,7 @@ class PengeluaranController extends Controller
     {
         $request->validate([
             'id_kategori' => 'required|exists:kategori_pengeluaran,id_kategori',
-            'jumlah' => 'required|numeric|min:0',
+            'jumlah' => 'required|numeric|min:10',
             'tanggal_pengeluaran' => 'nullable|date',
             'deskripsi' => 'nullable|string|max:255',
             
