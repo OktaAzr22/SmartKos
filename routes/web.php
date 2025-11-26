@@ -41,8 +41,12 @@ Route::get('/dashboard/chart-kategori', [DashboardController::class, 'chartKateg
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); 
 
-    Route::get('/test-error', function () {
-    abort(500);
-});
+    Route::get('/user/rekap', 
+        [RekapBulananController::class, 'indexUser'])
+        ->name('user.rekap.index');
+
+    Route::post('/user/rekap/proses', [\App\Http\Controllers\RekapBulananController::class, 'prosesRekapUser'])
+        ->name('rekap.user.proses');
 
 });
+

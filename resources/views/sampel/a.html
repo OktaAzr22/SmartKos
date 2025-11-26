@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Profile Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        }
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-item.active {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            color: #0369a1;
+        }
+        .sidebar-item.active i {
+            color: #0ea5e9;
+        }
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .submenu.open {
+            max-height: 500px;
+        }
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+        
+        /* Animasi untuk profile dropdown */
+        .profile-dropdown {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+        
+        .profile-dropdown.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        
+        /* Style untuk status */
+        .status-income {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-expense {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-neutral {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-inter">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-sm border-r border-gray-100 flex flex-col">
+            <div class="p-6">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-table text-white text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-800">DashboardPro</h1>
+                </div>
+            </div>
+            
+            <nav class="flex-1 px-4 space-y-1">
+                <a href="#" class="sidebar-item flex items-center px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg">
+                    <i class="fas fa-home mr-3"></i>
+                    <span class="font-medium">Dashboard</span>
+                </a>
+                
+                <!-- Menu dengan Submenu -->
+                <div class="sidebar-item">
+                    <button class="flex items-center justify-between w-full px-4 py-3 text-gray-500 hover:bg-gray-50 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-table mr-3"></i>
+                            <span class="font-medium">Tables</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="submenu ml-4 mt-1">
+                        <a href="#" class="sidebar-item active flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-circle text-xs mr-3 ml-1"></i>
+                            <span>Basic Tables</span>
+                        </a>
+                        <a href="#" class="sidebar-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-circle text-xs mr-3 ml-1"></i>
+                            <span>Data Tables</span>
+                        </a>
+                        <a href="#" class="sidebar-item flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-circle text-xs mr-3 ml-1"></i>
+                            <span>Advanced Tables</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="p-4 border-t border-gray-100">
+                <div class="bg-primary-50 rounded-lg p-4">
+                    <h3 class="text-sm font-medium text-primary-700">Upgrade to Pro</h3>
+                    <p class="text-xs text-primary-600 mt-1">Get access to all features</p>
+                    <button class="w-full mt-3 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium py-2 px-3 rounded-lg transition duration-150">
+                        Upgrade Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <header class="bg-white border-b border-gray-200">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <!-- KIRI: Search Bar -->
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input type="text" 
+                            class="block w-64 pl-10 pr-3 py-2 border border-gray-300 rounded-lg bg-gray-50 
+                                    focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm" 
+                            placeholder="Search...">
+                    </div>
+
+                    <!-- KANAN: Notifications & Profile -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Notifications -->
+                        <button class="relative p-2 text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500"></span>
+                        </button>
+
+                        <!-- Profile Dropdown -->
+                        <div class="relative">
+                            <button id="profile-dropdown-btn" class="flex items-center space-x-3 focus:outline-none">
+                                <div class="flex flex-col items-end">
+                                    <span class="text-sm font-medium text-gray-900">John Doe</span>
+                                    <span class="text-xs text-gray-500">Admin</span>
+                                </div>
+                                <div class="w-10 h-10 bg-gradient-to-r from-primary-500 to-primary-700 rounded-full flex items-center justify-center text-white font-semibold">
+                                    JD
+                                </div>
+                                <i class="fas fa-chevron-down text-gray-500 text-xs transition-transform duration-200" id="profile-chevron"></i>
+                            </button>
+
+                            <!-- Dropdown Menu -->
+                            <div id="profile-dropdown" class="profile-dropdown absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg py-2 z-10 border border-gray-100">
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p class="text-sm font-medium text-gray-900">John Doe</p>
+                                    <p class="text-sm text-gray-500 truncate">john.doe@example.com</p>
+                                </div>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-user mr-3 text-gray-400"></i>Profile
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-cog mr-3 text-gray-400"></i>Settings
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-bell mr-3 text-gray-400"></i>Notifications
+                                </a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-50">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <div class="mb-6 flex justify-between items-center">
+                    <h3 class="text-lg font-semibold text-gray-900">Profile Overview</h3>
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol class="flex items-center space-x-4">
+                            <li>
+                                <div class="flex items-center">
+                                    <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Dashboard</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <i class="fas fa-chevron-right text-gray-300 text-xs"></i>
+                                    <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700" aria-current="page">Profile</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+
+                <!-- Tabel Ringkasan Keuangan Bulanan -->
+                <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">Ringkasan Keuangan Bulanan</h3>
+                        <div class="flex space-x-2">
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+                                <i class="fas fa-filter"></i>
+                                <span>Filter</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bulan</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pemasukan</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pengeluaran</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Januari</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 15.250.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 8.500.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-blue-600">Rp 6.750.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button class="text-gray-500 hover:text-primary-700">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Februari</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 12.750.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 9.200.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-blue-600">Rp 3.550.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button class="text-gray-500 hover:text-primary-700">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Maret</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 18.500.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 10.750.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-blue-600">Rp 7.750.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button class="text-gray-500 hover:text-primary-700">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">April</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 16.800.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 11.300.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-blue-600">Rp 5.500.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button class="text-gray-500 hover:text-primary-700">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Mei</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-500">2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 14.200.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 9.800.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-blue-600">Rp 4.400.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button class="text-gray-500 hover:text-primary-700">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Table Footer -->
+                    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">5</span> results
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Previous
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-white bg-primary-500 border border-primary-500 rounded-lg">
+                                1
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Section Two -->
+                <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">Tabel Transaksi Keuangan</h3>
+                        <div class="flex space-x-2">
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+                                <i class="fas fa-filter"></i>
+                                <span>Filter</span>
+                            </button>
+                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+                                <i class="fas fa-download"></i>
+                                <span>Export</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah Rp</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="status-income px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+                                            Income
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">15 Jan 2023</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 5.250.000</div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-500">Pembayaran project website perusahaan besar...</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-gray-500 hover:text-gray-700">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Table Footer -->
+                    <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">15</span> results
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Previous
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-white bg-primary-500 border border-primary-500 rounded-lg">
+                                1
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                2
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                3
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                Next
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="bg-white border-t border-gray-200 py-4 px-1 mt-6">
+                    <div class="text-center">
+                        <div class="text-sm text-gray-500">
+                            © 2023 <span class="text-primary-600 font-medium">DashboardPro</span>. All rights reserved.
+                        </div>
+                    </div>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Toggle dropdown menu dengan animasi
+        document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
+            const dropdown = document.getElementById('profile-dropdown');
+            const chevron = document.getElementById('profile-chevron');
+            
+            dropdown.classList.toggle('show');
+            chevron.classList.toggle('rotate-180');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('profile-dropdown');
+            const button = document.getElementById('profile-dropdown-btn');
+            const chevron = document.getElementById('profile-chevron');
+            
+            if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('show');
+                chevron.classList.remove('rotate-180');
+            }
+        });
+
+        // Toggle submenus in sidebar
+        document.querySelectorAll('.sidebar-item button').forEach(button => {
+            button.addEventListener('click', function() {
+                const submenu = this.nextElementSibling;
+                const icon = this.querySelector('.fa-chevron-right');
+                
+                submenu.classList.toggle('open');
+                icon.classList.toggle('rotate-90');
+            });
+        });
+
+        // Fungsi untuk icon mata (view)
+        document.querySelectorAll('.fa-eye').forEach(icon => {
+            icon.addEventListener('click', function() {
+                // Ambil data dari baris tabel
+                const row = this.closest('tr');
+                const bulan = row.cells[0].textContent;
+                const tahun = row.cells[1].textContent;
+                const pemasukan = row.cells[2].textContent;
+                const pengeluaran = row.cells[3].textContent;
+                const saldo = row.cells[4].textContent;
+                
+                // Tampilkan alert dengan detail (bisa diganti dengan modal atau halaman detail)
+                alert(`Detail Keuangan ${bulan} ${tahun}:\n\nPemasukan: ${pemasukan}\nPengeluaran: ${pengeluaran}\nSaldo Akhir: ${saldo}`);
+            });
+        });
+
+    </script>
+</body>
+</html>

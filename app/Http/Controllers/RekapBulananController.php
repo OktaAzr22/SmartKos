@@ -13,147 +13,135 @@ use Illuminate\Support\Facades\DB;
 
 class RekapBulananController extends Controller
 {
-    public function index()
+    public function indexUser()
     {
-        $userId = Auth::id();
-        $now = Carbon::now();
-        $bulanIni = $now->format('F');
-        $tahunIni = $now->year;
+        $userId = auth()->id();
 
-        // Ambil semua rekap
         $rekap = RekapBulanan::where('id_user', $userId)
-            ->orderByDesc('tahun')
-            ->orderByDesc('id_rekap')
+            ->orderBy('tahun', 'desc')
+            ->orderBy('bulan', 'desc')
             ->get();
 
-        // Cek apakah sudah pernah rekap bulan ini
-        $sudahRekap = RekapBulanan::where('id_user', $userId)
-            ->where('bulan', $bulanIni)
-            ->where('tahun', $tahunIni)
+        return view('rekap.user', compact('rekap'));
+    }
+
+    public function prosesRekapUser()
+{
+    $userId = auth()->id();
+
+    $now = now();
+
+    // ================================================
+    // 1. Rekap hanya bisa di akhir bulan
+    // ================================================
+    if ($now->day !== $now->endOfMonth()->day) {
+        return back()->with('error', 'Rekap hanya dapat dilakukan pada akhir bulan!');
+    }
+
+    // ================================================
+    // 2. Cek apakah bulan ini sudah direkap
+    // ================================================
+    $bulanIni = $now->format('F');
+    $tahunIni = $now->year;
+
+    $sudahRekapBulanIni = RekapBulanan::where('id_user', $userId)
+        ->where('bulan', $bulanIni)
+        ->where('tahun', $tahunIni)
+        ->exists();
+
+    if ($sudahRekapBulanIni) {
+
+        // ================================================
+        // 3. Jika sudah rekap bulan ini → cek bulan lalu
+        // ================================================
+        $bulanLaluCarbon = $now->copy()->subMonth();
+        $bulanLalu = $bulanLaluCarbon->format('F');
+        $tahunLalu = $bulanLaluCarbon->year;
+
+        $sudahRekapBulanLalu = RekapBulanan::where('id_user', $userId)
+            ->where('bulan', $bulanLalu)
+            ->where('tahun', $tahunLalu)
             ->exists();
 
-        // Cek apakah sudah akhir bulan
-        $isAkhirBulan = $now->isSameDay($now->copy()->endOfMonth());
+        if ($sudahRekapBulanLalu) {
+            return back()->with('error', 'Rekap bulan ini dan bulan lalu sudah dilakukan!');
+        }
 
-        return view('keuangan.rekap.index', compact('rekap', 'sudahRekap', 'isAkhirBulan'));
+        // Kalau bulan ini sudah direkap, bulan lalu belum → gunakan bulan lalu
+        $targetRekap = $bulanLaluCarbon;
+    } else {
+        // Rekap bulan ini
+        $targetRekap = $now;
     }
 
-    public function generate()
-    {
-        $userId = Auth::id();
-        $now = Carbon::now();
-        $bulan = $now->format('F');
-        $tahun = $now->year;
+    // ================================================
+    // 4. UBAH VARIABEL BULAN & TAHUN AGAR LOGIKAMU TETAP JALAN
+    // ================================================
+    $bulanIni = $targetRekap->format('F');
+    $tahunIni = $targetRekap->year;
 
-        // Cek kalau belum akhir bulan
-        if (!$now->isSameDay($now->copy()->endOfMonth())) {
-            return redirect()->route('rekap.index')
-                ->with('error', 'Rekap hanya bisa dilakukan di akhir bulan.');
-        }
+    // ================================================
+    // 5. Baru lanjutkan logika asli kamu (TIDAK DIUBAH)
+    // ================================================
 
-        // Cek apakah sudah ada rekap bulan ini
-        $sudahAda = RekapBulanan::where('id_user', $userId)
-            ->where('bulan', $bulan)
-            ->where('tahun', $tahun)
-            ->exists();
+    // HITUNG PEMASUKAN BULAN
+    $totalPemasukan = UangSaku::where('id_user', $userId)
+        ->whereMonth('created_at', $targetRekap->month)
+        ->whereYear('created_at', $targetRekap->year)
+        ->sum('jumlah');
 
-        if ($sudahAda) {
-            return redirect()->route('rekap.index')
-                ->with('error', 'Rekap bulan ini sudah dibuat.');
-        }
+    // HITUNG PENGELUARAN BULAN
+    $totalPengeluaran = Pengeluaran::where('id_user', $userId)
+        ->whereMonth('tanggal_pengeluaran', $targetRekap->month)
+        ->whereYear('tanggal_pengeluaran', $targetRekap->year)
+        ->sum('jumlah');
 
-        DB::beginTransaction();
-        try {
-            // Hitung total pemasukan & pengeluaran bulan ini
-            $totalPemasukan = UangSaku::where('id_user', $userId)
-                ->whereMonth('tanggal', $now->month)
-                ->whereYear('tanggal', $tahun)
-                ->sum('jumlah');
+    // AMBIL SALDO BULAN SEBELUMNYA
+    $bulanLalu = $targetRekap->copy()->subMonth()->format('F');
+    $tahunLalu = $targetRekap->copy()->subMonth()->year;
 
-            $totalPengeluaran = Pengeluaran::where('id_user', $userId)
-                ->whereMonth('tanggal', $now->month)
-                ->whereYear('tanggal', $tahun)
-                ->sum('jumlah');
+    $saldoSebelumnya = SaldoUser::where('id_user', $userId)
+        ->where('bulan', $bulanLalu)
+        ->where('tahun', $tahunLalu)
+        ->value('saldo_sekarang') ?? 0;
 
-            // Ambil saldo terakhir user
-            $saldoUser = SaldoUser::where('id_user', $userId)->first();
-            $saldoAkhir = ($saldoUser->saldo ?? 0) + $totalPemasukan - $totalPengeluaran;
+    // HITUNG SALDO AKHIR
+    $saldoAkhir = $saldoSebelumnya + $totalPemasukan - $totalPengeluaran;
 
-            // Simpan rekap
-            RekapBulanan::create([
-                'id_user' => $userId,
-                'bulan' => $bulan,
-                'tahun' => $tahun,
-                'total_pemasukan' => $totalPemasukan,
-                'total_pengeluaran' => $totalPengeluaran,
-                'saldo_akhir' => $saldoAkhir,
-            ]);
-
-            // Update saldo user
-            if ($saldoUser) {
-                $saldoUser->saldo = $saldoAkhir;
-                $saldoUser->save();
-            }
-
-            DB::commit();
-            return redirect()->route('rekap.index')->with('success', 'Rekap bulan ini berhasil dibuat!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('rekap.index')->with('error', 'Gagal membuat rekap: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Rekap otomatis jika lewat akhir bulan dan belum direkap
-     */
-    public static function autoGenerate()
-    {
-        $users = SaldoUser::pluck('id_user');
-        $now = Carbon::now();
-
-        foreach ($users as $userId) {
-            $sudahAda = RekapBulanan::where('id_user', $userId)
-                ->where('bulan', $now->format('F'))
-                ->where('tahun', $now->year)
-                ->exists();
-
-            if (!$sudahAda && $now->greaterThanOrEqualTo($now->copy()->endOfMonth())) {
-                app(self::class)->generateAuto($userId);
-            }
-        }
-    }
-
-    private function generateAuto($userId)
-    {
-        $now = Carbon::now();
-        $bulan = $now->format('F');
-        $tahun = $now->year;
-
-        $totalPemasukan = UangSaku::where('id_user', $userId)
-            ->whereMonth('tanggal', $now->month)
-            ->whereYear('tanggal', $tahun)
-            ->sum('jumlah');
-
-        $totalPengeluaran = Pengeluaran::where('id_user', $userId)
-            ->whereMonth('tanggal', $now->month)
-            ->whereYear('tanggal', $tahun)
-            ->sum('jumlah');
-
-        $saldoUser = SaldoUser::where('id_user', $userId)->first();
-        $saldoAkhir = ($saldoUser->saldo ?? 0) + $totalPemasukan - $totalPengeluaran;
+    // SIMPAN + UPDATE SALDO (logika asli kamu)
+    DB::transaction(function () use (
+        $userId,
+        $bulanIni,
+        $tahunIni,
+        $totalPemasukan,
+        $totalPengeluaran,
+        $saldoSebelumnya,
+        $saldoAkhir
+    ) {
 
         RekapBulanan::create([
-            'id_user' => $userId,
-            'bulan' => $bulan,
-            'tahun' => $tahun,
-            'total_pemasukan' => $totalPemasukan,
+            'id_user'     => $userId,
+            'bulan'       => $bulanIni,
+            'tahun'       => $tahunIni,
+            'total_pemasukan'  => $totalPemasukan,
             'total_pengeluaran' => $totalPengeluaran,
             'saldo_akhir' => $saldoAkhir,
         ]);
 
-        if ($saldoUser) {
-            $saldoUser->saldo = $saldoAkhir;
-            $saldoUser->save();
-        }
-    }
+        SaldoUser::updateOrCreate(
+            [
+                'id_user' => $userId,
+                'bulan'   => $bulanIni,
+                'tahun'   => $tahunIni,
+            ],
+            [
+                'saldo_awal'      => $saldoSebelumnya,
+                'saldo_sekarang'  => $saldoAkhir,
+            ]
+        );
+    });
+
+    return back()->with('success', "Rekap bulan $bulanIni tahun $tahunIni berhasil diproses!");
+}
+
 }
