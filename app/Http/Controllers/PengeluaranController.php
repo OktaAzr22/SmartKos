@@ -14,92 +14,50 @@ class PengeluaranController extends Controller
 {
     public function index()
     {
-        $pengeluaran = Pengeluaran::with('kategori')
-            ->where('id_user', Auth::id())
-            ->latest()
-            ->paginate(10);
+        $data = Pengeluaran::where('user_id', Auth::id())
+        ->with('kategori')
+        ->latest()->get();
 
-        return view('keuangan.pengeluaran.index', compact('pengeluaran'));
+        $kategori = KategoriPengeluaran::all();
+
+        return view('pengeluaran.index', compact('data', 'kategori'));
     }
 
     public function create()
-    {
-        $kategori = KategoriPengeluaran::all();
-        return view('keuangan.pengeluaran.create', compact('kategori'));
-    }
+{
+    $kategori = KategoriPengeluaran::all();
+    return view('pengeluaran.create', compact('kategori'));
+}
+
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_kategori' => 'required|exists:kategori_pengeluaran,id_kategori',
-            'jumlah' => 'required|numeric|min:10',
-            'tanggal_pengeluaran' => 'nullable|date',
-            'deskripsi' => 'nullable|string|max:255',
-            
+            'jumlah' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
+            'id_kategori'  => 'required|exists:kategori_pengeluaran,id_kategori',
         ]);
 
-        try {
-            DB::transaction(function () use ($request) {
-                $userId = Auth::id();
+        // Ambil saldo user
+        $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
 
-                $saldo = SaldoUser::firstOrCreate(
-                    [
-                        'id_user' => $userId,
-                        'bulan' => date('F'),
-                        'tahun' => date('Y'),
-                    ],
-                    [
-                        'saldo_awal' => 0,
-                        'saldo_sekarang' => 0,
-                    ]
-                );
-
-                if ($saldo->saldo_sekarang < $request->jumlah) {
-                    throw new \Exception('Saldo tidak mencukupi untuk pengeluaran ini.');
-                }
-
-                Pengeluaran::create([
-                    'id_user' => $userId,
-                    'id_kategori' => $request->id_kategori,
-                    'jumlah' => $request->jumlah,
-                    'tanggal_pengeluaran' => $request->tanggal_pengeluaran ?? date('Y-m-d'),
-                    'deskripsi' => $request->deskripsi,
-                    
-                ]);
-
-                $saldo->saldo_sekarang -= $request->jumlah;
-                $saldo->save();
-            });
-
-            return redirect()
-                ->route('pengeluaran.index')
-                ->with('success', 'Pengeluaran berhasil dicatat dan saldo diperbarui!');
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', $e->getMessage())
-                ->withInput();
-        }
-    }
-
-    public function destroy($id)
-    {
-        $pengeluaran = Pengeluaran::findOrFail($id);
-
-        $saldo = SaldoUser::where('id_user', $pengeluaran->id_user)
-            ->where('bulan', date('F', strtotime($pengeluaran->tanggal_pengeluaran)))
-            ->where('tahun', date('Y', strtotime($pengeluaran->tanggal_pengeluaran)))
-            ->first();
-
-        if ($saldo) {
-            $saldo->saldo_sekarang += $pengeluaran->jumlah;
-            $saldo->save();
+        if ($saldo->saldo < $request->jumlah) {
+            return back()->with('error', 'Saldo tidak mencukupi untuk melakukan pengeluaran!');
         }
 
-        $pengeluaran->delete();
+        $pengeluaran = Pengeluaran::create([
+            'user_id' => Auth::id(),
+            'id_kategori' => $request->id_kategori,
+            'jumlah' => $request->jumlah,
+            'keterangan' => $request->keterangan,
+            'tanggal' => $request->tanggal,
+        ]);
 
-        return redirect()
-            ->route('pengeluaran.index')
-            ->with('success', 'Data pengeluaran berhasil dihapus!');
+        // Update saldo
+        $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
+        $saldo->saldo -= $pengeluaran->jumlah;
+        $saldo->save();
+
+        return back()->with('success', 'Pengeluaran berhasil ditambahkan');
     }
 }

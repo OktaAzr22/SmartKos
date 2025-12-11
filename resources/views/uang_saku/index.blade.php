@@ -1,3 +1,6 @@
+
+
+
 @extends('layouts.app')
 
 @section('content')
@@ -45,11 +48,11 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse ($uangSaku as $i => $item)
+                    @forelse ($data as $index => $item)
                         <tr class="hover:bg-gray-50 transition duration-150">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">
-                                    {{ $uangSaku->firstItem() + $i }}
+                                    {{ $index + 1 }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -64,7 +67,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-700">
-                                    {{ $item->created_at->format('d M Y') }}
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
@@ -88,11 +91,13 @@
                 </tbody>
             </table>
         </div>
-        {{ $uangSaku->links() }}
+        {{ $data->links() }}
     </div>
 
+    
+
     <x-animated-modal id="modalPemasukan" title="Tambah Pemasukkan" size="max-w-md">
-        <form action="{{ route('uang-saku.store') }}" method="POST" id="formPemasukan">
+        <form action="{{ route('uang_saku.store') }}" method="POST" id="formPemasukan">
             @csrf
                 <div class="mb-4">
                     <label for="jumlah" class="block text-gray-700 text-sm font-medium mb-2">
@@ -111,6 +116,15 @@
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+                    <label class="font-medium">Tanggal</label>
+                    <input type="date" name="tanggal" class="w-full p-2 border rounded mt-1" required>
+                    @error('tanggal') 
+                        <p class="text-red-500 text-sm">{{ $message }}</p> 
+                    @enderror
+                </div>
+
                 <div class="mb-4">
                     <label for="keterangan" class="block text-gray-700 text-sm font-medium mb-2">
                         Keterangan
@@ -132,10 +146,7 @@
                             class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
                         Batal
                     </button>
-                    <button type="submit"
-                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all transform hover:scale-105">
-                        Simpan
-                    </button>
+                    <x-btn-save form="formPemasukan"/>
                 </div>
         </form>
     </x-animated-modal>

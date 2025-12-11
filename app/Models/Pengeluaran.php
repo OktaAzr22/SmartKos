@@ -10,19 +10,24 @@ class Pengeluaran extends Model
     use HasFactory;
 
     protected $table = 'pengeluaran';
-    protected $primaryKey = 'id_pengeluaran';
+
     protected $fillable = [
-        'id_user', 'id_kategori', 'jumlah', 'tanggal_pengeluaran', 'deskripsi'
+        'user_id',
+        'id_kategori',
+        'jumlah',
+        'keterangan',
+        'tanggal',
     ];
 
     public function kategori()
     {
-        return $this->belongsTo(KategoriPengeluaran::class, 'id_kategori');
+        return $this->belongsTo(KategoriPengeluaran::class, 'id_kategori', 'id_kategori');
     }
 
+    // Relasi ke user
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class);
     }
 }
 

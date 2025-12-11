@@ -25,6 +25,8 @@
 
     <div class="flex-1 flex flex-col overflow-hidden">       
       @include('partials.header')
+     
+
       
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')

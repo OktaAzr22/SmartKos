@@ -1,0 +1,13 @@
+untuk pengeluaran
+return redirect()
+                ->route('pengeluaran.index')
+                ->with('success', 'Pengeluaran berhasil dicatat dan saldo diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', $e->getMessage())
+                ->withInput();
+        }
+        return redirect()
+            ->route('pengeluaran.index')
+            ->with('success', 'Data pengeluaran berhasil dihapus!');

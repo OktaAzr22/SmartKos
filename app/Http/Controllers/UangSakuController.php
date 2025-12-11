@@ -11,85 +11,32 @@ class UangSakuController extends Controller
 {
     public function index()
     {
-        $uangSaku = UangSaku::where('id_user', Auth::id())
-            ->latest()
+        $data = UangSaku::where('user_id', Auth::id())
+            ->orderBy('tanggal', 'desc')
             ->paginate(5);
 
-        return view('keuangan.pemasukan.index', compact('uangSaku'));
-    }
-
-    public function create()
-    {
-        return view('keuangan.pemasukan.create');
+        return view('uang_saku.index', compact('data'));
     }
 
     public function store(Request $request)
     {
-        try {
-            
-            $request->validate([
-                'jumlah' => [
-                    'required',
-                    'numeric',
-                    'min:2',
-                    'max:9999999999999', 
-                ],
-                'keterangan' => 'nullable|string|max:255',
-            ], [
-                'jumlah.required' => 'Jumlah nominal wajib diisi.',
-                'jumlah.numeric' => 'Masukkan hanya angka untuk jumlah nominal.',
-                'jumlah.min' => 'Nominal minimal adalah 1.',
-                'jumlah.max' => 'Masukkan jumlah nominal yang valid (tidak boleh terlalu besar).',
-            ]);
+        $request->validate([
+            'jumlah' => 'required|numeric|min:1',
+            'tanggal' => 'required|date',
+        ]);
 
-            $userId = Auth::id();
+        $pemasukan = UangSaku::create([
+            'user_id' => Auth::id(),
+            'jumlah' => $request->jumlah,
+            'keterangan' => $request->keterangan,
+            'tanggal' => $request->tanggal,
+        ]);
 
-            $uangSaku = UangSaku::create([
-                'id_user' => $userId,
-                'jumlah' => $request->jumlah,
-                'keterangan' => $request->keterangan,
-            ]);
+        // Update saldo
+        $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
+        $saldo->saldo += $pemasukan->jumlah;
+        $saldo->save();
 
-            $bulan = date('F');
-            $tahun = date('Y');
-
-            $saldo = SaldoUser::where('id_user', $userId)
-                ->where('bulan', $bulan)
-                ->where('tahun', $tahun)
-                ->first();
-
-            if ($saldo) {
-    
-                $saldo->saldo_sekarang += $request->jumlah;
-                $saldo->save();
-            } else {
-
-                SaldoUser::create([
-                    'id_user' => $userId,
-                    'saldo_awal' => $request->jumlah,
-                    'saldo_sekarang' => $request->jumlah,
-                    'bulan' => $bulan,
-                    'tahun' => $tahun,
-                ]);
-            }
-
-            return redirect()
-                ->back()
-                ->with('success', 'Setoran uang saku berhasil disimpan!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            
-            return redirect()
-                ->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('modal', 'modalPemasukan');
-        } catch (\Throwable $th) {
-
-            return redirect()
-                ->back()
-                ->with('error', 'Terjadi kesalahan saat menyimpan data. Pastikan jumlah nominal valid.')
-                ->withInput()
-                ->with('modal', 'modalPemasukan');
-        }
+        return back()->with('success', 'Pemasukan berhasil ditambahkan');
     }
 }

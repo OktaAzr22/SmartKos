@@ -10,14 +10,16 @@ class SaldoUser extends Model
     use HasFactory;
 
     protected $table = 'saldo_user';
-    protected $primaryKey = 'id_saldo';
+
     protected $fillable = [
-        'id_user', 'saldo_awal', 'saldo_sekarang', 'bulan', 'tahun'
+        'user_id',
+        'saldo',
     ];
 
+    // Relasi ke user
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class);
     }
 }
 

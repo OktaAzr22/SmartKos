@@ -9,13 +9,21 @@ class UangSaku extends Model
     use HasFactory;
 
     protected $table = 'uang_saku';
-    protected $primaryKey = 'id_uang_saku';
-    protected $fillable = ['id_user', 'jumlah', 'keterangan'];
 
-    public $timestamps = true;
-        
+    protected $fillable = [
+        'user_id',
+        'jumlah',
+        'keterangan',
+        'tanggal',
+    ];
+
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+
+    // Relasi ke user
     public function user()
-        {
-            return $this->belongsTo(User::class, 'id_user');
-        }
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -34,21 +34,29 @@
                             <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('keuangan.kategori.*') ? 'text-primary-500' : 'text-gray-400' }}"></i>
                             <span>Kategori Keuangan</span>
                         </a>
-                        <a href="{{ route('uang-saku.index') }}" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('uang-saku.index') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
-                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('uang-saku.index') ? 'text-primary-500' : 'text-gray-400' }}"></i>
+                        <a href="{{ route('uang_saku.index') }}" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('uang_saku.*') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
+                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('uang_saku.*') ? 'text-primary-500' : 'text-gray-400' }}"></i>
                             <span>Pemasukan</span>
                         </a>
-                        <a href="{{ route('pengeluaran.index') }}" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('pengeluaran.index') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
-                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('pengeluaran.index') ? 'text-primary-500' : 'text-gray-400' }}"></i>
+                        <a href="{{ route('pengeluaran.index') }}" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('pengeluaran.*') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
+                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('pengeluaran.*') ? 'text-primary-500' : 'text-gray-400' }}"></i>
                             <span>Pengeluaran</span>
                         </a>
                     </div>
                 </div>
                 
-                <a href="{{ route('rekap.index') }}" class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 {{ request()->routeIs('rekap.index') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500' : '' }}">
+                {{-- <a href="{{ route('rekap.index') }}" class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 {{ request()->routeIs('rekap.index') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500' : '' }}">
                     <i class="fas fa-chart-bar mr-3"></i>
                     <span class="font-medium">Rekap</span>
+                </a> --}}
+
+                <a href="{{ route('rekap.index') }}" 
+                    class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 
+                    {{ request()->routeIs('rekap.*') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500' : '' }}">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span class="font-medium">Rekap User</span>
                 </a>
+
                 
                 <button onclick="openDevModal()" class="menu-item flex items-center w-full px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200">
                     <i class="fas fa-users mr-3"></i>

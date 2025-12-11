@@ -10,14 +10,21 @@ class RekapBulanan extends Model
     use HasFactory;
 
     protected $table = 'rekap_bulanan';
-    protected $primaryKey = 'id_rekap';
+
     protected $fillable = [
-        'id_user', 'bulan', 'tahun', 'total_pemasukan', 'total_pengeluaran', 'saldo_akhir', 'tanggal_rekap'
+        'user_id',
+        'bulan',
+        'tahun',
+        'total_pemasukan',
+        'total_pengeluaran',
+        'saldo_awal',
+        'saldo_akhir',
     ];
 
-    public function user()
+    // Formatting jika ingin tampil nama bulan
+    public function getNamaBulanAttribute()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return \Carbon\Carbon::create()->month($this->bulan)->translatedFormat('F');
     }
 }
 

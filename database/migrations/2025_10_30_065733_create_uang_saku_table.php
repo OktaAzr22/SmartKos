@@ -12,11 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('uang_saku', function (Blueprint $table) {
-            $table->id('id_uang_saku');
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->decimal('jumlah', 12, 2);
-            $table->string('keterangan', 255)->nullable();
+            $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->bigInteger('jumlah');
+            $table->text('keterangan')->nullable();
+            $table->date('tanggal');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('set null');
         });
     }
 

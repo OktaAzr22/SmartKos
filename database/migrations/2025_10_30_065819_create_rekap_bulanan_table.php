@@ -12,14 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rekap_bulanan', function (Blueprint $table) {
-            $table->id('id_rekap');
-            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->string('bulan', 20);
-            $table->year('tahun');
-            $table->decimal('total_pemasukan', 12, 2)->default(0);
-            $table->decimal('total_pengeluaran', 12, 2)->default(0);
-            $table->decimal('saldo_akhir', 12, 2)->default(0);
+            $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');  
+            $table->unsignedTinyInteger('bulan');     // 1 - 12
+            $table->unsignedSmallInteger('tahun');    // 2024, 2025, dst
+            $table->bigInteger('total_pemasukan')->default(0);
+            $table->bigInteger('total_pengeluaran')->default(0);
+            $table->bigInteger('saldo_awal')->default(0);
+            $table->bigInteger('saldo_akhir')->default(0);
             $table->timestamps();
+
+            // Mencegah rekap dobel dalam 1 bulan
+            $table->unique(['user_id', 'bulan', 'tahun']);
         });
     }
 

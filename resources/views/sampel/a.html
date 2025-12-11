@@ -220,18 +220,18 @@
                     </nav>
                 </div>
 
-                <!-- Tabel Ringkasan Keuangan Bulanan -->
-                <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <!-- TABEL BARU: Laporan Keuangan Bulanan -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Ringkasan Keuangan Bulanan</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">Laporan Keuangan Bulanan</h3>
                         <div class="flex space-x-2">
                             <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                <i class="fas fa-filter"></i>
-                                <span>Filter</span>
+                                <i class="fas fa-plus"></i>
+                                <span>Tambah Bulan</span>
                             </button>
                             <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                <i class="fas fa-download"></i>
-                                <span>Export</span>
+                                <i class="fas fa-print"></i>
+                                <span>Cetak Laporan</span>
                             </button>
                         </div>
                     </div>
@@ -240,123 +240,229 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bulan</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pemasukan</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Pengeluaran</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bulan Tahun</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemasukan (Rp)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengeluaran (Rp)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Awal (Rp)</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir (Rp)</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Data Bulan Januari 2024 -->
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Januari</div>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">Januari 2024</div>
+                                                <div class="text-xs text-gray-500">31 hari</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">2023</div>
+                                        <div class="text-sm font-medium text-green-600">Rp 15.500.000</div>
+                                        <div class="text-xs text-gray-500">+12% dari bulan lalu</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 15.250.000</div>
+                                        <div class="text-sm font-medium text-red-600">Rp 9.250.000</div>
+                                        <div class="text-xs text-gray-500">-5% dari bulan lalu</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Rp 8.000.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-bold text-gray-900">Rp 14.250.000</div>
+                                        <div class="text-xs text-green-600 font-medium">Profit: Rp 6.250.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700 p-1 rounded hover:bg-primary-50">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Data Bulan Desember 2023 -->
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">Desember 2023</div>
+                                                <div class="text-xs text-gray-500">31 hari</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 13.850.000</div>
+                                        <div class="text-xs text-gray-500">+8% dari bulan sebelumnya</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-red-600">Rp 9.750.000</div>
+                                        <div class="text-xs text-gray-500">+15% dari bulan sebelumnya</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Rp 4.900.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-bold text-gray-900">Rp 8.000.000</div>
+                                        <div class="text-xs text-green-600 font-medium">Profit: Rp 4.100.000</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700 p-1 rounded hover:bg-primary-50">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Data Bulan November 2023 -->
+                                <tr class="hover:bg-gray-50 transition duration-150">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">November 2023</div>
+                                                <div class="text-xs text-gray-500">30 hari</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-green-600">Rp 12.800.000</div>
+                                        <div class="text-xs text-gray-500">+5% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-red-600">Rp 8.500.000</div>
+                                        <div class="text-xs text-gray-500">+2% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-blue-600">Rp 6.750.000</div>
+                                        <div class="text-sm font-medium text-gray-900">Rp 1.600.000</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-gray-500 hover:text-primary-700">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                        <div class="text-sm font-bold text-gray-900">Rp 4.900.000</div>
+                                        <div class="text-xs text-green-600 font-medium">Profit: Rp 4.300.000</div>
                                     </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition duration-150">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Februari</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">2023</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 12.750.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp 9.200.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-blue-600">Rp 3.550.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-gray-500 hover:text-primary-700">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700 p-1 rounded hover:bg-primary-50">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
+                                
+                                <!-- Data Bulan Oktober 2023 -->
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Maret</div>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">Oktober 2023</div>
+                                                <div class="text-xs text-gray-500">31 hari</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">2023</div>
+                                        <div class="text-sm font-medium text-green-600">Rp 12.200.000</div>
+                                        <div class="text-xs text-gray-500">-3% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 18.500.000</div>
+                                        <div class="text-sm font-medium text-red-600">Rp 8.300.000</div>
+                                        <div class="text-xs text-gray-500">+7% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp 10.750.000</div>
+                                        <div class="text-sm font-medium text-gray-900">Rp -700.000</div>
+                                        <div class="text-xs text-red-600">Defisit</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-blue-600">Rp 7.750.000</div>
+                                        <div class="text-sm font-bold text-gray-900">Rp 1.600.000</div>
+                                        <div class="text-xs text-green-600 font-medium">Profit: Rp 3.900.000</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-gray-500 hover:text-primary-700">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700 p-1 rounded hover:bg-primary-50">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
+                                
+                                <!-- Data Bulan September 2023 -->
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">April</div>
+                                        <div class="flex items-center">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <div class="text-sm font-medium text-gray-900">September 2023</div>
+                                                <div class="text-xs text-gray-500">30 hari</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">2023</div>
+                                        <div class="text-sm font-medium text-green-600">Rp 12.600.000</div>
+                                        <div class="text-xs text-gray-500">+15% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 16.800.000</div>
+                                        <div class="text-sm font-medium text-red-600">Rp 7.800.000</div>
+                                        <div class="text-xs text-gray-500">+10% dari bulan sebelumnya</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp 11.300.000</div>
+                                        <div class="text-sm font-medium text-gray-900">Rp -4.900.000</div>
+                                        <div class="text-xs text-red-600">Defisit</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-blue-600">Rp 5.500.000</div>
+                                        <div class="text-sm font-bold text-gray-900">Rp -700.000</div>
+                                        <div class="text-xs text-green-600 font-medium">Profit: Rp 4.800.000</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-gray-500 hover:text-primary-700">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition duration-150">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">Mei</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-500">2023</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 14.200.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp 9.800.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-blue-600">Rp 4.400.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button class="text-gray-500 hover:text-primary-700">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <div class="flex space-x-2">
+                                            <button class="text-primary-500 hover:text-primary-700 p-1 rounded hover:bg-primary-50">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-yellow-500 hover:text-yellow-700 p-1 rounded hover:bg-yellow-50">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="text-red-500 hover:text-red-700 p-1 rounded hover:bg-red-50">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -366,7 +472,7 @@
                     <!-- Table Footer -->
                     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
                         <div class="text-sm text-gray-500">
-                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">5</span> results
+                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">12</span> months
                         </div>
                         <div class="flex space-x-2">
                             <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
@@ -376,13 +482,19 @@
                                 1
                             </button>
                             <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                2
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                                3
+                            </button>
+                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                                 Next
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Table Section Two -->
+                <!-- Table Section Two (Original Table) -->
                 <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
                         <h3 class="text-lg font-semibold text-gray-900">Tabel Transaksi Keuangan</h3>
@@ -509,19 +621,28 @@
             });
         });
 
-        // Fungsi untuk icon mata (view)
+        // Fungsi untuk icon mata (view) pada tabel baru
         document.querySelectorAll('.fa-eye').forEach(icon => {
             icon.addEventListener('click', function() {
-                // Ambil data dari baris tabel
+                // Ambil data dari baris tabel baru (laporan keuangan bulanan)
                 const row = this.closest('tr');
-                const bulan = row.cells[0].textContent;
-                const tahun = row.cells[1].textContent;
-                const pemasukan = row.cells[2].textContent;
-                const pengeluaran = row.cells[3].textContent;
-                const saldo = row.cells[4].textContent;
+                const bulanTahun = row.cells[0].querySelector('.text-sm.font-medium').textContent;
+                const pemasukan = row.cells[1].querySelector('.text-sm.font-medium').textContent;
+                const pengeluaran = row.cells[2].querySelector('.text-sm.font-medium').textContent;
+                const saldoAwal = row.cells[3].querySelector('.text-sm.font-medium').textContent;
+                const saldoAkhir = row.cells[4].querySelector('.text-sm.font-bold').textContent;
                 
-                // Tampilkan alert dengan detail (bisa diganti dengan modal atau halaman detail)
-                alert(`Detail Keuangan ${bulan} ${tahun}:\n\nPemasukan: ${pemasukan}\nPengeluaran: ${pengeluaran}\nSaldo Akhir: ${saldo}`);
+                // Hitung profit/loss
+                const profitElement = row.cells[4].querySelector('.text-xs.text-green-600');
+                const profit = profitElement ? profitElement.textContent : 'Tidak tersedia';
+                
+                // Tampilkan modal atau alert dengan detail
+                alert(`Detail Laporan Keuangan ${bulanTahun}:\n\n` +
+                      `Pemasukan: ${pemasukan}\n` +
+                      `Pengeluaran: ${pengeluaran}\n` +
+                      `Saldo Awal: ${saldoAwal}\n` +
+                      `Saldo Akhir: ${saldoAkhir}\n` +
+                      `Status: ${profit}`);
             });
         });
 

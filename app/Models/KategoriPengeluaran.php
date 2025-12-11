@@ -15,6 +15,6 @@ class KategoriPengeluaran extends Model
 
     public function pengeluaran()
     {
-        return $this->hasMany(Pengeluaran::class, 'id_kategori');
+        return $this->hasMany(Pengeluaran::class, 'id_kategori', 'id_kategori');
     }
 }
