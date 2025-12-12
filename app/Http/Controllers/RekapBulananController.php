@@ -8,8 +8,10 @@ use App\Models\SaldoUser;
 use App\Models\UangSaku;
 use App\Models\Pengeluaran;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RekapBulananController extends Controller
 {
@@ -25,14 +27,14 @@ class RekapBulananController extends Controller
 
     public function prosesRekap()
     {
-        $bulan = 4;
-        $tahun = 2026;
+        $bulan = Carbon::now()->month;
+        $tahun = Carbon::now()->year;
 
         if (RekapBulanan::where('bulan', $bulan)
             ->where('tahun', $tahun)
             ->where('user_id', Auth::id())
             ->exists()) {
-            return back()->with('error', 'Rekap bulan ini sudah dilakukan!');
+            return back()->with('warning', 'Rekap bulan ini sudah dilakukan!');
         }
 
         $saldoUser = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
@@ -52,20 +54,18 @@ class RekapBulananController extends Controller
             ->whereYear('tanggal', $tahun)
             ->sum('jumlah');
 
-        // =============================
-        // LOGIC YANG BENAR SESUAI MAUMU
-        // =============================
+        
 
         if ($rekapSebelumnya) {
-            // bukan bulan pertama
+            
             $saldo_awal = $rekapSebelumnya->saldo_akhir;
             $saldo_akhir = $saldo_awal + $total_pemasukan - $total_pengeluaran;
 
         } else {
-            // bulan pertama
-            $saldo_awal = $saldoUser->saldo;  // contoh: 10.000
+            
+            $saldo_awal = $saldoUser->saldo;  
             $saldo_akhir = $total_pemasukan - $total_pengeluaran; 
-            // contoh: 10.000 - 2.000 = 8.000 ✔
+            
         }
 
         RekapBulanan::create([
@@ -78,10 +78,73 @@ class RekapBulananController extends Controller
             'saldo_akhir' => $saldo_akhir,
         ]);
 
-        // update saldo user agar sinkron
+        
         $saldoUser->saldo = $saldo_akhir;
         $saldoUser->save();
 
         return back()->with('success', 'Rekap bulanan selesai!');
+    }
+
+    public function cetakPDF($id)
+    {
+        $rekap = RekapBulanan::where('user_id', Auth::id())
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $pemasukan = UangSaku::where('user_id', Auth::id())
+            ->whereMonth('tanggal', $rekap->bulan)
+            ->whereYear('tanggal', $rekap->tahun)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        $pengeluaran = Pengeluaran::with('kategori')
+            ->where('user_id', Auth::id())
+            ->whereMonth('tanggal', $rekap->bulan)
+            ->whereYear('tanggal', $rekap->tahun)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        $bulanNama = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+
+        $pdf = Pdf::loadView('rekap.pdf', [
+            'rekap'        => $rekap,
+            'pemasukan'    => $pemasukan,
+            'pengeluaran'  => $pengeluaran,
+            'bulanNama'    => $bulanNama
+        ]);
+
+        return $pdf->stream("Rekap-{$bulanNama}-{$rekap->tahun}.pdf");
+    }
+
+    /**
+     * Halaman Detail (Hanya tampilkan data)
+     */
+    public function detail($id)
+    {
+        $rekap = RekapBulanan::where('user_id', Auth::id())->findOrFail($id);
+
+        $bulan = $rekap->bulan;
+        $tahun = $rekap->tahun;
+
+        $pemasukan = UangSaku::where('user_id', Auth::id())
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get();
+
+        $pengeluaran = Pengeluaran::where('user_id', Auth::id())
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get();
+
+        $bulanNama = Carbon::create()->month($bulan)->translatedFormat('F');
+
+        return view('rekap.detail', compact(
+            'rekap',
+            'bulanNama',
+            'pemasukan',
+            'pengeluaran',
+            'bulan',
+            'tahun'
+        ));
     }
 }

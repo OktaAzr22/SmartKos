@@ -2,88 +2,75 @@
 
 @section('content')
 
+@if($rekap->count() == 0)
+    <p>Belum ada data rekap bulanan.</p>
 
-                
+    <form action="{{ route('rekap.proses') }}" method="POST">
+        @csrf
+        <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+            <i class="fas fa-plus"></i>
+            <span>Rekap Bulanan</span>
+        </button>
+    </form>
 
-                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+@else
 
-                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Laporan Keuangan Bulanan</h3>
-                        <div class="flex space-x-2">
-                            <form action="{{ route('rekap.proses') }}" method="POST">
-                                @csrf
-                                <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Rekap Bulanan</span>
-                                </button>
-                            </form>
-                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                <i class="fas fa-print"></i>
-                                <span>Cetak Laporan</span>
-                            </button>
-                        </div>
-                    </div>
+<div>
 
-                    @if($rekap->count() == 0)
-                        <p class="text-gray-600">Belum ada data rekap bulanan.</p>
-                    @else
+    {{-- Tombol Rekap Baru --}}
+    <form action="{{ route('rekap.proses') }}" method="POST" class="mb-4">
+        @csrf
+        <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+            <i class="fas fa-plus"></i>
+            <span>Rekap Bulanan</span>
+        </button>
+    </form>
 
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Bulan Tahun
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Pemasukan (Rp)
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Pengeluaran (Rp)
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Saldo Awal (Rp)
-                                        </th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Saldo Akhir (Rp)
-                                        </th>
-                                    </tr>
-                                </thead>
+    <table class="table-auto w-full border-collapse">
+        <thead>
+            <tr>
+                <th>Transaksi</th>
+                <th>Pemasukan (Rp)</th>
+                <th>Pengeluaran (Rp)</th>
+                <th>Saldo Awal (Rp)</th>
+                <th>Saldo Akhir (Rp)</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
 
-                                <tbody class="bg-white divide-y divide-gray-200">
-                                    @foreach($rekap as $r)
-                                        
-                                    <tr class="hover:bg-gray-50 transition duration-150">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                                                    <i class="fas fa-calendar-alt text-blue-600 text-sm"></i>
-                                                </div>
-                                                <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::create()->month($r->bulan)->translatedFormat('F') }} {{ $r->tahun }}</div>
-                                            </div>
-                                        </td>
+        <tbody>
+            @foreach($rekap as $r)
+                <tr>
+                    <td>
+                        {{ \Carbon\Carbon::create()->month($r->bulan)->translatedFormat('F') }} 
+                        {{ $r->tahun }}
+                    </td>
 
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-green-600">Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</div>
-                                        </td>
+                    <td>Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($r->saldo_awal, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</td>
 
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-red-600">Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</div>
-                                        </td>
+                    <td class="border p-2 space-x-2">
 
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">Rp {{ number_format($r->saldo_awal, 0, ',', '.') }}</div>
-                                        </td>
+                        <a href="{{ route('rekap.detail', $r->id) }}"
+                           class="px-3 py-1 bg-blue-500 text-white rounded">
+                           Detail
+                        </a>
 
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-bold text-gray-900">Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    @endif
-                </div>
+                        <a href="{{ route('rekap.cetak', $r->id) }}"
+                           target="_blank"
+                           class="px-3 py-1 bg-green-600 text-white rounded">
+                           Cetak
+                        </a>
+
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+@endif
 
 @endsection

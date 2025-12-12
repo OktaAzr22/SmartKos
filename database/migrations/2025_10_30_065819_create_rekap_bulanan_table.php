@@ -20,9 +20,10 @@ return new class extends Migration
             $table->bigInteger('total_pengeluaran')->default(0);
             $table->bigInteger('saldo_awal')->default(0);
             $table->bigInteger('saldo_akhir')->default(0);
+            $table->boolean('is_printed')->default(false);
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
 
-            // Mencegah rekap dobel dalam 1 bulan
             $table->unique(['user_id', 'bulan', 'tahun']);
         });
     }

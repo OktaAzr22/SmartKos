@@ -5,7 +5,7 @@
     $last = array_key_last($breadcrumbs);
 @endphp
 
-<div class="mb-6 flex justify-between items-center">
+<div class="mb-4 flex justify-between items-center">
 
     <!-- Judul / Last Breadcrumb -->
     <h3 class="text-lg font-semibold text-gray-900">

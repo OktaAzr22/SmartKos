@@ -19,6 +19,8 @@ class RekapBulanan extends Model
         'total_pengeluaran',
         'saldo_awal',
         'saldo_akhir',
+        'is_printed',
+        'pdf_path',
     ];
 
     // Formatting jika ingin tampil nama bulan
