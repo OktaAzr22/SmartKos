@@ -89,9 +89,9 @@
     {{-- Tombol Cetak --}}
     <div class="mt-6">
         <a href="{{ route('rekap.cetak', $rekap->id) }}" target="_blank"
-           class="px-4 py-2 bg-blue-600 text-white rounded">
-           Cetak PDF
-        </a>
+   class="px-4 py-2 bg-blue-600 text-white rounded">
+   Cetak PDF
+</a>
     </div>
 
 </div>

@@ -21,10 +21,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/kategori', KategoriPengeluaranController::class)->names('keuangan.kategori');
 
-    Route::get('/pengeluaran', [PengeluaranController::class, 'index'])->name('pengeluaran.index');
-    Route::post('/pengeluaran', [PengeluaranController::class, 'store'])->name('pengeluaran.store');
-    Route::get('/pengeluaran/create', [PengeluaranController::class, 'create'])
-    ->name('pengeluaran.create');
+    Route::resource('/pengeluaran', PengeluaranController::class)
+        ->only(['index', 'store', 'create']);
 
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -52,11 +50,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/rekap/{id}/detail', [RekapBulananController::class, 'detail'])
         ->name('rekap.detail');
 
-    // PDF: VIEW DI BROWSER
-    Route::get('/rekap/view-pdf/{id}', [RekapBulananController::class, 'viewPdf'])
-        ->name('rekap.viewPdf');
+     // CETAK & GENERATE PDF (pertama kali)
+Route::get('/rekap/{id}/cetak', [RekapBulananController::class, 'cetakPDF'])
+    ->name('rekap.cetak');
 
-    // PDF: DOWNLOAD FILE
-    Route::get('/rekap/{id}/cetak', [RekapBulananController::class, 'cetakPDF'])
-        ->name('rekap.cetak');
+// VIEW PDF YANG SUDAH ADA
+Route::get('/rekap/{id}/pdf', [RekapBulananController::class, 'viewPdf'])
+    ->name('rekap.viewPdf');
+
+    
 });

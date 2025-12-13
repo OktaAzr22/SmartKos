@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('rekap_bulanan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');  
-            $table->unsignedTinyInteger('bulan');     // 1 - 12
-            $table->unsignedSmallInteger('tahun');    // 2024, 2025, dst
+            $table->unsignedTinyInteger('bulan');     
+            $table->unsignedSmallInteger('tahun');    
             $table->bigInteger('total_pemasukan')->default(0);
             $table->bigInteger('total_pengeluaran')->default(0);
             $table->bigInteger('saldo_awal')->default(0);

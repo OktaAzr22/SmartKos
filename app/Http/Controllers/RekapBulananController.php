@@ -87,9 +87,15 @@ class RekapBulananController extends Controller
 
     public function cetakPDF($id)
     {
-        $rekap = RekapBulanan::where('user_id', Auth::id())
-            ->where('id', $id)
+        $rekap = RekapBulanan::where('id', $id)
+            ->where('user_id', Auth::id())
             ->firstOrFail();
+
+        $bulanNama = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+        $fileName = "Rekap-{$bulanNama}-{$rekap->tahun}.pdf";
+
+        $path = "rekap/user_{$rekap->user_id}/{$rekap->tahun}/{$fileName}";
+        $fullPath = storage_path('app/'.$path);
 
         $pemasukan = UangSaku::where('user_id', Auth::id())
             ->whereMonth('tanggal', $rekap->bulan)
@@ -104,21 +110,33 @@ class RekapBulananController extends Controller
             ->orderBy('tanggal', 'asc')
             ->get();
 
-        $bulanNama = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+        if (!is_dir(dirname($fullPath))) {
+            mkdir(dirname($fullPath), 0755, true);
+        }
 
-        $pdf = Pdf::loadView('rekap.pdf', [
-            'rekap'        => $rekap,
-            'pemasukan'    => $pemasukan,
-            'pengeluaran'  => $pengeluaran,
-            'bulanNama'    => $bulanNama
+        $user = Auth::user();
+
+        $pdf = Pdf::loadView('rekap.pdf', compact(
+        'rekap',
+        'pemasukan',
+        'pengeluaran',
+        'bulanNama',
+        'user'
+    ))->setPaper('A4', 'portrait');
+
+        file_put_contents($fullPath, $pdf->output());
+
+        $rekap->update([
+            'pdf_path'   => $path,
+            'is_printed' => true
         ]);
 
-        return $pdf->stream("Rekap-{$bulanNama}-{$rekap->tahun}.pdf");
+        return response()->file($fullPath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ]);
     }
 
-    /**
-     * Halaman Detail (Hanya tampilkan data)
-     */
     public function detail($id)
     {
         $rekap = RekapBulanan::where('user_id', Auth::id())->findOrFail($id);
@@ -146,5 +164,23 @@ class RekapBulananController extends Controller
             'bulan',
             'tahun'
         ));
+    }
+
+    public function viewPdf($id)
+    {
+        $rekap = RekapBulanan::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        abort_unless($rekap->pdf_path, 404);
+
+        $fullPath = storage_path('app/'.$rekap->pdf_path);
+
+        abort_unless(file_exists($fullPath), 404);
+
+        return response()->file($fullPath, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline'
+        ]);
     }
 }
