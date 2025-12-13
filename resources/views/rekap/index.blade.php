@@ -82,7 +82,7 @@
                                     </td>
                                     
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</div>
+                                        <div class="text-sm font-medium text-gray-600">Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</div>
                                         @if(!is_null($r->pemasukan_percent))
                                             <div class="text-xs flex items-center gap-1">
                                                 <span
@@ -103,7 +103,7 @@
                                     </td>
                 
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</div>
+                                        <div class="text-sm font-medium text-gray-600">Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</div>
                                         @if(!is_null($r->pengeluaran_percent))
                                             <div class="text-xs flex items-center gap-1">
                                                 <span
@@ -127,7 +127,7 @@
                                         <div class="text-sm font-medium text-gray-700">Rp {{ number_format($r->saldo_awal, 0, ',', '.') }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-bold text-gray-900">Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</div>
+                                        <div class="text-sm font-bold text-gray-600">Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</div>
                                     </td>
                                     
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
