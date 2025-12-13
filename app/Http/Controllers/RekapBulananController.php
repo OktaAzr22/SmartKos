@@ -16,19 +16,63 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class RekapBulananController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $rekap = RekapBulanan::where('user_id', Auth::id())
-                     ->orderBy('tahun', 'desc')
-                     ->orderBy('bulan', 'desc')
-                     ->get();
+        $tahunDipilih = $request->tahun;
 
-        return view('rekap.index', compact('rekap'));
+        $listTahun = RekapBulanan::where('user_id', auth()->id())
+            ->select('tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        $query = RekapBulanan::where('user_id', auth()->id())
+            ->orderBy('tahun', 'desc')
+            ->orderBy('bulan', 'desc');
+
+        if ($tahunDipilih) {
+            $query->where('tahun', $tahunDipilih);
+        }
+
+        $rekap = $query->paginate(12)->withQueryString();
+
+        foreach ($rekap as $i => $item) {
+            $prev = RekapBulanan::where('user_id', auth()->id())
+                ->where(function ($q) use ($item) {
+                    $q->where('tahun', '<', $item->tahun)
+                    ->orWhere(function ($q2) use ($item) {
+                        $q2->where('tahun', $item->tahun)
+                            ->where('bulan', '<', $item->bulan);
+                    });
+                })
+                ->orderBy('tahun', 'desc')
+                ->orderBy('bulan', 'desc')
+                ->first();
+
+            if ($prev) {
+                $item->pemasukan_percent = $prev->total_pemasukan == 0
+                    ? 0
+                    : round((($item->total_pemasukan - $prev->total_pemasukan) / $prev->total_pemasukan) * 100);
+
+                $item->pengeluaran_percent = $prev->total_pengeluaran == 0
+                    ? 0
+                    : round((($item->total_pengeluaran - $prev->total_pengeluaran) / $prev->total_pengeluaran) * 100);
+            } else {
+                $item->pemasukan_percent = null;
+                $item->pengeluaran_percent = null;
+            }
+        }
+
+        return view('rekap.index', compact(
+            'rekap',
+            'listTahun',
+            'tahunDipilih'
+        ));
     }
 
     public function prosesRekap()
     {
-        $bulan = 01;
+        $bulan = 03;
         $tahun = 2026;
 
         if (RekapBulanan::where('bulan', $bulan)
