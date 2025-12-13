@@ -10,6 +10,7 @@ use App\Models\Pengeluaran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -27,8 +28,8 @@ class RekapBulananController extends Controller
 
     public function prosesRekap()
     {
-        $bulan = Carbon::now()->month;
-        $tahun = Carbon::now()->year;
+        $bulan = 01;
+        $tahun = 2026;
 
         if (RekapBulanan::where('bulan', $bulan)
             ->where('tahun', $tahun)
@@ -87,54 +88,73 @@ class RekapBulananController extends Controller
 
     public function cetakPDF($id)
     {
-        $rekap = RekapBulanan::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        DB::beginTransaction();
 
-        $bulanNama = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
-        $fileName = "Rekap-{$bulanNama}-{$rekap->tahun}.pdf";
+        try {
+            $rekap = RekapBulanan::where('id', $id)
+                ->where('user_id', Auth::id())
+                ->firstOrFail();
 
-        $path = "rekap/user_{$rekap->user_id}/{$rekap->tahun}/{$fileName}";
-        $fullPath = storage_path('app/'.$path);
+            $bulanNama = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+            $fileName = "Rekap-{$bulanNama}-{$rekap->tahun}.pdf";
 
-        $pemasukan = UangSaku::where('user_id', Auth::id())
-            ->whereMonth('tanggal', $rekap->bulan)
-            ->whereYear('tanggal', $rekap->tahun)
-            ->orderBy('tanggal', 'asc')
-            ->get();
+            $path = "rekap/user_{$rekap->user_id}/{$rekap->tahun}/{$fileName}";
+            $fullPath = storage_path('app/'.$path);
 
-        $pengeluaran = Pengeluaran::with('kategori')
-            ->where('user_id', Auth::id())
-            ->whereMonth('tanggal', $rekap->bulan)
-            ->whereYear('tanggal', $rekap->tahun)
-            ->orderBy('tanggal', 'asc')
-            ->get();
+            $pemasukan = UangSaku::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $rekap->bulan)
+                ->whereYear('tanggal', $rekap->tahun)
+                ->orderBy('tanggal', 'asc')
+                ->get();
 
-        if (!is_dir(dirname($fullPath))) {
-            mkdir(dirname($fullPath), 0755, true);
+            $pengeluaran = Pengeluaran::with('kategori')
+                ->where('user_id', Auth::id())
+                ->whereMonth('tanggal', $rekap->bulan)
+                ->whereYear('tanggal', $rekap->tahun)
+                ->orderBy('tanggal', 'asc')
+                ->get();
+
+            if (!is_dir(dirname($fullPath))) {
+                mkdir(dirname($fullPath), 0755, true);
+            }
+
+            $user = Auth::user();
+
+            $pdf = Pdf::loadView('rekap.pdf', compact(
+                'rekap',
+                'pemasukan',
+                'pengeluaran',
+                'bulanNama',
+                'user'
+            ))->setPaper('A4', 'portrait');
+
+            file_put_contents($fullPath, $pdf->output());
+
+            $rekap->update([
+                'pdf_path'   => $path,
+                'is_printed' => true
+            ]);
+
+            UangSaku::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $rekap->bulan)
+                ->whereYear('tanggal', $rekap->tahun)
+                ->delete();
+
+            Pengeluaran::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $rekap->bulan)
+                ->whereYear('tanggal', $rekap->tahun)
+                ->delete();
+
+            DB::commit();
+
+            return response()->file($fullPath, [
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        $user = Auth::user();
-
-        $pdf = Pdf::loadView('rekap.pdf', compact(
-        'rekap',
-        'pemasukan',
-        'pengeluaran',
-        'bulanNama',
-        'user'
-    ))->setPaper('A4', 'portrait');
-
-        file_put_contents($fullPath, $pdf->output());
-
-        $rekap->update([
-            'pdf_path'   => $path,
-            'is_printed' => true
-        ]);
-
-        return response()->file($fullPath, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="'.$fileName.'"'
-        ]);
     }
 
     public function detail($id)
