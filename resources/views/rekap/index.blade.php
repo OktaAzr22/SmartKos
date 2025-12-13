@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<x-breadcrumb />
 @if($rekap->count() == 0)
     <p>Belum ada data rekap bulanan.</p>
 
@@ -20,7 +20,12 @@
 
                 <div class="mb-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Laporan Keuangan Bulanan</h3>
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            Laporan Keuangan 
+                            @if($tahunDipilih)
+                                {{ $tahunDipilih }}
+                            @endif
+                        </h3>
                         <div class="flex items-center space-x-2">
                             <form method="GET">
                                 <div class="flex items-center space-x-1 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300 bg-white">

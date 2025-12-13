@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaldoUserController;
 use App\Http\Controllers\RekapBulananController;
 
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -46,17 +47,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/rekap/proses', [RekapBulananController::class, 'prosesRekap'])
         ->name('rekap.proses');
 
-    // DETAIL REKAP
     Route::get('/rekap/{id}/detail', [RekapBulananController::class, 'detail'])
         ->name('rekap.detail');
 
-     // CETAK & GENERATE PDF (pertama kali)
-Route::get('/rekap/{id}/cetak', [RekapBulananController::class, 'cetakPDF'])
-    ->name('rekap.cetak');
+    Route::get('/rekap/{id}/cetak', [RekapBulananController::class, 'cetakPDF'])
+        ->name('rekap.cetak');
 
-// VIEW PDF YANG SUDAH ADA
-Route::get('/rekap/{id}/pdf', [RekapBulananController::class, 'viewPdf'])
-    ->name('rekap.viewPdf');
-
-    
+    Route::get('/rekap/{id}/pdf', [RekapBulananController::class, 'viewPdf'])
+        ->name('rekap.viewPdf'); 
 });
