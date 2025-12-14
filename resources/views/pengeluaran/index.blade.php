@@ -28,88 +28,76 @@
           </div>
     </div>
 
-      {{-- Jika ada data --}}
       @if($data->count() > 0)
+        <div class="max-h-96 overflow-y-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead class="bg-gray-50 dark:bg-gray-700 sticky top-0 z-10">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium 
+                                    text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Kategori
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium 
+                                    text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Tanggal
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium 
+                                    text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Jumlah Rp
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium 
+                                    text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                            Deskripsi
+                        </th>
+                    </tr>
+                </thead>
 
-      <div class="max-h-96 overflow-y-auto">
-          <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              
-              {{-- Table Head --}}
-              <thead class="bg-gray-50 dark:bg-gray-700 sticky top-0 z-10">
-                  <tr>
-                      <th class="px-6 py-3 text-left text-xs font-medium 
-                                text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Kategori
-                      </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium 
-                                text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Tanggal
-                      </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium 
-                                text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Jumlah Rp
-                      </th>
-                      <th class="px-6 py-3 text-left text-xs font-medium 
-                                text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                          Deskripsi
-                      </th>
-                      
-                  </tr>
-              </thead>
+                <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                    @foreach($data as $item)
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold 
+                                        rounded-full bg-gray-100 dark:bg-gray-700
+                                        text-gray-700 dark:text-gray-200">
+                                {{ $item->kategori->nama_kategori ?? '-' }}
+                            </span>
+                        </td>
 
-              {{-- Table Body --}}
-              <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  @foreach($data as $item)
-                  <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                {{ \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('d M Y') }}
+                            </div>
+                        </td>
 
-                      {{-- Kategori --}}
-                      <td class="px-6 py-4 whitespace-nowrap">
-                          <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold 
-                                      rounded-full bg-gray-100 dark:bg-gray-700
-                                      text-gray-700 dark:text-gray-200">
-                              {{ $item->kategori->nama_kategori ?? '-' }}
-                          </span>
-                      </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-green-600 dark:text-green-400">
+                                Rp {{ number_format($item->jumlah, 0, ',', '.') }}
+                            </div>
+                        </td>
 
-                      {{-- Tanggal --}}
-                      <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                              {{ \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('d M Y') }}
-                          </div>
-                      </td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-600 dark:text-gray-300">
+                                {{ $item->keterangan }}
+                            </div>
+                        </td>
 
-                      {{-- Jumlah --}}
-                      <td class="px-6 py-4 whitespace-nowrap">
-                          <div class="text-sm font-medium text-green-600 dark:text-green-400">
-                              Rp {{ number_format($item->jumlah, 0, ',', '.') }}
-                          </div>
-                      </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <div class="flex space-x-3">
 
-                      {{-- Deskripsi --}}
-                      <td class="px-6 py-4">
-                          <div class="text-sm text-gray-600 dark:text-gray-300">
-                              {{ $item->keterangan }}
-                          </div>
-                      </td>
+                                
 
-                      {{-- Aksi --}}
-                      <td class="px-6 py-4 whitespace-nowrap text-sm">
-                          <div class="flex space-x-3">
+                                
 
-                              
+                            </div>
+                        </td>
 
-                              
+                    </tr>
+                    @endforeach
+                </tbody>
 
-                          </div>
-                      </td>
-
-                  </tr>
-                  @endforeach
-              </tbody>
-
-          </table>
-          
-      </div>
+            </table>
+            
+        </div>
 
       
 {{ $data->links() }}
