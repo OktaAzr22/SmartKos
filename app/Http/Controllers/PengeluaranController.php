@@ -16,19 +16,21 @@ class PengeluaranController extends Controller
     {
         $data = Pengeluaran::where('user_id', Auth::id())
         ->with('kategori')
-        ->latest()->get();
+        ->latest()
+        ->paginate(6);
 
         $kategori = KategoriPengeluaran::all();
 
         return view('pengeluaran.index', compact('data', 'kategori'));
     }
 
-    public function create()
-{
-    $kategori = KategoriPengeluaran::all();
-    return view('pengeluaran.create', compact('kategori'));
-}
+    
 
+    public function create()
+    {
+        $kategori = KategoriPengeluaran::all();
+        return view('pengeluaran.create', compact('kategori'));
+    }
 
     public function store(Request $request)
     {
@@ -38,7 +40,6 @@ class PengeluaranController extends Controller
             'id_kategori'  => 'required|exists:kategori_pengeluaran,id_kategori',
         ]);
 
-        // Ambil saldo user
         $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
 
         if ($saldo->saldo < $request->jumlah) {
@@ -53,7 +54,6 @@ class PengeluaranController extends Controller
             'tanggal' => $request->tanggal,
         ]);
 
-        // Update saldo
         $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
         $saldo->saldo -= $pengeluaran->jumlah;
         $saldo->save();

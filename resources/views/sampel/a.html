@@ -207,191 +207,112 @@
                 </div>
 
                 
-                <!-- Table Section One (New Table - Laporan Keuangan Bulanan) -->
-                <div class="mb-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Laporan Keuangan Bulanan</h3>
-                        <div class="flex items-center space-x-2">
-                            <!-- Select Tahun -->
-                            <div class="flex items-center space-x-1 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300 bg-white">
-                                <i class="fas fa-calendar-alt text-gray-500"></i>
-                                <select class="ml-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm">
-                                    <option value="">Pilih Tahun</option>
-                                    <option value="2024" selected>2024</option>
-                                    <option value="2023">2023</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2021">2021</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Tombol Tambah Laporan -->
-                            <button class="flex items-center space-x-1 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium py-2 px-3 rounded-lg transition duration-150">
-                                <i class="fas fa-plus"></i>
-                                <span>Tambah Laporan</span>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaksi</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemasukan</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengeluaran</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Awal</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <!-- Row 1 - DATA PERTAMA: 3 ICON -->
-                                <tr class="hover:bg-gray-50 transition duration-150">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                                </svg>
-                                            </div>
-                                            <div class="text-left">
-                                                <div class="text-sm font-medium text-gray-900">Januari 2024</div>
-                                                <div class="text-xs text-gray-500">Total transaksi: 45</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 15.250.000</div>
-                                        <div class="text-xs text-gray-500">+12% dari bulan lalu</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-red-600">Rp 8.750.000</div>
-                                        <div class="text-xs text-gray-500">+8% dari bulan lalu</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-700">Rp 12.500.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-bold text-gray-900">Rp 19.000.000</div>
-                                        <div class="text-xs text-green-600">Profit: Rp 6.500.000</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <div class="flex space-x-2">
-                                            <!-- Icon 1: View Details -->
-                                            <button class="view-btn p-2 text-primary-500 hover:text-primary-700 hover:bg-primary-50 rounded transition duration-150" title="View Details">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                            
-                                            <!-- Icon 2: Cetak PDF -->
-                                            <button class="print-btn p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition duration-150" title="Cetak PDF">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                            
-                                            <!-- Icon 3: View Laporan -->
-                                            <button class="view-alt-btn p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded transition duration-150" title="View Laporan">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                   
-                </div>
 
-                <!-- Table Section Two (Original Table) -->
+                
+                
+
                 <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Tabel Transaksi Keuangan</h3>
-                        <div class="flex space-x-2">
-                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                <i class="fas fa-filter"></i>
-                                <span>Filter</span>
-                            </button>
-                            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                                <i class="fas fa-download"></i>
-                                <span>Export</span>
-                            </button>
-                        </div>
-                    </div>
                     
-                    <div class="overflow-x-auto">
+                    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            Tabel Transaksi Keuangan
+                        </h3>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto max-h-96">
                         <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                            <thead class="bg-gray-50 sticky top-0 z-10">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kategori</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah Rp</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Deskripsi</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tipe
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Jumlah Rp
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Deskripsi
+                                    </th>
                                 </tr>
                             </thead>
+
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr class="hover:bg-gray-50 transition duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="status-income px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+                                        <div class="text-sm font-medium text-gray-900">
+                                            15 Jan 2023
+                                        </div>
+                                    </td>
+
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="bg-amber-200 status-income px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
                                             Income
                                         </span>
                                     </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">15 Jan 2023</div>
+                                        <div class="text-sm font-medium text-green-600">
+                                            Rp 5.250.000
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-green-600">Rp 5.250.000</div>
-                                    </td>
+
                                     <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-500">Pembayaran project website perusahaan besar...</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <div class="flex space-x-2">
-                                            <button class="text-primary-500 hover:text-primary-700">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button class="text-gray-500 hover:text-gray-700">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
+                                        <div class="text-sm text-gray-500">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi dolorem explicabo dolorum sunt! Consequatur aspernatur fugit ratione. Culpa ab laborum quaerat, animi quis, blanditiis nemo id molestias veritatis, rem ex labore architecto a. Blanditiis repudiandae quasi voluptatem recusandae, expedita unde velit corporis consequuntur voluptas adipisci impedit nobis fugiat quos ea asperiores dignissimos soluta consequatur! Voluptate repudiandae explicabo culpa ad, atque sint fuga temporibus tempore velit ab accusamus labore saepe consequuntur quibusdam. Eos sequi ullam ex dolorum ad, repudiandae expedita fugit deserunt repellendus illo maiores fugiat voluptatibus consequuntur quidem possimus aliquam pariatur quia tempora nulla! Iusto, illo enim. Sunt, assumenda atque.
                                         </div>
                                     </td>
                                 </tr>
+                               
+                                
+                                
                             </tbody>
                         </table>
                     </div>
-                    
-                    <!-- Table Footer -->
+
+                    <!-- Footer / Pagination -->
                     <div class="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
                         <div class="text-sm text-gray-500">
-                            Showing <span class="font-medium">1</span> to <span class="font-medium">5</span> of <span class="font-medium">15</span> results
+                            Showing
+                            <span class="font-medium">1</span>
+                            to
+                            <span class="font-medium">5</span>
+                            of
+                            <span class="font-medium">15</span>
+                            results
                         </div>
+
                         <div class="flex space-x-2">
-                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                                 Previous
                             </button>
-                            <button class="px-3 py-1 text-sm font-medium text-white bg-primary-500 border border-primary-500 rounded-lg">
+
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-white bg-primary-500 border border-primary-500 rounded-lg">
                                 1
                             </button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                                 2
                             </button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                                 3
                             </button>
-                            <button class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+
+                            <button
+                                class="px-3 py-1 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
                                 Next
                             </button>
                         </div>
                     </div>
                 </div>
+
 
                 <footer class="bg-white border-t border-gray-200 py-4 px-1 mt-6">
                     <div class="text-center">
