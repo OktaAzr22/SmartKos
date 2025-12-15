@@ -63,7 +63,7 @@ class RekapBulananController extends Controller
             }
         }
 
-        return view('rekap.index', compact(
+        return view('keuangan.rekap.index', compact(
             'rekap',
             'listTahun',
             'tahunDipilih'
@@ -123,7 +123,6 @@ class RekapBulananController extends Controller
             'saldo_akhir' => $saldo_akhir,
         ]);
 
-        
         $saldoUser->saldo = $saldo_akhir;
         $saldoUser->save();
 
@@ -164,7 +163,7 @@ class RekapBulananController extends Controller
 
             $user = Auth::user();
 
-            $pdf = Pdf::loadView('rekap.pdf', compact(
+            $pdf = Pdf::loadView('keuangan.rekap.pdf', compact(
                 'rekap',
                 'pemasukan',
                 'pengeluaran',
@@ -220,7 +219,7 @@ class RekapBulananController extends Controller
 
         $bulanNama = Carbon::create()->month($bulan)->translatedFormat('F');
 
-        return view('rekap.detail', compact(
+        return view('keuangan.rekap.detail', compact(
             'rekap',
             'bulanNama',
             'pemasukan',
