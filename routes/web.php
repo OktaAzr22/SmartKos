@@ -10,6 +10,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaldoUserController;
 use App\Http\Controllers\RekapBulananController;
 
+Route::get('/', function () {
+    // kalau sudah login, langsung ke dashboard
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    // halaman statis landing
+    return view('index');
+})->name('home');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
