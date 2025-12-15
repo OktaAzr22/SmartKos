@@ -32,75 +32,110 @@ class DashboardController extends Controller
             ->whereYear('tanggal', now()->year)
             ->sum('jumlah');
 
-         $totalPemasukan = RekapBulanan::where('user_id', $userId)
+        $totalPemasukan = RekapBulanan::where('user_id', $userId)
             ->sum('total_pemasukan');
 
         $totalPengeluaran = RekapBulanan::where('user_id', $userId)
             ->sum('total_pengeluaran');
 
-        $tipe = $request->query('tipe'); // pengeluaran | pemasukan | null
+        $tipe = $request->query('tipe');
 
-    // ===== QUERY PEMASUKAN =====
-    $pemasukan = UangSaku::select(
-            'tanggal',
-            'jumlah',
-            'keterangan',
-            DB::raw("'Pemasukan' as tipe")
-        )
-        ->where('user_id', $userId);
+        $pemasukan = UangSaku::select('tanggal', 'jumlah', 'keterangan', 
+            DB::raw("'Pemasukan' as tipe"))
+            ->where('user_id', $userId);
 
-    // ===== QUERY PENGELUARAN =====
-    $pengeluaran = Pengeluaran::select(
-            'tanggal',
-            'jumlah',
-            'keterangan',
-            DB::raw("'Pengeluaran' as tipe")
-        )
-        ->where('user_id', $userId);
+        $pengeluaran = Pengeluaran::select('tanggal', 'jumlah', 'keterangan', 
+            DB::raw("'Pengeluaran' as tipe"))
+            ->where('user_id', $userId);
 
-    // ===== FILTER TIPE =====
-    if ($tipe === 'pemasukan') {
-        $transaksiAll = $pemasukan
-            ->orderBy('tanggal', 'desc')
+        if ($tipe === 'pemasukan') {
+            $transaksiAll = $pemasukan->orderBy('tanggal', 'desc')->get();
+        } elseif ($tipe === 'pengeluaran') {
+            $transaksiAll = $pengeluaran->orderBy('tanggal', 'desc')->get();
+        } else {
+            $transaksiAll = $pemasukan
+                ->unionAll($pengeluaran)
+                ->orderBy('tanggal', 'desc')
+                ->get();
+        }
+
+        $transaksi = new LengthAwarePaginator(
+            $transaksiAll->forPage(request('page', 1), 5),
+            $transaksiAll->count(),
+            5,
+            request('page', 1),
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
+
+        $tahunTersedia = RekapBulanan::where('user_id', $userId)
+            ->select('tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        $tahun = $tahunTersedia->first();
+
+        $rekapBulanan = RekapBulanan::where('user_id', $userId)
+            ->where('tahun', $tahun)
+            ->orderBy('bulan')
             ->get();
-    } elseif ($tipe === 'pengeluaran') {
-        $transaksiAll = $pengeluaran
-            ->orderBy('tanggal', 'desc')
-            ->get();
-    } else {
-        $transaksiAll = $pemasukan
-            ->unionAll($pengeluaran)
-            ->orderBy('tanggal', 'desc')
-            ->get();
-    }
 
-    // ===== PAGINATION 10 DATA =====
-    $page = request()->get('page', 1);
-    $perPage = 5;
+        $labels = [];
+        $dataPemasukan = [];
+        $dataPengeluaran = [];
+        $dataSaldoAkhir = [];
 
-    $transaksi = new LengthAwarePaginator(
-        $transaksiAll->forPage($page, $perPage),
-        $transaksiAll->count(),
-        $perPage,
-        $page,
-        [
-            'path' => request()->url(),
-            'query' => request()->query(),
-        ]
-    );
-        
-        
-
+        foreach ($rekapBulanan as $rekap) {
+            $labels[] = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+            $dataPemasukan[]   = (int) $rekap->total_pemasukan;
+            $dataPengeluaran[] = (int) $rekap->total_pengeluaran;
+            $dataSaldoAkhir[]  = (int) $rekap->saldo_akhir;
+        }
 
         return view('dashboard.index', compact(
             'saldoSaatIni',
             'pemasukanBulanIni',
-            'totalPemasukan',
             'pengeluaranBulanIni',
+            'totalPemasukan',
             'totalPengeluaran',
             'transaksi',
-            'tipe'
-            
+            'tipe',
+            'labels',
+            'dataPemasukan',
+            'dataPengeluaran',
+            'dataSaldoAkhir',
+            'tahun',
+            'tahunTersedia'
         ));
+    }
+
+    public function chartData(Request $request)
+    {
+        $userId = Auth::id();
+        $tahun = $request->get('tahun');
+
+        $rekapBulanan = RekapBulanan::where('user_id', $userId)
+            ->where('tahun', $tahun)
+            ->orderBy('bulan')
+            ->get();
+
+        $labels = [];
+        $pemasukan = [];
+        $pengeluaran = [];
+        $saldoAkhir = [];
+
+        foreach ($rekapBulanan as $rekap) {
+            $labels[] = Carbon::create()->month($rekap->bulan)->translatedFormat('F');
+            $pemasukan[] = (int) $rekap->total_pemasukan;
+            $pengeluaran[] = (int) $rekap->total_pengeluaran;
+            $saldoAkhir[] = (int) $rekap->saldo_akhir;
+        }
+
+        return response()->json([
+            'labels' => $labels,
+            'pemasukan' => $pemasukan,
+            'pengeluaran' => $pengeluaran,
+            'saldoAkhir' => $saldoAkhir,
+        ]);
     }
 }
