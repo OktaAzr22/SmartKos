@@ -21,15 +21,13 @@ class PengeluaranController extends Controller
 
         $kategori = KategoriPengeluaran::all();
 
-        return view('pengeluaran.index', compact('data', 'kategori'));
+        return view('keuangan.pengeluaran.index', compact('data', 'kategori'));
     }
-
-    
 
     public function create()
     {
         $kategori = KategoriPengeluaran::all();
-        return view('pengeluaran.create', compact('kategori'));
+        return view('keuangan.pengeluaran.create', compact('kategori'));
     }
 
     public function store(Request $request)
@@ -58,6 +56,7 @@ class PengeluaranController extends Controller
         $saldo->saldo -= $pengeluaran->jumlah;
         $saldo->save();
 
-        return back()->with('success', 'Pengeluaran berhasil ditambahkan');
+        return redirect()->route('pengeluaran.index')
+                         ->with('success', 'Pengeluaran berhasil ditambahkan');
     }
 }
