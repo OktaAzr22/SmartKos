@@ -184,7 +184,7 @@
         }
     @endphp
 
-    <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div id="riwayat-transaksi" class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900">
                 Riwayat Transaksi
@@ -218,7 +218,7 @@
                             Tanggal
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <a href="{{ request()->fullUrlWithQuery(['tipe' => $nextTipe, 'page' => 1]) }}">
+                            <a href="{{ request()->fullUrlWithQuery(['tipe' => $nextTipe, 'page' => 1]) . '#riwayat-transaksi' }}">
                                 Tipe
                                 @if ($tipe === 'pemasukan')
                                     <i class="fas fa-arrow-up text-green-500 ml-1"></i>
@@ -282,227 +282,20 @@
                 </tbody>
             </table>
         </div>
-        {{ $transaksi->links() }}
+        {{ $transaksi ->withQueryString() ->fragment('riwayat-transaksi') ->links() }}
     </div>
 
-    
-
-
-    {{-- ================= SCRIPT ================= --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-    let chart;
-
-    function showSkeleton(show = true) {
-        chartSkeleton.classList.toggle('hidden', !show);
-        chartContainer.classList.toggle('hidden', show);
+    window.dashboardChart = {
+        labels: @json($labels),
+        pemasukan: @json($dataPemasukan),
+        pengeluaran: @json($dataPengeluaran),
+        saldo: @json($dataSaldoAkhir),
+        pemasukanBulanIni: {{ $pemasukanBulanIni }},
+        pengeluaranBulanIni: {{ $pengeluaranBulanIni }},
+        chartUrl: "{{ route('dashboard.chart') }}"
     }
-
-    function formatRupiah(v) {
-        return 'Rp ' + new Intl.NumberFormat('id-ID').format(v);
-    }
-
-    function isDark() {
-        return document.documentElement.classList.contains('dark');
-    }
-
-    function getChartDensity(totalMonth) {
-        if (totalMonth <= 3) {
-            return {
-                category: 0.95,
-                bar: 0.7,
-                point: 5,
-                minWidth: 500
-            };
-        }
-
-        if (totalMonth <= 6) {
-            return {
-                category: 0.9,
-                bar: 0.65,
-                point: 4,
-                minWidth: 700
-            };
-        }
-
-        if (totalMonth <= 9) {
-            return {
-                category: 0.8,
-                bar: 0.6,
-                point: 4,
-                minWidth: 850
-            };
-        }
-
-        return {
-            category: 0.7,
-            bar: 0.55,
-            point: 3,
-            minWidth: 1000
-        };
-    }
-
-    function renderChart(labels, pemasukan, pengeluaran, saldo) {
-        const ctx = document.getElementById('grafikBulanan');
-        const dark = isDark();
-
-        const density = getChartDensity(labels.length);
-
-        ctx.parentElement.style.minWidth = density.minWidth + 'px';
-
-        if (chart) chart.destroy();
-
-        chart = new Chart(ctx, {
-            data: {
-                labels,
-                datasets: [
-                    {
-                        type: 'bar',
-                        label: 'Pemasukan',
-                        data: pemasukan,
-                        backgroundColor: dark ? '#22c55e99' : '#22c55e',
-                        borderRadius: 6,
-                        barPercentage: density.bar,
-                        categoryPercentage: density.category,
-                        maxBarThickness: 34,
-                    },
-                    {
-                        type: 'bar',
-                        label: 'Pengeluaran',
-                        data: pengeluaran,
-                        backgroundColor: dark ? '#ef444499' : '#ef4444',
-                        borderRadius: 6,
-                        barPercentage: density.bar,
-                        categoryPercentage: density.category,
-                        maxBarThickness: 32,
-                    },
-                    {
-                        type: 'line',
-                        label: 'Saldo Akhir',
-                        data: saldo,
-                        borderColor: '#3b82f6',
-                        tension: 0.35,
-                        pointRadius: density.point,
-                        pointHoverRadius: density.point + 1
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: { mode: 'index', intersect: false },
-                plugins: {
-                    legend: {
-                        labels: { color: dark ? '#e5e7eb' : '#374151' }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: c =>
-                                `${c.dataset.label}: Rp ${new Intl.NumberFormat('id-ID').format(c.raw)}`
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        offset: true,
-                        ticks: {
-                            maxRotation: 0,
-                            color: dark ? '#e5e7eb' : '#374151'
-                        }
-                    },
-                    y: {
-                        ticks: {
-                            color: dark ? '#e5e7eb' : '#374151',
-                            callback: v => 'Rp ' + new Intl.NumberFormat('id-ID').format(v)
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        showSkeleton(true);
-
-        setTimeout(() => {
-            renderChart(
-                @json($labels),
-                @json($dataPemasukan),
-                @json($dataPengeluaran),
-                @json($dataSaldoAkhir)
-            );
-            showSkeleton(false);
-        }, 400);
-    });
-
-    tahunSelect.addEventListener('change', function () {
-        showSkeleton(true);
-        fetch(`{{ route('dashboard.chart') }}?tahun=${this.value}`)
-            .then(r => r.json())
-            .then(d => {
-                renderChart(d.labels, d.pemasukan, d.pengeluaran, d.saldoAkhir);
-                showSkeleton(false);
-            });
-    });
-
-    new MutationObserver(() => {
-        if (chart) {
-            renderChart(
-                chart.data.labels,
-                chart.data.datasets[0].data,
-                chart.data.datasets[1].data,
-                chart.data.datasets[2].data
-            );
-        }
-    }).observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
 </script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const ctx = document.getElementById('donutBulanIni');
-
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Pemasukan', 'Pengeluaran'],
-                datasets: [{
-                    data: [
-                        {{ $pemasukanBulanIni }},
-                        {{ $pengeluaranBulanIni }}
-                    ],
-                    backgroundColor: ['#22c55e', '#ef4444'],
-                    borderWidth: 2
-                    
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '65%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: c =>
-                                c.label + ': ' + formatRupiah(c.raw)
-                        }
-                    }
-                }
-            }
-        });
-    });
-</script>
-
-
-
-    
-
-
+@vite('resources/js/dashboard.js')
 
 @endsection

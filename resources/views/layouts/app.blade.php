@@ -15,17 +15,18 @@
         }
     </script>
     @vite('resources/css/app.css')
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
       .no-scrollbar {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE & Edge */
-}
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
+      }
 
-.no-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
-}
+      .no-scrollbar::-webkit-scrollbar {
+          display: none; 
+      }
     </style>
     @stack('styles')
 </head>
@@ -35,14 +36,13 @@
 
     <div class="flex-1 flex flex-col overflow-hidden">       
       @include('partials.header')
-     
 
-      
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')
-        {{-- @include('partials.footer') --}}
-      </main>      
+      </main> 
+
     </div>
+    
   </div>  
   <script src="{{ asset('js/app.js') }}"></script>
   @include('components.alert')
