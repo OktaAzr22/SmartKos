@@ -1,53 +1,52 @@
     function showModalById(modalId) {
-    const modal = document.getElementById(modalId);
-    const content = document.getElementById(modalId + '-content');
+        const modal = document.getElementById(modalId);
+        const content = document.getElementById(modalId + '-content');
 
-    if (!modal || !content) return;
+        if (!modal || !content) return;
 
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 10);
-}
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            content.classList.remove('scale-95', 'opacity-0');
+            content.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    }
 
-function hideModalById(modalId) {
-    const modal = document.getElementById(modalId);
-    const content = document.getElementById(modalId + '-content');
+    function hideModalById(modalId) {
+        const modal = document.getElementById(modalId);
+        const content = document.getElementById(modalId + '-content');
 
-    if (!modal || !content) return;
+        if (!modal || !content) return;
 
-    content.classList.remove('scale-100', 'opacity-100');
-    content.classList.add('scale-95', 'opacity-0');
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
 
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 300);
-}
-
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300);
+    }
 
     document.addEventListener('click', function (e) {
-    if (e.target.closest('.close-modal')) {
-        const id = e.target.closest('.close-modal').dataset.modal;
-        hideModalById(id);
-    }
-});
+        if (e.target.closest('.close-modal')) {
+            const id = e.target.closest('.close-modal').dataset.modal;
+            hideModalById(id);
+        }
+    });
 
     function showDeleteModal(modal, content) {
-    modal.classList.remove('hidden');
-    setTimeout(() => {
-        content.classList.remove('scale-95', 'opacity-0');
-        content.classList.add('scale-100', 'opacity-100');
-    }, 50);
-}
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            content.classList.remove('scale-95', 'opacity-0');
+            content.classList.add('scale-100', 'opacity-100');
+        }, 50);
+    }
 
-function hideDeleteModal(modal, content) {
-    content.classList.remove('scale-100', 'opacity-100');
-    content.classList.add('scale-95', 'opacity-0');
-    setTimeout(() => {
-        modal.classList.add('hidden');
-    }, 200);
-}
+    function hideDeleteModal(modal, content) {
+        content.classList.remove('scale-100', 'opacity-100');
+        content.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 200);
+    }
 
 
     document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
