@@ -15,13 +15,13 @@ class UangSakuController extends Controller
             ->orderBy('tanggal', 'desc')
             ->paginate(5);
 
-        return view('uang_saku.index', compact('data'));
+        return view('keuangan.pemasukan.index', compact('data'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'jumlah' => 'required|numeric|min:1',
+            'jumlah' => 'required|numeric|min:2',
             'tanggal' => 'required|date',
         ]);
 
@@ -32,7 +32,6 @@ class UangSakuController extends Controller
             'tanggal' => $request->tanggal,
         ]);
 
-        // Update saldo
         $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
         $saldo->saldo += $pemasukan->jumlah;
         $saldo->save();
