@@ -92,7 +92,7 @@ class DashboardController extends Controller
             $dataSaldoAkhir[]  = (int) $rekap->saldo_akhir;
         }
 
-        return view('dashboard.index', compact(
+        return view('dashboard', compact(
             'saldoSaatIni',
             'pemasukanBulanIni',
             'pengeluaranBulanIni',

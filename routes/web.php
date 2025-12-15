@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/rekap/{id}/pdf', [RekapBulananController::class, 'viewPdf'])
         ->name('rekap.viewPdf'); 
 
-        Route::get('/dashboard/chart', [DashboardController::class, 'chartData'])
+    Route::get('/dashboard/chart', [DashboardController::class, 'chartData'])
     ->name('dashboard.chart');
 
 });

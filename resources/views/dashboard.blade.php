@@ -142,7 +142,7 @@
             <div class="flex flex-col h-full">
 
                 <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-                    Pemasukan vs Pengeluaran
+                    Chart Data
                     <span class="block text-sm text-gray-500">(Bulan Ini)</span>
                 </h2>
 
@@ -150,17 +150,23 @@
                 <div class="flex-1 flex items-center justify-center">
                     <div class="relative w-full max-w-[200px] h-[200px]">
                         <canvas id="donutBulanIni"></canvas>
+                        <div id="donutEmpty"
+                            class="absolute inset-0 flex items-center justify-center text-center
+                                    text-sm text-gray-500 dark:text-gray-400 hidden">
+                            Data belum ada
+                        </div>
                     </div>
                 </div>
 
                 {{-- Legend --}}
-                <div class="mt-4 space-y-2 text-sm">
+                <div class="mt-4 flex items-center justify-center gap-6 text-sm">
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-green-500"></span>
                         <span class="text-gray-700 dark:text-gray-300">
                             Pemasukan
                         </span>
                     </div>
+
                     <div class="flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-red-500"></span>
                         <span class="text-gray-700 dark:text-gray-300">
@@ -168,6 +174,7 @@
                         </span>
                     </div>
                 </div>
+
 
             </div>
         </div>
