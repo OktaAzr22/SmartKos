@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedSmallInteger('tahun');    
             $table->bigInteger('total_pemasukan')->default(0);
             $table->bigInteger('total_pengeluaran')->default(0);
+            $table->bigInteger('total_transaksi')->default(0);
             $table->bigInteger('saldo_awal')->default(0);
             $table->bigInteger('saldo_akhir')->default(0);
             $table->boolean('is_printed')->default(false);

@@ -99,6 +99,19 @@ class RekapBulananController extends Controller
             ->whereYear('tanggal', $tahun)
             ->sum('jumlah');
 
+        $jumlah_pemasukan = UangSaku::where('user_id', Auth::id())
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->count();
+
+        $jumlah_pengeluaran = Pengeluaran::where('user_id', Auth::id())
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->count();
+
+        $total_transaksi = $jumlah_pemasukan + $jumlah_pengeluaran;
+
+
         
 
         if ($rekapSebelumnya) {
@@ -119,6 +132,7 @@ class RekapBulananController extends Controller
             'tahun' => $tahun,
             'total_pemasukan' => $total_pemasukan,
             'total_pengeluaran' => $total_pengeluaran,
+            'total_transaksi' => $total_transaksi,
             'saldo_awal' => $saldo_awal,
             'saldo_akhir' => $saldo_akhir,
         ]);

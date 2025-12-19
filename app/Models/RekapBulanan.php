@@ -17,6 +17,7 @@ class RekapBulanan extends Model
         'tahun',
         'total_pemasukan',
         'total_pengeluaran',
+        'total_transaksi',
         'saldo_awal',
         'saldo_akhir',
         'is_printed',

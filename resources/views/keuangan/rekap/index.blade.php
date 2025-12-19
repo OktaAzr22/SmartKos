@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="text-left">
                                                 <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::create()->month($r->bulan)->translatedFormat('F') }}  {{ $r->tahun }}</div>
-                                                <div class="text-xs text-gray-500">Total transaksi: 99</div>
+                                                <div class="text-xs text-gray-500">Total transaksi: {{ $r->total_transaksi }}</div>
                                             </div>
                                         </div>
                                     </td>
