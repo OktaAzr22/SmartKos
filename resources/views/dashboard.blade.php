@@ -282,15 +282,117 @@
                         </td>
                     </tr>
                     @empty
-                        <tr>
-                            <td colspan="4" align="center">Belum ada transaksi</td>
-                        </tr>
+                        <p class="text-gray-400 text-sm">
+                            Belum ada transaksi
+                        </p>
                     @endforelse
                 </tbody>
             </table>
         </div>
         {{ $transaksi ->withQueryString() ->fragment('riwayat-transaksi') ->links() }}
     </div>
+
+    <div class="bg-white rounded-xl shadow p-4 mt-6">
+
+        <!-- HEADER -->
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h3 class="font-semibold text-gray-800">
+                    Kategori Pengeluaran Teratas
+                </h3>
+                <p class="text-xs text-gray-500">
+                    Ringkasan kategori dengan pengeluaran terbesar
+                </p>
+            </div>
+
+            {{-- DROPDOWN BULAN (HANYA JIKA ADA DATA) --}}
+            @if ($bulanKategoriTersedia->count())
+                <form method="GET">
+                    <select name="bulan_kategori"
+                        class="border rounded-lg px-3 py-1.5 text-sm
+                            focus:ring focus:ring-indigo-200"
+                        onchange="this.form.submit()">
+                        @foreach ($bulanKategoriTersedia as $bulan)
+                            <option value="{{ $bulan }}"
+                                {{ $bulanKategori == $bulan ? 'selected' : '' }}>
+                                {{ \Carbon\Carbon::create()->month($bulan)->translatedFormat('F') }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            @endif
+        </div>
+
+        {{-- ================= DATA ADA ================= --}}
+        @if ($topKategori->count())
+
+            @php
+                $maxNominal = $topKategori->max('total_nominal') ?? 1;
+            @endphp
+
+            @foreach ($topKategori as $index => $item)
+                @php
+                    $percentBar = ($item->total_nominal / $maxNominal) * 100;
+                    $percentTotal = $totalPengeluaranRekap > 0
+                        ? round(($item->total_nominal / $totalPengeluaranRekap) * 100)
+                        : 0;
+                @endphp
+
+                <div class="py-3 border-b last:border-b-0">
+
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-2">
+                            <span class="font-medium text-gray-700">
+                                {{ $item->kategori->nama_kategori }}
+                            </span>
+
+                            @if ($index === 0)
+                                <span class="text-xs px-2 py-0.5 rounded-full
+                                    bg-red-100 text-red-700 font-semibold">
+                                    🔥 Paling Boros
+                                </span>
+                            @elseif ($index === 1)
+                                <span class="text-xs px-2 py-0.5 rounded-full
+                                    bg-orange-100 text-orange-700">
+                                    🔁 Sering
+                                </span>
+                            @endif
+                        </div>
+
+                        <span class="text-sm font-semibold text-red-600">
+                            Rp {{ number_format($item->total_nominal, 0, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-gray-500 mb-1">
+                        {{ $item->jumlah_transaksi }} transaksi • {{ $percentTotal }}%
+                    </p>
+
+                    <!-- PROGRESS BAR -->
+                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
+                        title="{{ $percentTotal }}% dari total pengeluaran">
+                        <div class="h-2 rounded-full transition-all duration-700 ease-out
+                            {{ $index === 0 ? 'bg-red-500' : ($index === 1 ? 'bg-orange-400' : 'bg-gray-400') }}"
+                            style="width: {{ $percentBar }}%">
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
+
+        {{-- ================= DATA KOSONG ================= --}}
+        @else
+            <div class="text-center py-8 text-gray-400 text-sm">
+                <div class="text-2xl mb-2">📉</div>
+                Belum ada data pengeluaran untuk bulan ini
+            </div>
+        @endif
+    </div>
+
+
+
+
+
 
 <script>
     window.dashboardChart = {

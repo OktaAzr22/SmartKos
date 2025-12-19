@@ -7,6 +7,7 @@ use App\Models\RekapBulanan;
 use App\Models\SaldoUser;
 use App\Models\UangSaku;
 use App\Models\Pengeluaran;
+use App\Models\RekapKategoriPengeluaran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -72,8 +73,8 @@ class RekapBulananController extends Controller
 
     public function prosesRekap()
     {
-        $bulan = Carbon::now()->month;
-        $tahun = Carbon::now()->year;
+        $bulan = 01;
+        $tahun = 2026;
 
         if (RekapBulanan::where('bulan', $bulan)
             ->where('tahun', $tahun)
@@ -82,65 +83,89 @@ class RekapBulananController extends Controller
             return back()->with('warning', 'Rekap bulan ini sudah dilakukan!');
         }
 
-        $saldoUser = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
+        DB::beginTransaction();
 
-        $rekapSebelumnya = RekapBulanan::where('user_id', Auth::id())
-            ->orderBy('tahun', 'desc')
-            ->orderBy('bulan', 'desc')
-            ->first();
+        try {
+            $saldoUser = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
 
-        $total_pemasukan = UangSaku::where('user_id', Auth::id())
-            ->whereMonth('tanggal', $bulan)
-            ->whereYear('tanggal', $tahun)
-            ->sum('jumlah');
+            $rekapSebelumnya = RekapBulanan::where('user_id', Auth::id())
+                ->orderBy('tahun', 'desc')
+                ->orderBy('bulan', 'desc')
+                ->first();
 
-        $total_pengeluaran = Pengeluaran::where('user_id', Auth::id())
-            ->whereMonth('tanggal', $bulan)
-            ->whereYear('tanggal', $tahun)
-            ->sum('jumlah');
+            $total_pemasukan = UangSaku::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->sum('jumlah');
 
-        $jumlah_pemasukan = UangSaku::where('user_id', Auth::id())
-            ->whereMonth('tanggal', $bulan)
-            ->whereYear('tanggal', $tahun)
-            ->count();
+            $total_pengeluaran = Pengeluaran::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->sum('jumlah');
 
-        $jumlah_pengeluaran = Pengeluaran::where('user_id', Auth::id())
-            ->whereMonth('tanggal', $bulan)
-            ->whereYear('tanggal', $tahun)
-            ->count();
+            $jumlah_pemasukan = UangSaku::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->count();
 
-        $total_transaksi = $jumlah_pemasukan + $jumlah_pengeluaran;
+            $jumlah_pengeluaran = Pengeluaran::where('user_id', Auth::id())
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->count();
 
+            $total_transaksi = $jumlah_pemasukan + $jumlah_pengeluaran;
 
-        
+            if ($rekapSebelumnya) {
+                $saldo_awal  = $rekapSebelumnya->saldo_akhir;
+                $saldo_akhir = $saldo_awal + $total_pemasukan - $total_pengeluaran;
+            } else {
+                $saldo_awal  = $saldoUser->saldo;
+                $saldo_akhir = $total_pemasukan - $total_pengeluaran;
+            }
 
-        if ($rekapSebelumnya) {
-            
-            $saldo_awal = $rekapSebelumnya->saldo_akhir;
-            $saldo_akhir = $saldo_awal + $total_pemasukan - $total_pengeluaran;
+            $rekapBulanan = RekapBulanan::create([
+                'user_id'           => Auth::id(),
+                'bulan'             => $bulan,
+                'tahun'             => $tahun,
+                'total_pemasukan'   => $total_pemasukan,
+                'total_pengeluaran' => $total_pengeluaran,
+                'total_transaksi'   => $total_transaksi,
+                'saldo_awal'        => $saldo_awal,
+                'saldo_akhir'       => $saldo_akhir,
+            ]);
 
-        } else {
-            
-            $saldo_awal = $saldoUser->saldo;  
-            $saldo_akhir = $total_pemasukan - $total_pengeluaran; 
-            
+            $topKategori = Pengeluaran::select(
+                    'id_kategori',
+                    DB::raw('COUNT(*) as jumlah_transaksi'),
+                    DB::raw('SUM(jumlah) as total_nominal')
+                )
+                ->where('user_id', Auth::id())
+                ->whereMonth('tanggal', $bulan)
+                ->whereYear('tanggal', $tahun)
+                ->groupBy('id_kategori')
+                ->orderByDesc('jumlah_transaksi')
+                ->limit(3)
+                ->get();
+
+            foreach ($topKategori as $kategori) {
+                RekapKategoriPengeluaran::create([
+                    'rekap_bulanan_id'  => $rekapBulanan->id,
+                    'id_kategori'       => $kategori->id_kategori,
+                    'jumlah_transaksi'  => $kategori->jumlah_transaksi,
+                    'total_nominal'     => $kategori->total_nominal,
+                ]);
+            }
+
+            $saldoUser->saldo = $saldo_akhir;
+            $saldoUser->save();
+
+            DB::commit();
+
+            return back()->with('success', 'Rekap bulanan berhasil dibuat!');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
         }
-
-        RekapBulanan::create([
-            'user_id' => Auth::id(),
-            'bulan' => $bulan,
-            'tahun' => $tahun,
-            'total_pemasukan' => $total_pemasukan,
-            'total_pengeluaran' => $total_pengeluaran,
-            'total_transaksi' => $total_transaksi,
-            'saldo_awal' => $saldo_awal,
-            'saldo_akhir' => $saldo_akhir,
-        ]);
-
-        $saldoUser->saldo = $saldo_akhir;
-        $saldoUser->save();
-
-        return back()->with('success', 'Rekap bulanan selesai!');
     }
 
     public function cetakPDF($id)

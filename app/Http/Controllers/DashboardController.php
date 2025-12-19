@@ -19,6 +19,9 @@ class DashboardController extends Controller
     {
         $userId = Auth::id();
 
+        /* =========================
+        * DATA UTAMA DASHBOARD
+        * ========================= */
         $saldo = SaldoUser::where('user_id', $userId)->first();
         $saldoSaatIni = $saldo ? $saldo->saldo : 0;
 
@@ -32,21 +35,27 @@ class DashboardController extends Controller
             ->whereYear('tanggal', now()->year)
             ->sum('jumlah');
 
-        $totalPemasukan = RekapBulanan::where('user_id', $userId)
-            ->sum('total_pemasukan');
+        $totalPemasukan = RekapBulanan::where('user_id', $userId)->sum('total_pemasukan');
+        $totalPengeluaran = RekapBulanan::where('user_id', $userId)->sum('total_pengeluaran');
 
-        $totalPengeluaran = RekapBulanan::where('user_id', $userId)
-            ->sum('total_pengeluaran');
-
+        /* =========================
+        * TRANSAKSI LIST
+        * ========================= */
         $tipe = $request->query('tipe');
 
-        $pemasukan = UangSaku::select('tanggal', 'jumlah', 'keterangan', 
-            DB::raw("'Pemasukan' as tipe"))
-            ->where('user_id', $userId);
+        $pemasukan = UangSaku::select(
+            'tanggal',
+            'jumlah',
+            'keterangan',
+            DB::raw("'Pemasukan' as tipe")
+        )->where('user_id', $userId);
 
-        $pengeluaran = Pengeluaran::select('tanggal', 'jumlah', 'keterangan', 
-            DB::raw("'Pengeluaran' as tipe"))
-            ->where('user_id', $userId);
+        $pengeluaran = Pengeluaran::select(
+            'tanggal',
+            'jumlah',
+            'keterangan',
+            DB::raw("'Pengeluaran' as tipe")
+        )->where('user_id', $userId);
 
         if ($tipe === 'pemasukan') {
             $transaksiAll = $pemasukan->orderBy('tanggal', 'desc')->get();
@@ -67,6 +76,9 @@ class DashboardController extends Controller
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
+        /* =========================
+        * DATA GRAFIK (TAHUNAN)
+        * ========================= */
         $tahunTersedia = RekapBulanan::where('user_id', $userId)
             ->select('tahun')
             ->distinct()
@@ -92,6 +104,36 @@ class DashboardController extends Controller
             $dataSaldoAkhir[]  = (int) $rekap->saldo_akhir;
         }
 
+        /* =========================
+        * 🔥 FILTER BULAN KHUSUS KATEGORI
+        * ========================= */
+        /* =========================
+        * BULAN TERSEDIA UNTUK KATEGORI
+        * ========================= */
+        $bulanKategoriTersedia = RekapBulanan::where('user_id', $userId)
+            ->whereHas('kategoriPengeluaran')
+            ->where('tahun', now()->year)
+            ->orderBy('bulan', 'desc')
+            ->pluck('bulan')
+            ->unique();
+            // 
+        $bulanKategori = $request->get(
+            'bulan_kategori',
+            $bulanKategoriTersedia->first() ?? now()->month
+        );
+
+        $rekapKategori = RekapBulanan::with('kategoriPengeluaran.kategori')
+            ->where('user_id', $userId)
+            ->where('bulan', $bulanKategori)
+            ->where('tahun', now()->year)
+            ->first();
+
+        $topKategori = $rekapKategori
+            ? $rekapKategori->kategoriPengeluaran
+            : collect();
+
+        $totalPengeluaranRekap = $topKategori->sum('total_nominal');
+
         return view('dashboard', compact(
             'saldoSaatIni',
             'pemasukanBulanIni',
@@ -105,7 +147,11 @@ class DashboardController extends Controller
             'dataPengeluaran',
             'dataSaldoAkhir',
             'tahun',
-            'tahunTersedia'
+            'tahunTersedia',
+            'topKategori',
+            'totalPengeluaranRekap',
+            'bulanKategori',
+            'bulanKategoriTersedia',
         ));
     }
 

@@ -24,10 +24,20 @@ class RekapBulanan extends Model
         'pdf_path',
     ];
 
-    // Formatting jika ingin tampil nama bulan
     public function getNamaBulanAttribute()
     {
         return \Carbon\Carbon::create()->month($this->bulan)->translatedFormat('F');
     }
+
+    public function topKategoriPengeluaran()
+    {
+        return $this->hasMany(RekapKategoriPengeluaran::class);
+    }
+
+    public function kategoriPengeluaran()
+    {
+        return $this->hasMany(RekapKategoriPengeluaran::class);
+    }
+
 }
 
