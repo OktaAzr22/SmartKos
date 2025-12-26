@@ -74,13 +74,13 @@
         </div>
     @else
         <x-empty-state title="Data Belum ada" description="Belum ada transaksi">
-    <button onclick="showModalById('modalPemasukan')">
-        <x-empty-state-action>
-            <i class="fas fa-plus mr-2"></i>
-            Tambah Transaksi
-        </x-empty-state-action>
-    </button>
-</x-empty-state>
+            <button onclick="showModalById('modalPemasukan')">
+                <x-empty-state-action>
+                    <i class="fas fa-plus mr-2"></i>
+                    Tambah Transaksi
+                </x-empty-state-action>
+            </button>
+        </x-empty-state>
 
     @endif
     <x-animated-modal id="modalPemasukan" title="Tambah Pemasukkan" size="max-w-md">

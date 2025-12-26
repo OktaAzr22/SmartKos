@@ -3,7 +3,6 @@
 @section('content')
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        {{-- Sisa Saldo Saat Ini --}}
         <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
             <div class="flex justify-between items-start">
                 <div>
@@ -21,7 +20,6 @@
                 <span class="text-xs text-gray-500 ml-2">from last month</span>
             </div>
         </div>
-        {{--Total Pemasukan Bulan Ini  --}}
         <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
             <div class="flex justify-between items-start">
                 <div>
@@ -39,7 +37,6 @@
                 <span class="text-xs text-gray-500 dark:text-gray-400 ml-2">from last month</span>
             </div>
         </div>
-        {{--Total Pemasukan Selama Ini  --}}
         <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
             <div class="flex justify-between items-start">
                 <div>
@@ -57,7 +54,6 @@
                 <span class="text-xs text-gray-500 ml-2">from last month</span>
             </div>
         </div>
-        {{-- Total Pengeluaran Bulan Ini --}}
         <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
             <div class="flex justify-between items-start">
                 <div>
@@ -75,7 +71,6 @@
                 <span class="text-xs text-gray-500 ml-2">from last month</span>
             </div>
         </div>
-        {{-- Total Pengeluaran Selama Ini --}}
         <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
             <div class="flex justify-between items-start">
                 <div>
@@ -95,7 +90,6 @@
         </div>
     </div>
 
-    {{-- ================= WRAPPER ================= --}}
     <div class="grid grid-cols-12 gap-6 items-stretch">
 
         {{-- ================= GRAFIK 70% ================= --}}
@@ -191,110 +185,90 @@
         }
     @endphp
 
-    <div id="riwayat-transaksi" class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-900">
-                Riwayat Transaksi
-            </h3>
-        </div>
+    <div id="riwayat-transaksi" class="mt-6">
 
-        @if ($tipe)
-        <div class="px-6 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
-            <div class="text-sm text-gray-600">
-                Menampilkan data berdasarkan:
-                <span class="font-semibold
-                    {{ $tipe === 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
-                                {{ ucfirst($tipe) }}
-                </span>
+        @if ($transaksi->isEmpty())
+            <x-empty-state
+                title="Data Belum Ada"
+                description="Belum ada transaksi"
+            
+            />
+        @else
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">
+                    Riwayat Transaksi
+                </h3>
             </div>
 
-            <a href="{{ $clearFilterUrl }}"
-            class="flex items-center gap-1 text-sm text-gray-500 hover:text-red-600 transition"
-            title="Hapus filter">
-                <i class="fas fa-times"></i>
-                <span class="hidden sm:inline">Clear</span>
-            </a>
+            @if ($tipe)
+            <div class="px-6 py-3 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                <div class="text-sm text-gray-600">
+                    Menampilkan data berdasarkan:
+                    <span class="font-semibold
+                        {{ $tipe === 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                        {{ ucfirst($tipe) }}
+                    </span>
+                </div>
+
+                <a href="{{ $clearFilterUrl }}"
+                class="flex items-center gap-1 text-sm text-gray-500 hover:text-red-600 transition">
+                    <i class="fas fa-times"></i>
+                    <span class="hidden sm:inline">Clear</span>
+                </a>
+            </div>
+            @endif
+
+            <div class="overflow-x-auto max-h-96">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50 sticky top-0 z-10">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipe</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Jumlah Rp</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Deskripsi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($transaksi as $item)
+                        <tr class="hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                            </td>
+
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full
+                                    {{ $item->tipe === 'Pemasukan'
+                                        ? 'bg-green-100 text-green-700'
+                                        : 'bg-red-100 text-red-700' }}">
+                                    {{ $item->tipe }}
+                                </span>
+                            </td>
+
+                            <td class="px-6 py-4 text-sm font-medium
+                                {{ $item->tipe === 'Pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                                Rp{{ number_format($item->jumlah, 0, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                {{ $item->keterangan ?? '-' }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            {{ $transaksi->withQueryString()->fragment('riwayat-transaksi')->links() }}
+
         </div>
         @endif
-
-        <div class="overflow-x-auto max-h-96">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50 sticky top-0 z-10">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Tanggal
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            <a href="{{ request()->fullUrlWithQuery(['tipe' => $nextTipe, 'page' => 1]) . '#riwayat-transaksi' }}">
-                                Tipe
-                                @if ($tipe === 'pemasukan')
-                                    <i class="fas fa-arrow-up text-green-500 ml-1"></i>
-                                @elseif ($tipe === 'pengeluaran')
-                                    <i class="fas fa-arrow-down text-red-500 ml-1"></i>
-                                @endif
-                            </a>
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Jumlah Rp
-                        </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Deskripsi
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse ($transaksi as $item)
-                    <tr class="hover:bg-gray-50 transition duration-150">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">
-                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="
-                                px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
-                                {{ $item->tipe === 'Pemasukan'
-                                    ? 'bg-green-100 text-green-700'
-                                    : 'bg-red-100 text-red-700' }}
-                            ">
-                                {{ $item->tipe }}
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="
-                                text-sm font-medium
-                                {{ $item->tipe === 'Pemasukan' ? 'text-green-600' : 'text-red-600' }}
-                            ">
-                                @if ($item->tipe === 'Pemasukan')
-                                        Rp{{ number_format($item->jumlah, 0, ',', '.') }}
-                                @else
-                                    Rp{{ number_format($item->jumlah, 0, ',', '.') }}
-                                @endif
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-500 line-clamp-3">
-                                {{ $item->keterangan ?? '-' }}
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                        <p class="text-gray-400 text-sm">
-                            Belum ada transaksi
-                        </p>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        {{ $transaksi ->withQueryString() ->fragment('riwayat-transaksi') ->links() }}
     </div>
 
     <div class="bg-white rounded-xl shadow p-4 mt-6">
-
-        <!-- HEADER -->
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h3 class="font-semibold text-gray-800">
@@ -305,7 +279,6 @@
                 </p>
             </div>
 
-            {{-- DROPDOWN BULAN (HANYA JIKA ADA DATA) --}}
             @if ($bulanKategoriTersedia->count())
                 <form method="GET">
                     <select name="bulan_kategori"
@@ -323,7 +296,6 @@
             @endif
         </div>
 
-        {{-- ================= DATA ADA ================= --}}
         @if ($topKategori->count())
 
             @php
@@ -368,7 +340,6 @@
                         {{ $item->jumlah_transaksi }} transaksi • {{ $percentTotal }}%
                     </p>
 
-                    <!-- PROGRESS BAR -->
                     <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
                         title="{{ $percentTotal }}% dari total pengeluaran">
                         <div class="h-2 rounded-full transition-all duration-700 ease-out
@@ -380,7 +351,6 @@
                 </div>
             @endforeach
 
-        {{-- ================= DATA KOSONG ================= --}}
         @else
             <div class="text-center py-8 text-gray-400 text-sm">
                 <div class="text-2xl mb-2">📉</div>
@@ -389,22 +359,17 @@
         @endif
     </div>
 
-
-
-
-
-
-<script>
-    window.dashboardChart = {
-        labels: @json($labels),
-        pemasukan: @json($dataPemasukan),
-        pengeluaran: @json($dataPengeluaran),
-        saldo: @json($dataSaldoAkhir),
-        pemasukanBulanIni: {{ $pemasukanBulanIni }},
-        pengeluaranBulanIni: {{ $pengeluaranBulanIni }},
-        chartUrl: "{{ route('dashboard.chart') }}"
-    }
-</script>
-@vite('resources/js/dashboard.js')
+    <script>
+        window.dashboardChart = {
+            labels: @json($labels),
+            pemasukan: @json($dataPemasukan),
+            pengeluaran: @json($dataPengeluaran),
+            saldo: @json($dataSaldoAkhir),
+            pemasukanBulanIni: {{ $pemasukanBulanIni }},
+            pengeluaranBulanIni: {{ $pengeluaranBulanIni }},
+            chartUrl: "{{ route('dashboard.chart') }}"
+        }
+    </script>
+    @vite('resources/js/dashboard.js')
 
 @endsection

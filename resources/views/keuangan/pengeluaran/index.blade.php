@@ -5,7 +5,6 @@
     @include('components.modal-delete')
 @if($data->count() > 0)
     <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-        {{-- Header --}}
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 Tabel Transaksi Pengeluaran
@@ -25,8 +24,6 @@
                 </a>
             </div>
         </div>
-
-        {{-- Tabel Data --}}
         
             <div class="max-h-96 overflow-y-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -85,19 +82,16 @@
                 </table>
             </div>
 
-            {{-- Pagination --}}
             {{ $data->links() }}
         @else
-           <x-empty-state title="Tidak ada data" description="Belum ada transaksi">
-    <a href="{{ route('pengeluaran.create') }}">
-        <x-empty-state-action>
-            <i class="fas fa-plus mr-2"></i>
-            Tambah Transaksi
-        </x-empty-state-action>
-    </a>
-</x-empty-state>
-
-
+        <x-empty-state title="Tidak ada data" description="Belum ada transaksi">
+            <a href="{{ route('pengeluaran.create') }}">
+                <x-empty-state-action>
+                    <i class="fas fa-plus mr-2"></i>
+                    Tambah Transaksi
+                </x-empty-state-action>
+            </a>
+        </x-empty-state>
         @endif
     </div>
 @endsection

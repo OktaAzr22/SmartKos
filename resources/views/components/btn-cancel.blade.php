@@ -13,7 +13,6 @@
 @endphp
 
 @if($href)
-    {{-- Jika ada href, render <a> --}}
     <a href="{{ $href }}"
        {{ $attributes->merge(['class' => $baseClass]) }}>
        
@@ -27,7 +26,6 @@
         {{ $text }}
     </a>
 @else
-    {{-- Jika tidak ada href, render <button> --}}
     <button type="{{ $type }}"
             {{ $attributes->merge(['class' => $baseClass]) }}>
             
