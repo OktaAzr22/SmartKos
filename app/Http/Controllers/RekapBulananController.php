@@ -164,7 +164,10 @@ class RekapBulananController extends Controller
             return back()->with('success', 'Rekap bulanan berhasil dibuat!');
         } catch (\Throwable $e) {
             DB::rollBack();
-            throw $e;
+            return back()->with(
+                'error',
+                'Gagal melakukan rekap bulanan. Silakan coba lagi.'
+            );
         }
     }
 
