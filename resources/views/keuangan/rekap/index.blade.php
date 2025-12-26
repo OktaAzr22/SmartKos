@@ -3,30 +3,18 @@
 @section('content')
 <x-breadcrumb />
 @if($rekap->count() == 0)
-    <div class="py-16 flex flex-col items-center justify-center text-center bg-amber-200 rounded-2xl">
-          
-          <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full 
-                      flex items-center justify-center mb-4">
-              <i class="fas fa-inbox text-gray-400 dark:text-gray-300 text-xl"></i>
-          </div>
+    <x-empty-state title="Tidak ada data" description="Belum ada transaksi">
+    <form action="{{ route('rekap.proses') }}" method="POST" id="formRekap">
+        @csrf
 
-          <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-              Tidak ada data
-          </h3>
+        <x-btn-save
+            text="Rekap Bulanan"
+            form="formRekap"
+        />
+    </form>
+</x-empty-state>
 
-          <p class="text-sm text-gray-500 dark:text-gray-300 mb-6">
-              Belum ada transaksi yang tercatat
-          </p>
 
-          <form action="{{ route('rekap.proses') }}" method="POST">
-            @csrf
-            <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                <i class="fas fa-plus"></i>
-                <span>Rekap Bulanan</span>
-            </button>
-        </form>
-
-      </div>
 @else
                 <div class="mb-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">

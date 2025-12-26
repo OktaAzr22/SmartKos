@@ -13,7 +13,6 @@
            flex items-center gap-2 transition disabled:opacity-70"
 >
 
-    {{-- ICON NORMAL (muncul ketika tidak loading) --}}
     <svg 
         id="{{ $id }}_icon"
         xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +23,6 @@
         <path d="M17 3H3a1 1 0 00-1 1v12a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1zm-5 12H8v-2h4v2zm3-6H5V5h10v4z" />
     </svg>
 
-    {{-- SPINNER LOADING (hidden awalnya) --}}
     <svg 
         id="{{ $id }}_spinner"
         class="animate-spin h-4 w-4 text-white hidden"
@@ -60,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         spinner.classList.remove("hidden");
 
-        txt.textContent = "Menyimpan...";
+        txt.textContent = "Meproses...";
 
         btn.disabled = true;
     });

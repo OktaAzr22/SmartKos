@@ -3,7 +3,7 @@
 @section('content')
     <x-breadcrumb />
     @include('components.modal-delete')
-
+@if($data->count() > 0)
     <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
         {{-- Header --}}
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
@@ -27,7 +27,7 @@
         </div>
 
         {{-- Tabel Data --}}
-        @if($data->count() > 0)
+        
             <div class="max-h-96 overflow-y-auto">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-700 sticky top-0 z-10">
@@ -88,27 +88,16 @@
             {{-- Pagination --}}
             {{ $data->links() }}
         @else
-            {{-- Empty State --}}
-            <div class="py-16 flex flex-col items-center justify-center text-center">
-                <div class="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-inbox text-gray-400 dark:text-gray-300 text-xl"></i>
-                </div>
+           <x-empty-state title="Tidak ada data" description="Belum ada transaksi">
+    <a href="{{ route('pengeluaran.create') }}">
+        <x-empty-state-action>
+            <i class="fas fa-plus mr-2"></i>
+            Tambah Transaksi
+        </x-empty-state-action>
+    </a>
+</x-empty-state>
 
-                <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                    Tidak ada data
-                </h3>
 
-                <p class="text-sm text-gray-500 dark:text-gray-300 mb-6">
-                    Belum ada transaksi yang tercatat
-                </p>
-
-                <a href="{{ route('pengeluaran.create') }}">
-                    <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 dark:bg-blue-500 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        <i class="fas fa-plus mr-2"></i>
-                        Tambah Transaksi
-                    </button>
-                </a>
-            </div>
         @endif
     </div>
 @endsection
