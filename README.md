@@ -87,7 +87,7 @@ php artisan key:generate
 
 Atur koneksi database di file `.env`:
 ```env
-DB_DATABASE=keuangan
+DB_DATABASE=smartkost
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -115,6 +115,7 @@ Saran dan ide fitur selanjutnya **sangat berharga** untuk pengembangan sistem in
 
 ---
 
-## ©️ Copyright
 
-**Ramayansa © 2025**
+<p align="center">
+  <strong>Ramayansa © 2025</strong>
+</p>
