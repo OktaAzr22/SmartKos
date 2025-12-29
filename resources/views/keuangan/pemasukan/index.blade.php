@@ -106,23 +106,6 @@
             </div>
 
             <div class="mb-4">
-                <label for="tanggal" class="block text-gray-700 text-sm font-medium mb-2">
-                    Tanggal
-                </label>
-                <input
-                    type="date"
-                    name="tanggal"
-                    id="tanggal"
-                    required
-                    value="{{ old('tanggal') }}"
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
-                        @error('tanggal') border-red-500 @enderror">
-                @error('tanggal')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="mb-4">
                 <label for="keterangan" class="block text-gray-700 text-sm font-medium mb-2">
                     Keterangan
                 </label>

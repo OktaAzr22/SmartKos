@@ -6,6 +6,7 @@ use App\Models\SaldoUser;
 use App\Models\UangSaku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UangSakuController extends Controller
 {
@@ -22,14 +23,16 @@ class UangSakuController extends Controller
     {
         $request->validate([
             'jumlah' => 'required|numeric|min:2',
-            'tanggal' => 'required|date',
+            'keterangan' => 'nullable|string',
         ]);
+
+        $tanggalSekarang = Carbon::now();
 
         $pemasukan = UangSaku::create([
             'user_id' => Auth::id(),
             'jumlah' => $request->jumlah,
             'keterangan' => $request->keterangan,
-            'tanggal' => $request->tanggal,
+            'tanggal'    => $tanggalSekarang,
         ]);
 
         $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
