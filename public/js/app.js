@@ -32,23 +32,6 @@
         }
     });
 
-    function showDeleteModal(modal, content) {
-        modal.classList.remove('hidden');
-        setTimeout(() => {
-            content.classList.remove('scale-95', 'opacity-0');
-            content.classList.add('scale-100', 'opacity-100');
-        }, 50);
-    }
-
-    function hideDeleteModal(modal, content) {
-        content.classList.remove('scale-100', 'opacity-100');
-        content.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-        }, 200);
-    }
-
-
     document.getElementById('profile-dropdown-btn').addEventListener('click', function() {
         const dropdown = document.getElementById('profile-dropdown');
         const chevron = document.getElementById('profile-chevron');
@@ -163,5 +146,27 @@
             html.classList.remove("dark");
             localStorage.setItem("theme", "light");
         }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function () {
+
+            const action = this.dataset.action;
+            const form = document.getElementById('delete-form');
+
+            if (!action || !form) {
+                console.error('Delete form atau action tidak ditemukan');
+                return;
+            }
+
+            form.action = action;
+            showModalById('modal-delete');
+        });
+    });
+
+    document.getElementById('cancel-delete')?.addEventListener('click', function () {
+        hideModalById('modal-delete');
     });
 });

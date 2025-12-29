@@ -73,8 +73,8 @@ class RekapBulananController extends Controller
 
     public function prosesRekap()
     {
-        $bulan = 01;
-        $tahun = 2026;
+        $bulan = Carbon::now()->month;
+        $tahun = Carbon::now()->year;
 
         if (RekapBulanan::where('bulan', $bulan)
             ->where('tahun', $tahun)

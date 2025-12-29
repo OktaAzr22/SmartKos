@@ -4,19 +4,19 @@
     <x-breadcrumb />
     @include('components.modal-delete')
 
-    @if ($errors->any() && session('modal'))
+    @if ($errors->any())
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                showModal('{{ session('modal') }}');
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            showModalById('modalKategori');
+        });
         </script>
     @endif
     
     <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900">Daftar Kategori Pengeluaran</h3>
-            <div class="flex space-x-2">
-                <button onclick="showModal('modalKategori')" class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+            <div class="flex space-x-2"> 
+                <button onclick="showModalById('modalKategori')" class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
                     <i class="fas fa-plus"></i>
                     <span>Tambah</span>
                 </button>
@@ -45,7 +45,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="flex justify-center space-x-3">
                                         <button 
-                                            onclick="showModal('modalEditKategori-{{ $item->id_kategori }}')" 
+                                            onclick="showModalById('modalEditKategori-{{ $item->id_kategori }}')" 
                                             class="text-blue-500 hover:text-blue-700">
                                             <i class="fas fa-edit"></i>
                                         </button>
@@ -84,7 +84,7 @@
                                     </div>
 
                                     <div class="flex justify-end space-x-3 mt-6">
-                                        <button type="button" onclick="hideModal('modalEditKategori-{{ $item->id_kategori }}')" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
+                                        <button type="button" onclick="hideModalById('modalEditKategori-{{ $item->id_kategori }}')" class="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium">
                                             Batal
                                         </button>
                                         <x-btn-save form="a"/>
@@ -136,7 +136,13 @@
                 <div class="flex justify-end space-x-3 mt-6">
                     
                     
-                    <x-btn-cancel onclick="hideModal('modalKategori')"  />
+                    <button
+                        type="button"
+                        onclick="hideModalById('modalKategori')"
+
+                        class="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-800">
+                        Batal
+                    </button>
 
                     <x-btn-save form="formKategori"/>
 

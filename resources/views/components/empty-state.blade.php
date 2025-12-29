@@ -1,7 +1,7 @@
 @props([
     'title' => 'Tidak ada data',
     'description' => 'Belum ada data yang tersedia',
-    'minHeight' => '70vh',
+    'minHeight' => '100vh',
 ])
 
 <div {{ $attributes->merge([
