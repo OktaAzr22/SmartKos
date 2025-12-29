@@ -7,6 +7,7 @@ use App\Models\SaldoUser;
 use App\Models\KategoriPengeluaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 
@@ -37,6 +38,21 @@ class PengeluaranController extends Controller
             'tanggal' => 'required|date',
             'id_kategori'  => 'required|exists:kategori_pengeluaran,id_kategori',
         ]);
+
+        $tanggalInput = Carbon::parse($request->tanggal);
+        $sekarang = Carbon::now();
+
+        if ($tanggalInput->year !== $sekarang->year) {
+            return back()->withErrors([
+                'tanggal' => 'Tahun tidak valid'
+            ])->withInput();
+        }
+
+        if ($tanggalInput->month !== $sekarang->month) {
+            return back()->withErrors([
+                'tanggal' => 'Bulan tidak valid'
+            ])->withInput();
+        }
 
         $saldo = SaldoUser::firstOrCreate(['user_id' => Auth::id()]);
 

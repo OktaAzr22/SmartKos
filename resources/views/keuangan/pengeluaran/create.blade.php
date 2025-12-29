@@ -4,12 +4,9 @@
 
 <x-breadcrumb />
 
-<div class="mt-6 bg-white dark:bg-gray-800 rounded-xl border 
-            border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+<div class="mt-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
 
-    {{-- Header --}}
-    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 
-                flex justify-between items-center">
+    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
             Catat Pengeluaran
         </h3>
@@ -20,17 +17,11 @@
         </a>
     </div>
 
-    {{-- Content --}}
     <div class="p-6 dark:text-gray-100">
         <form id="formPengeluaran" action="{{ route('pengeluaran.store') }}" method="POST">
             @csrf
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                {{-- Left Side --}}
                 <div class="space-y-6">
-
-                    {{-- Kategori --}}
                     <div>
                         <label for="id_kategori" 
                                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -41,7 +32,7 @@
                             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                                    rounded-lg bg-white dark:bg-gray-900 
                                    text-gray-900 dark:text-gray-100
-                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('id_kategori') border-red-500 @enderror">
                             <option value="">-- Pilih Kategori --</option>
 
                             @foreach($kategori as $item)
@@ -57,10 +48,8 @@
                         @enderror
                     </div>
 
-                    {{-- Jumlah --}}
                     <div>
-                        <label for="jumlah" 
-                               class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="jumlah" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Jumlah Pengeluaran
                         </label>
 
@@ -83,19 +72,19 @@
                         @enderror
                     </div>
 
-                    {{-- Tanggal --}}
                     <div>
-                        <label for="tanggal" 
-                               class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        <label for="tanggal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Tanggal Pengeluaran
                         </label>
 
                         <input type="date" name="tanggal" id="tanggal"
                             value="{{ old('tanggal', date('Y-m-d')) }}"
+                            
                             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 
                                    rounded-lg bg-white dark:bg-gray-900
                                    text-gray-900 dark:text-gray-100
-                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                   focus:ring-2 focus:ring-blue-500 focus:border-blue-500 @error('tanggal') border-red-500 @enderror"
+                                   >
 
                         @error('tanggal')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -104,7 +93,6 @@
 
                 </div>
 
-                {{-- Right Side --}}
                 <div>
                     <label for="deskripsi" 
                            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
