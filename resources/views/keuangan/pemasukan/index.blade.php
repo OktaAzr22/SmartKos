@@ -12,66 +12,94 @@
     @endif
 
     @if ($data->count())
-        <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div class="mt-6 bg-background dark:bg-dark-900 
+                rounded-xl border border-dark-200 dark:border-dark-700 
+                shadow-sm overflow-hidden">
 
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">Tabel Pemasukkan</h3>
-                <div class="flex space-x-2">
-                    <button type="button" disabled
-                        class="flex items-center space-x-1 text-sm font-medium py-1 px-3 rounded-lg border
-                            text-gray-400 border-gray-300 bg-gray-100
-                            cursor-not-allowed hover:text-gray-400">
-                        <i class="fas fa-filter"></i>
-                        <span>Filter</span>
-                    </button>
+        <div class="px-6 py-4 border-b border-dark-200 dark:border-dark-700 
+                    flex justify-between items-center">
+            
+            <h3 class="text-lg font-semibold text-text">
+                Tabel Pemasukkan
+            </h3>
 
-                    <button onclick="showModalById('modalPemasukan')" class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
-                        <i class="fas fa-download"></i>
-                        <span>Tambah Saldo</span>
-                    </button>
-                </div>
+            <div class="flex space-x-2">
+                <button type="button" disabled
+                    class="flex items-center space-x-1 text-sm font-medium py-1 px-3 rounded-lg border
+                           text-dark-400 border-dark-300 bg-dark-100
+                           dark:text-dark-500 dark:border-dark-700 dark:bg-dark-800
+                           cursor-not-allowed">
+                    <i class="fas fa-filter"></i>
+                    <span>Filter</span>
+                </button>
+
+                <button onclick="showModalById('modalPemasukan')" 
+                    class="flex items-center space-x-1 text-sm font-medium py-1 px-3 rounded-lg border
+                           border-dark-300 dark:border-dark-700
+                           text-dark-600 hover:text-primary
+                           dark:text-dark-300 dark:hover:text-primary
+                           transition-colors">
+                    <i class="fas fa-download"></i>
+                    <span>Tambah Saldo</span>
+                </button>
             </div>
-
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Keterangan</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($data as $index => $item)
-                            <tr class="hover:bg-gray-50 transition duration-150">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">
-                                        {{ $index + 1 }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-gray-900">
-                                        Rp {{ number_format($item->jumlah, 0, ',', '.') }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-700">
-                                        {{ $item->keterangan ?? '-' }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-700">
-                                        {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                    </div>
-                                </td>   
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            {{ $data->links() }}
         </div>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-dark-200 dark:divide-dark-700">
+                
+                <thead class="bg-dark-50 dark:bg-dark-800">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase tracking-wider">
+                            No
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase tracking-wider">
+                            Jumlah
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase tracking-wider">
+                            Keterangan
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase tracking-wider">
+                            Tanggal
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="bg-background dark:bg-dark-900 divide-y divide-dark-200 dark:divide-dark-700">
+                    @foreach ($data as $index => $item)
+                        <tr class="hover:bg-dark-50 dark:hover:bg-dark-800 transition duration-150">
+                            
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-medium text-text">
+                                    {{ $index + 1 }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-semibold text-success">
+                                    Rp {{ number_format($item->jumlah, 0, ',', '.') }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-dark-600 dark:text-dark-300">
+                                    {{ $item->keterangan ?? '-' }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-dark-600 dark:text-dark-300">
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                </div>
+                            </td>   
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        {{ $data->links() }}
+    </div>
     @else
         <x-empty-state title="Data Belum ada" description="Belum ada transaksi">
             <button onclick="showModalById('modalPemasukan')">
@@ -98,8 +126,12 @@
                     required
                     value="{{ old('jumlah') }}"
                     placeholder="Masukkan jumlah uang saku"
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
-                        @error('jumlah') border-red-500 @enderror">
+                    class="w-full px-3 py-2 rounded-lg border
+           bg-background dark:bg-dark-800
+           border-dark-300 dark:border-dark-700
+           text-text
+           focus:outline-none focus:ring-2 focus:ring-primary
+           @error('jumlah') border-danger @enderror">
                 @error('jumlah')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
@@ -110,12 +142,16 @@
                     Keterangan
                 </label>
                 <textarea
-                    name="keterangan"
-                    id="keterangan"
-                    rows="4"
-                    placeholder="Masukkan keterangan"
-                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500
-                        @error('keterangan') border-red-500 @enderror">{{ old('keterangan') }}</textarea>
+    name="keterangan"
+    id="keterangan"
+    rows="4"
+    placeholder="Masukkan keterangan"
+    class="w-full px-3 py-2 rounded-lg border
+           bg-background dark:bg-dark-800
+           border-dark-300 dark:border-dark-700
+           text-text
+           focus:outline-none focus:ring-2 focus:ring-primary
+           @error('keterangan') border-danger @enderror">{{ old('keterangan') }}</textarea>
                 @error('keterangan')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                 @enderror
