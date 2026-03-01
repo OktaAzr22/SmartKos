@@ -14,12 +14,24 @@
     --color-primary: #4f46e5;
     --color-secondary: #f97316;
     --color-danger: #dc2626;
-    --color-success: #16a34a;
+    --color-success: #4f46e5;
 
     --color-primary-50: #eef2ff;
     --color-primary-500: #6366f1;
     --color-primary-600: #4f46e5;
-    
+
+    /* TAMBAHKAN INI - Warna Dark Theme */
+    --color-dark-50: #f7f7f8;
+    --color-dark-100: #eeeef0;
+    --color-dark-200: #d9d9de;
+    --color-dark-300: #b8b9c1;
+    --color-dark-400: #92939f;
+    --color-dark-500: #747582;
+    --color-dark-600: #5e5f6b;
+    --color-dark-700: #4d4e58;
+    --color-dark-800: #3a3b42;
+    --color-dark-900: #2c2d33;
+    --color-dark-950: #0f0f12;
 
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -28,5 +40,7 @@
 @layer theme {
     .dark {
         --color-primary: #f97316;
+        --color-background: var(--color-dark-950);
+        --color-text: #f7f7f8;
     }
 }

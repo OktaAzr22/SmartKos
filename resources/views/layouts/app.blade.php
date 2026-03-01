@@ -30,13 +30,28 @@
     </style>
     @stack('styles')
 </head>
-<body class="bg-gray-100 dark:bg-slate-900 text-gray-900 dark:text-gray-100 font-inter">
+{{-- 
+    PERUBAHAN:
+    - bg-gray-100 → bg-background (otomatis berubah: putih di light, dark-950 di dark)
+    - text-gray-900 → text-text (otomatis berubah: hitam di light, putih di dark)
+    - font-inter sudah sesuai
+--}}
+<body class="bg-background text-text font-inter">
   <div class="flex h-screen">
     @include('partials.sidebar')
 
+    {{-- 
+        PERUBAHAN DI SINI:
+        flex-1 flex flex-col overflow-hidden sudah ok
+    --}}
     <div class="flex-1 flex flex-col overflow-hidden">       
       @include('partials.header')
 
+      {{-- 
+          PERUBAHAN:
+          - p-6 (padding) tetap
+          - background transparan (mengikuti bg-background dari body)
+      --}}
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')
       </main> 
@@ -54,16 +69,16 @@
             document.getElementById('successSound').play();
         });
     </script>
-@endif
+  @endif
 
-@if(session('error'))
+  @if(session('error'))
     <audio id="errorSound" src="{{ asset('sounds/error.mp3') }}"></audio>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('errorSound').play();
         });
     </script>
-@endif
-@stack('scripts')
+  @endif
+  @stack('scripts')
 </body>
 </html>

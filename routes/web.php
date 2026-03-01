@@ -67,3 +67,7 @@ Route::middleware('auth')->group(function () {
     ->name('dashboard.chart');
 
 });
+
+Route::get('/test', function () {
+    return view('test');
+})->name('test');

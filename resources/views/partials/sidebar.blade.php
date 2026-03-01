@@ -45,10 +45,12 @@
                     </div>
                 </div>
                 
-                {{-- <a href="{{ route('rekap.index') }}" class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 {{ request()->routeIs('rekap.index') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500' : '' }}">
+               <a href="{{ route('test') }}"
+                class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 
+                {{ request()->routeIs('test') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500' : '' }}">
                     <i class="fas fa-chart-bar mr-3"></i>
-                    <span class="font-medium">Rekap</span>
-                </a> --}}
+                    <span class="font-medium">test</span>
+                </a>
 
                 <a href="{{ route('rekap.index') }}" 
                     class="menu-item flex items-center px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 
@@ -63,45 +65,9 @@
                     <span class="font-medium">Anggaran</span>
                 </button>
                 
-                {{-- @php
-                    $isSettingsActive = request()->routeIs('settings.general') || 
-                                       request()->routeIs('settings.security') || 
-                                       request()->routeIs('settings.notifications');
-                @endphp
-                <div>
-                    <button class="submenu-btn flex items-center justify-between w-full px-4 py-3 text-gray-500 hover:bg-primary-50 hover:text-primary-600 rounded-lg transition-colors duration-200 {{ $isSettingsActive ? 'bg-primary-50 text-primary-600' : '' }}" 
-                            data-submenu="settings-submenu">
-                        <div class="flex items-center">
-                            <i class="fas fa-cog mr-3"></i>
-                            <span class="font-medium">Settings</span>
-                        </div>
-                        <i class="submenu-chevron fas fa-chevron-right text-xs transition-transform duration-300 {{ $isSettingsActive ? 'rotate-90' : '' }}"></i>
-                    </button>
-                    <div id="settings-submenu" class="submenu transition-all duration-300 ml-4 {{ $isSettingsActive ? 'max-h-96' : 'max-h-0 overflow-hidden' }}">
-                        <a href="#" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('settings.general') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
-                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('settings.general') ? 'text-primary-500' : 'text-gray-400' }}"></i>
-                            <span>General</span>
-                        </a>
-                        <a href="#" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('settings.security') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
-                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('settings.security') ? 'text-primary-500' : 'text-gray-400' }}"></i>
-                            <span>Security</span>
-                        </a>
-                        <a href="#" class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200 {{ request()->routeIs('settings.notifications') ? 'text-primary-600 bg-primary-50 border-l-4 border-primary-500 shadow-sm' : 'text-gray-700 hover:bg-primary-50 hover:text-primary-600' }}">
-                            <i class="fas fa-circle text-xs mr-3 ml-1 {{ request()->routeIs('settings.notifications') ? 'text-primary-500' : 'text-gray-400' }}"></i>
-                            <span>Notifications</span>
-                        </a>
-                    </div>
-                </div> --}}
+                
             </nav>
             
-            {{-- <div class="p-4 border-t border-gray-100">
-                <div class="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-4 text-white shadow-md">
-                    <h3 class="text-sm font-medium">Upgrade to Pro</h3>
-                    <p class="text-xs opacity-90 mt-1">Get access to all features</p>
-                    <button class="w-full mt-3 bg-white text-primary-600 hover:bg-gray-100 text-xs font-medium py-2 px-3 rounded-lg transition duration-150 shadow-sm">
-                        Upgrade Now
-                    </button>
-                </div>
-            </div> --}}
+            
             
         </div>
