@@ -55,7 +55,7 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                        {{ \Carbon\Carbon::parse($item->tanggal_pengeluaran)->format('d M Y') }}
+                                        {{ $item->tanggal->translatedFormat('d F Y') }}
                                     </div>
                                 </td>
 

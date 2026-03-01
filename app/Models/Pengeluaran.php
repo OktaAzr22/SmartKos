@@ -19,6 +19,10 @@ class Pengeluaran extends Model
         'tanggal',
     ];
 
+    protected $casts = [
+    'tanggal' => 'date',
+];
+
     public function kategori()
     {
         return $this->belongsTo(KategoriPengeluaran::class, 'id_kategori', 'id_kategori');
