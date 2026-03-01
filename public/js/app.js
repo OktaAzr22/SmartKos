@@ -58,71 +58,46 @@
         }
     });
 
-    document.querySelectorAll('.submenu-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const submenuId = this.getAttribute('data-submenu');
+    document.addEventListener('DOMContentLoaded', function () {
+
+    const submenuButtons = document.querySelectorAll('.submenu-btn');
+
+    submenuButtons.forEach(button => {
+        button.addEventListener('click', function () {
+
+            const submenuId = this.dataset.submenu;
             const submenu = document.getElementById(submenuId);
             const chevron = this.querySelector('.submenu-chevron');
-                
+
+            const isOpen = submenu.classList.contains('max-h-96');
+
+            // Tutup semua submenu
             document.querySelectorAll('.submenu').forEach(sm => {
-                if (sm.id !== submenuId) {
-                    sm.classList.remove('max-h-96');
-                    sm.classList.add('max-h-0', 'overflow-hidden');
-                }
+                sm.classList.remove('max-h-96', 'opacity-100');
+                sm.classList.add('max-h-0', 'opacity-0', 'overflow-hidden');
             });
-                
+
             document.querySelectorAll('.submenu-chevron').forEach(ch => {
-                if (ch !== chevron) {
-                    ch.classList.remove('rotate-90');
-                }
+                ch.classList.remove('rotate-90');
             });
-                
+
             document.querySelectorAll('.submenu-btn').forEach(btn => {
-                if (btn !== this) {
-                    btn.classList.remove('bg-primary-50', 'text-primary-600');
-                }
+                btn.classList.remove('bg-primary-50', 'text-primary-600');
             });
-                
-            if (submenu.classList.contains('max-h-0')) {
-                submenu.classList.remove('max-h-0', 'overflow-hidden');
-                submenu.classList.add('max-h-96');
+
+            // Kalau sebelumnya tertutup → buka
+            if (!isOpen) {
+                submenu.classList.remove('max-h-0', 'opacity-0', 'overflow-hidden');
+                submenu.classList.add('max-h-96', 'opacity-100');
+
                 chevron.classList.add('rotate-90');
                 this.classList.add('bg-primary-50', 'text-primary-600');
-            } else {
-                submenu.classList.remove('max-h-96');
-                submenu.classList.add('max-h-0', 'overflow-hidden');
-                chevron.classList.remove('rotate-90');                   
-                this.classList.remove('bg-primary-50', 'text-primary-600');
             }
+
         });
     });
 
-    function openActiveSubmenu() {
-        document.querySelectorAll('.menu-item').forEach(item => {
-            if (item.classList.contains('text-primary-600') && 
-                item.classList.contains('bg-primary-50')) {
-                
-                const submenu = item.closest('.submenu');
-                if (submenu) {
-                    submenu.classList.remove('max-h-0', 'overflow-hidden');
-                    submenu.classList.add('max-h-96');
-                        
-                    const submenuId = submenu.id;
-                    const toggleBtn = document.querySelector(`[data-submenu="${submenuId}"]`);
-                    if (toggleBtn) {
-                        const chevron = toggleBtn.querySelector('.submenu-chevron');
-                        chevron.classList.add('rotate-90');
-                            
-                        toggleBtn.classList.add('bg-primary-50', 'text-primary-600');
-                    }
-                }
-            }
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        openActiveSubmenu();
-    });
+});
 
     document.addEventListener("DOMContentLoaded", function () {
     const html = document.documentElement;
