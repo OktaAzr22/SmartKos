@@ -149,4 +149,6 @@
                 </div>
         </form>
     </x-animated-modal>
+
+    
 @endsection

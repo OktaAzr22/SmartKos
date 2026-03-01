@@ -47,9 +47,9 @@
         </p>
 
         <a href="{{ route('login') }}"
-           class="inline-block px-4 py-3 bg-indigo-600 text-white rounded-sm
+           class="inline-block px-4 py-3 bg-indigo-600 text-white 
                   hover:bg-indigo-700 transition delay-600 opacity-0 animate-fade-up">
-            Masuk
+            masuk
         </a>
     </div>
 </body>

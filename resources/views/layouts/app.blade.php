@@ -46,6 +46,24 @@
   </div>  
   <script src="{{ asset('js/app.js') }}"></script>
   @include('components.alert')
+
+  @if(session('success'))
+    <audio id="successSound" src="{{ asset('sounds/success.mp3') }}"></audio>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('successSound').play();
+        });
+    </script>
+@endif
+
+@if(session('error'))
+    <audio id="errorSound" src="{{ asset('sounds/error.mp3') }}"></audio>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('errorSound').play();
+        });
+    </script>
+@endif
 @stack('scripts')
 </body>
 </html>
