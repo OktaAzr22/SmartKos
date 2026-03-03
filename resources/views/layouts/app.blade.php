@@ -30,28 +30,16 @@
     </style>
     @stack('styles')
 </head>
-{{-- 
-    PERUBAHAN:
-    - bg-gray-100 → bg-background (otomatis berubah: putih di light, dark-950 di dark)
-    - text-gray-900 → text-text (otomatis berubah: hitam di light, putih di dark)
-    - font-inter sudah sesuai
---}}
-<body class="bg-background text-text font-inter">
+
+<body class="bg-gray-50 text-gray-900 font-sans">
   <div class="flex h-screen">
     @include('partials.sidebar')
 
-    {{-- 
-        PERUBAHAN DI SINI:
-        flex-1 flex flex-col overflow-hidden sudah ok
-    --}}
+    
     <div class="flex-1 flex flex-col overflow-hidden">       
       @include('partials.header')
 
-      {{-- 
-          PERUBAHAN:
-          - p-6 (padding) tetap
-          - background transparan (mengikuti bg-background dari body)
-      --}}
+     
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')
       </main> 

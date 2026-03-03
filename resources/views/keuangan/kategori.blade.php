@@ -12,24 +12,21 @@
         </script>
     @endif
 
-    <div class="mt-6 bg-background dark:bg-dark-900
-                rounded-xl border border-dark-200 dark:border-dark-700
-                shadow-sm overflow-hidden">
+    <div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
 
         {{-- HEADER --}}
-        <div class="px-6 py-4 border-b border-dark-200 dark:border-dark-700
-                    flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-text">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg font-semibold text-gray-900">
                 Daftar Kategori Pengeluaran
             </h3>
 
             <div class="flex space-x-2">
                 <button onclick="showModalById('modalKategori')"
                     class="flex items-center space-x-1
-                           text-dark-500 hover:text-text
+                           text-gray-600 hover:text-gray-900
                            text-sm font-medium py-1 px-3
-                           rounded-lg border border-dark-300 dark:border-dark-700
-                           hover:bg-dark-50 dark:hover:bg-dark-800
+                           rounded-lg border border-gray-300
+                           hover:bg-gray-50
                            transition">
                     <i class="fas fa-plus"></i>
                     <span>Tambah</span>
@@ -42,36 +39,35 @@
 
             <div class="max-h-96 overflow-y-auto">
 
-                <table class="min-w-full divide-y divide-dark-200 dark:divide-dark-700">
+                <table class="min-w-full divide-y divide-gray-200">
 
-                    <thead class="bg-dark-50 dark:bg-dark-800 sticky top-0 z-10">
+                    <thead class="bg-gray-50 sticky top-0 z-10">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase w-16">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-16">
                                 No
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-dark-500 uppercase">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                 Nama Kategori
                             </th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-dark-500 uppercase w-32">
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase w-32">
                                 Aksi
                             </th>
                         </tr>
                     </thead>
 
-                    <tbody class="bg-background dark:bg-dark-900
-                                  divide-y divide-dark-200 dark:divide-dark-700">
+                    <tbody class="bg-white divide-y divide-gray-200">
 
                         @foreach ($kategori as $i => $item)
-                            <tr class="hover:bg-dark-50 dark:hover:bg-dark-800 transition">
+                            <tr class="hover:bg-gray-50 transition">
 
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-text">
+                                    <div class="text-sm font-medium text-gray-900">
                                         {{ ($kategori->currentPage() - 1) * $kategori->perPage() + ($i + 1) }}
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-medium text-text">
+                                    <div class="text-sm font-medium text-gray-900">
                                         {{ $item->nama_kategori }}
                                     </div>
                                 </td>
@@ -82,13 +78,13 @@
                                         {{-- EDIT --}}
                                         <button
                                             onclick="showModalById('modalEditKategori-{{ $item->id_kategori }}')"
-                                            class="text-primary hover:opacity-80 transition">
+                                            class="text-indigo-600 hover:opacity-80 transition">
                                             <i class="fas fa-edit"></i>
                                         </button>
 
                                         {{-- DELETE --}}
                                         <button type="button"
-                                            class="delete-btn text-danger hover:opacity-80 transition"
+                                            class="delete-btn text-red-600 hover:opacity-80 transition"
                                             data-action="{{ route('keuangan.kategori.destroy', $item->id_kategori) }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
@@ -113,7 +109,7 @@
 
                                     <div class="mb-4">
                                         <label
-                                            class="block text-dark-600 text-sm font-medium mb-2">
+                                            class="block text-gray-700 text-sm font-medium mb-2">
                                             Nama Kategori
                                         </label>
 
@@ -123,15 +119,15 @@
                                             value="{{ old('nama_kategori', $item->nama_kategori) }}"
                                             required
                                             class="w-full px-3 py-2 rounded-lg
-                                                   bg-background dark:bg-dark-800
-                                                   border border-dark-300 dark:border-dark-700
-                                                   text-text
+                                                   bg-white
+                                                   border border-gray-300
+                                                   text-gray-900
                                                    focus:outline-none
-                                                   focus:ring-2 focus:ring-primary">
+                                                   focus:ring-2 focus:ring-indigo-500">
 
                                         @if ($errors->any() && session('modal') === 'modalEditKategori-' . $item->id_kategori)
                                             @error('nama_kategori')
-                                                <p class="text-sm text-danger mt-1">
+                                                <p class="text-sm text-red-600 mt-1">
                                                     {{ $message }}
                                                 </p>
                                             @enderror
@@ -143,7 +139,7 @@
                                         <button type="button"
                                             onclick="hideModalById('modalEditKategori-{{ $item->id_kategori }}')"
                                             class="px-4 py-2 font-medium
-                                                   text-dark-500 hover:text-text transition">
+                                                   text-gray-600 hover:text-gray-900 transition">
                                             Batal
                                         </button>
 
@@ -168,24 +164,24 @@
             {{-- EMPTY STATE --}}
             <div class="py-16 flex flex-col items-center justify-center">
 
-                <div class="w-16 h-16 bg-dark-100 dark:bg-dark-800
+                <div class="w-16 h-16 bg-gray-100
                             rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-folder-open text-dark-400 text-xl"></i>
+                    <i class="fas fa-folder-open text-gray-400 text-xl"></i>
                 </div>
 
-                <h3 class="text-lg font-medium text-text mb-2">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">
                     Tidak ada kategori
                 </h3>
 
-                <p class="text-sm text-dark-500 mb-6">
+                <p class="text-sm text-gray-500 mb-6">
                     Belum ada kategori pengeluaran yang dibuat
                 </p>
 
                 <button onclick="showModalById('modalKategori')"
                     class="px-4 py-2 text-sm font-medium
-                           text-white bg-primary
+                           text-white bg-indigo-600
                            rounded-lg hover:opacity-90
-                           focus:outline-none focus:ring-2 focus:ring-primary
+                           focus:outline-none focus:ring-2 focus:ring-indigo-500
                            transition">
                     <i class="fas fa-plus mr-2"></i>
                     Tambah Kategori
@@ -207,7 +203,7 @@
             @csrf
 
             <div class="mb-4">
-                <label class="block text-dark-600 text-sm font-medium mb-2">
+                <label class="block text-gray-700 text-sm font-medium mb-2">
                     Nama Kategori
                 </label>
 
@@ -218,14 +214,14 @@
                     value="{{ old('nama_kategori') }}"
                     placeholder="Masukkan nama kategori"
                     class="w-full px-3 py-2 rounded-lg
-                           bg-background dark:bg-dark-800
-                           border border-dark-300 dark:border-dark-700
-                           text-text
+                           bg-white
+                           border border-gray-300
+                           text-gray-900
                            focus:outline-none
-                           focus:ring-2 focus:ring-primary">
+                           focus:ring-2 focus:ring-indigo-500">
 
                 @error('nama_kategori')
-                    <p class="text-sm text-danger mt-1">
+                    <p class="text-sm text-red-600 mt-1">
                         {{ $message }}
                     </p>
                 @enderror
@@ -236,7 +232,7 @@
                 <button type="button"
                         onclick="hideModalById('modalKategori')"
                         class="px-4 py-2 text-sm font-medium
-                               text-dark-500 hover:text-text transition">
+                               text-gray-600 hover:text-gray-900 transition">
                     Batal
                 </button>
 

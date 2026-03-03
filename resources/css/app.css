@@ -8,7 +8,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-background: #ffffff;
+    /* --color-background: #ffffff;
     --color-text: #111827;
 
     --color-primary: #4f46e5;
@@ -30,7 +30,7 @@
     --color-dark-700: #4d4e58;
     --color-dark-800: #3a3b42;
     --color-dark-900: #2c2d33;
-    --color-dark-950: #0f0f12;
+    --color-dark-950: #0f0f12; */
 
     --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -38,8 +38,8 @@
 
 @layer theme {
     .dark {
-        --color-primary: #f97316;
+        /* --color-primary: #f97316;
         --color-background: var(--color-dark-950);
-        --color-text: #f7f7f8;
+        --color-text: #f7f7f8; */
     }
 }
