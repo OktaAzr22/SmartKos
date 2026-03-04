@@ -5,11 +5,11 @@
 ])
 
 @php
-    $baseClass = "px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200
-                  bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600
-                  rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700
-                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                  flex items-center gap-2";
+    $baseClass = "px-4 py-2 text-sm font-medium text-gray-700 dark:text-zinc-300
+                  bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-600
+                  rounded-lg hover:bg-gray-50 dark:hover:bg-zinc-700
+                  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-zinc-900
+                  flex items-center gap-2 transition";
 @endphp
 
 @if($href)

@@ -10,10 +10,10 @@
                 </form>
             </x-empty-state>
         @else
-        <div class="mb-6 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="mb-6 bg-white dark:bg-zinc-900 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm overflow-hidden">
 
-            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-gray-900">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
                     Laporan Keuangan 
                     @if($tahunDipilih)
                         {{ $tahunDipilih }}
@@ -21,12 +21,12 @@
                 </h3>
                 <div class="flex items-center space-x-2">
                     <form method="GET">
-                        <div class="flex items-center space-x-1 text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300 bg-white">
-                            <i class="fas fa-calendar-alt text-gray-500"></i>
-                            <select name="tahun" onchange="this.form.submit()" class="ml-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm">
-                                <option value="">Pilih Periode</option>
+                        <div class="flex items-center space-x-1 text-gray-700 dark:text-zinc-300 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800">
+                            <i class="fas fa-calendar-alt text-gray-500 dark:text-zinc-400"></i>
+                            <select name="tahun" onchange="this.form.submit()" class="ml-1 bg-transparent border-none focus:outline-none focus:ring-0 text-sm dark:text-zinc-300">
+                                <option value="" class="dark:bg-zinc-800">Pilih Periode</option>
                                 @foreach($listTahun as $tahun)
-                                    <option value="{{ $tahun }}"
+                                    <option value="{{ $tahun }}" class="dark:bg-zinc-800"
                                         {{ $tahunDipilih == $tahun ? 'selected' : '' }}>
                                         {{ $tahun }}
                                     </option>
@@ -37,7 +37,7 @@
                             
                     <form action="{{ route('rekap.proses') }}" method="POST">
                         @csrf
-                        <button class="flex items-center space-x-1 text-gray-500 hover:text-gray-700 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300">
+                        <button class="flex items-center space-x-1 text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:hover:text-zinc-200 text-sm font-medium py-1 px-3 rounded-lg border border-gray-300 dark:border-zinc-600">
                             <i class="fas fa-plus"></i>
                             <span>Rekap Bulanan</span>
                         </button>
@@ -46,89 +46,89 @@
             </div>
                     
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
+                    <thead class="bg-gray-50 dark:bg-zinc-800">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaksi</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pemasukan</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pengeluaran</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Awal</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Saldo Akhir</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Transaksi</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Pemasukan</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Pengeluaran</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Saldo Awal</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Saldo Akhir</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
+                    <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-zinc-800">
                         @foreach($rekap as $r)
-                        <tr class="hover:bg-gray-50 transition duration-150">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition duration-150">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center space-x-3">
                                     <div class="flex-shrink-0">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600" viewBox="0 0 20 20" fill="currentColor">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-primary-600 dark:text-primary-400" viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
                                     <div class="text-left">
-                                        <div class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::create()->month($r->bulan)->translatedFormat('F') }}  {{ $r->tahun }}</div>
-                                        <div class="text-xs text-gray-500">Total transaksi: {{ $r->total_transaksi }}</div>
+                                        <div class="text-sm font-medium text-gray-900 dark:text-zinc-200">{{ \Carbon\Carbon::create()->month($r->bulan)->translatedFormat('F') }}  {{ $r->tahun }}</div>
+                                        <div class="text-xs text-gray-500 dark:text-zinc-400">Total transaksi: {{ $r->total_transaksi }}</div>
                                     </div>
                                 </div>
                             </td>
                                     
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-600">Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-zinc-300">Rp {{ number_format($r->total_pemasukan, 0, ',', '.') }}</div>
                                 @if(!is_null($r->pemasukan_percent))
                                     <div class="text-xs flex items-center gap-1">
                                         <span
                                             class="
-                                                {{ $r->pemasukan_percent > 0 ? 'text-green-600' :
-                                                ($r->pemasukan_percent < 0 ? 'text-red-600' : 'text-gray-500') }}
+                                                {{ $r->pemasukan_percent > 0 ? 'text-green-600 dark:text-green-400' :
+                                                ($r->pemasukan_percent < 0 ? 'text-red-600 dark:text-red-400' : 'text-gray-500 dark:text-zinc-500') }}
                                             ">
                                             {{ $r->pemasukan_percent > 0 ? '+' : '' }}{{ $r->pemasukan_percent }}%
                                         </span>
 
-                                        <span class="text-gray-400">
+                                        <span class="text-gray-400 dark:text-zinc-500">
                                             dari bulan lalu
                                         </span>
                                     </div>
                                 @else
-                                    <div class="text-xs text-gray-400">Data pertama</div>
+                                    <div class="text-xs text-gray-400 dark:text-zinc-500">Data pertama</div>
                                 @endif
                             </td>
                 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-600">Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</div>
+                                <div class="text-sm font-medium text-gray-600 dark:text-zinc-300">Rp {{ number_format($r->total_pengeluaran, 0, ',', '.') }}</div>
                                 @if(!is_null($r->pengeluaran_percent))
                                     <div class="text-xs flex items-center gap-1">
                                         <span
                                             class="
-                                                {{ $r->pengeluaran_percent > 0 ? 'text-red-600' :
-                                                ($r->pengeluaran_percent < 0 ? 'text-green-600' : 'text-gray-500') }}
+                                                {{ $r->pengeluaran_percent > 0 ? 'text-red-600 dark:text-red-400' :
+                                                ($r->pengeluaran_percent < 0 ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-zinc-500') }}
                                             ">
                                             {{ $r->pengeluaran_percent > 0 ? '+' : '' }}{{ $r->pengeluaran_percent }}%
                                         </span>
 
-                                        <span class="text-gray-400">
+                                        <span class="text-gray-400 dark:text-zinc-500">
                                             dari bulan lalu
                                         </span>
                                     </div>
                                 @else
-                                    <div class="text-xs text-gray-400">Data pertama</div>
+                                    <div class="text-xs text-gray-400 dark:text-zinc-500">Data pertama</div>
                                 @endif
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-gray-700">Rp {{ number_format($r->saldo_awal, 0, ',', '.') }}</div>
+                                <div class="text-sm font-medium text-gray-700 dark:text-zinc-300">Rp {{ number_format($r->saldo_awal, 0, ',', '.') }}</div>
                             </td>
 
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-bold text-gray-600">Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</div>
+                                <div class="text-sm font-bold text-gray-600 dark:text-zinc-200">Rp {{ number_format($r->saldo_akhir, 0, ',', '.') }}</div>
                             </td>
                                     
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <div class="flex space-x-2">
                                     @if (!$r->is_printed)
                                         <a href="{{ route('rekap.detail', $r->id) }}">
-                                            <button class="view-btn p-2 text-primary-500 hover:text-primary-700 hover:bg-primary-50 rounded transition duration-150" title="View Details">
+                                            <button class="view-btn p-2 text-primary-500 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 rounded transition duration-150" title="View Details">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
                                                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
@@ -137,14 +137,14 @@
                                         </a>
                                                 
                                         <a href="{{ route('rekap.cetak', $r->id) }}" target="_blank">
-                                            <button class="print-btn p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition duration-150" title="Cetak PDF">
+                                            <button class="print-btn p-2 text-gray-600 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded transition duration-150" title="Cetak PDF">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd" />
                                                 </svg>
                                             </button>
                                         </a>
                                     @else
-                                        <button type="button" onclick="openPdfModal('{{ route('rekap.viewPdf', $r->id) }}')" class="view-alt-btn p-2 text-blue-500 hover:text-blue-700 hover:bg-blue-50 rounded transition duration-150" title="View Laporan">
+                                        <button type="button" onclick="openPdfModal('{{ route('rekap.viewPdf', $r->id) }}')" class="view-alt-btn p-2 text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded transition duration-150" title="View Laporan">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
                                             </svg>
@@ -162,22 +162,22 @@
         </div>
         @endif
 
-        <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div id="pdfModal" class="fixed inset-0 bg-black bg-opacity-50 dark:bg-black/70 hidden items-center justify-center z-50">
 
-            <div class="bg-white rounded-lg w-11/12 md:w-3/4 h-[90vh] flex flex-col">
+            <div class="bg-white dark:bg-zinc-900 rounded-lg w-11/12 md:w-3/4 h-[90vh] flex flex-col">
 
-                <div class="flex justify-between items-center p-4 border-b">
-                    <h3 class="text-lg font-semibold">Preview Rekap PDF</h3>
-                    <button onclick="closePdfModal()" class="text-gray-600 text-xl">&times;</button>
+                <div class="flex justify-between items-center p-4 border-b dark:border-zinc-700">
+                    <h3 class="text-lg font-semibold dark:text-zinc-100">Preview Rekap PDF</h3>
+                    <button onclick="closePdfModal()" class="text-gray-600 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200 text-xl">&times;</button>
                 </div>
 
                 <div class="flex-1">
                     <iframe id="pdfFrame" src="" class="w-full h-full" frameborder="0"> </iframe>
                 </div>
 
-                <div class="p-3 border-t text-right">
+                <div class="p-3 border-t dark:border-zinc-700 text-right">
                     <button onclick="closePdfModal()"
-                            class="px-4 py-2 bg-gray-600 text-white rounded">
+                            class="px-4 py-2 bg-gray-600 dark:bg-zinc-600 text-white rounded hover:bg-gray-700 dark:hover:bg-zinc-500">
                         Tutup
                     </button>
                 </div>

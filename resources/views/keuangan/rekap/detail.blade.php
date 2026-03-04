@@ -2,23 +2,23 @@
 
 @section('content')
 <x-breadcrumb />
-                <div class="mt-2 bg-white dark:bg-slate-900 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm overflow-hidden">
-                    <div class="px-6 py-6 border-b border-gray-100 dark:border-slate-700">
+                <div class="mt-2 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-200 dark:border-zinc-700 shadow-sm overflow-hidden">
+                    <div class="px-6 py-6 border-b border-gray-100 dark:border-zinc-700">
                         <div class="flex flex-col gap-4">
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 dark:text-slate-100">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
                                     Rekap Bulan {{ $bulanNama }} {{ $rekap->tahun }}
                                 </h3>
-                                <p class="text-sm text-gray-500 dark:text-slate-400">
+                                <p class="text-sm text-gray-500 dark:text-zinc-400">
                                     Ringkasan keuangan bulanan
                                 </p>
                             </div>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div class="p-4 rounded-xl 
-                                            bg-gray-50 dark:bg-slate-800 
-                                            border border-gray-200 dark:border-slate-700">
-                                    <p class="text-xs text-gray-500 dark:text-slate-400">Saldo Awal</p>
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-slate-100">
+                                            bg-gray-50 dark:bg-zinc-800 
+                                            border border-gray-200 dark:border-zinc-700">
+                                    <p class="text-xs text-gray-500 dark:text-zinc-400">Saldo Awal</p>
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-zinc-100">
                                         Rp {{ number_format($rekap->saldo_awal, 0, ',', '.') }}
                                     </p>
                                 </div>
@@ -60,7 +60,7 @@
                     </div>
 
                     <!-- ===================== PEMASUKAN ===================== -->
-                    <div class="px-6 py-4 bg-green-50/70 dark:bg-slate-900 border-b border-green-100 dark:border-slate-800">
+                    <div class="px-6 py-4 bg-green-50/70 dark:bg-zinc-900 border-b border-green-100 dark:border-zinc-800">
                         <div class="flex items-center gap-4">
                             <div class="flex-1 h-px bg-green-200 dark:bg-emerald-700"></div>
 
@@ -73,33 +73,35 @@
                     </div>
 
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-100 dark:divide-slate-700">
-                            <thead class="bg-gray-50 dark:bg-slate-800 
-                                        text-gray-500 dark:text-slate-400 text-xs uppercase">
+                        <table class="min-w-full divide-y divide-gray-100 dark:divide-zinc-700">
+                            <thead class="bg-gray-50 dark:bg-zinc-800 
+                                        text-gray-500 dark:text-zinc-400 text-xs uppercase">
                                 <tr>
                                     <th class="px-6 py-3 text-left font-medium">Tanggal</th>
                                     <th class="px-6 py-3 text-left font-medium">Jumlah</th>
                                     <th class="px-6 py-3 text-left font-medium">Deskripsi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                            <tbody class="divide-y divide-gray-100 dark:divide-zinc-800">
                                 @forelse($pemasukan as $p)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition">
-                                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-slate-200">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800 transition">
+                                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-zinc-200">
                                             {{ \Carbon\Carbon::parse($p->tanggal)->format('d/m/Y') }}
                                         </td>
 
-                                        <td class="px-6 py-4 text-sm font-semibold text-green-600 dark:text-emerald-300">
+                                        <td class="px-6 py-4 text-sm font-semibold text-green-600 dark:text-emerald-400">
                                             Rp {{ number_format($p->jumlah, 0, ',', '.') }}
                                         </td>
 
-                                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-slate-400">
+                                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-zinc-400">
                                             {{ $p->keterangan }}
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="border p-2 text-center" colspan="3">Tidak ada pemasukan</td>
+                                        <td colspan="3" class="px-6 py-8 text-center text-gray-500 dark:text-zinc-400">
+                                            Tidak ada data pemasukan
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -108,8 +110,8 @@
 
                     <!-- ===================== PENGELUARAN ===================== -->
                     <div class="px-6 py-4 
-                                bg-red-50/70 dark:bg-slate-900
-                                border-b border-red-100 dark:border-slate-800">
+                                bg-red-50/70 dark:bg-zinc-900
+                                border-b border-red-100 dark:border-zinc-800">
                         <div class="flex items-center gap-4">
                             <div class="flex-1 h-px bg-red-200 dark:bg-rose-700"></div>
 
@@ -123,9 +125,9 @@
 
                     <!-- TABLE PENGELUARAN -->
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-100 dark:divide-slate-700">
-                            <thead class="bg-gray-50 dark:bg-slate-800 
-                                        text-gray-500 dark:text-slate-400 text-xs uppercase">
+                        <table class="min-w-full divide-y divide-gray-100 dark:divide-zinc-700">
+                            <thead class="bg-gray-50 dark:bg-zinc-800 
+                                        text-gray-500 dark:text-zinc-400 text-xs uppercase">
                                 <tr>
                                     <th class="px-6 py-3 text-left font-medium">Tanggal</th>
                                     <th class="px-6 py-3 text-left font-medium">Kategori</th>
@@ -133,10 +135,10 @@
                                     <th class="px-6 py-3 text-left font-medium">Deskripsi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                            <tbody class="divide-y divide-gray-100 dark:divide-zinc-800">
                                 @forelse($pengeluaran as $p)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-slate-800 transition">
-                                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-slate-200">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800 transition">
+                                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-zinc-200">
                                             {{ \Carbon\Carbon::parse($p->tanggal)->format('d/m/Y') }}
                                         </td>
 
@@ -149,17 +151,19 @@
                                             </span>
                                         </td>
 
-                                        <td class="px-6 py-4 text-sm font-semibold text-red-600 dark:text-rose-300">
+                                        <td class="px-6 py-4 text-sm font-semibold text-red-600 dark:text-rose-400">
                                             {{ number_format($p->jumlah, 0, ',', '.') }}
                                         </td>
 
-                                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-slate-400">
+                                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-zinc-400">
                                             {{ $p->keterangan }}
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="border p-2 text-center" colspan="4">Tidak ada pengeluaran</td>
+                                        <td colspan="4" class="px-6 py-8 text-center text-gray-500 dark:text-zinc-400">
+                                            Tidak ada data pengeluaran
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>

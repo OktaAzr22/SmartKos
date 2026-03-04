@@ -4,109 +4,141 @@
 
 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 
-    <!-- CARD -->
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <!-- CARD 1: Sisa Saldo Saat Ini -->
+    <div class="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm 
+                hover:border-blue-500 dark:hover:border-blue-500 transition-all hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-blue-500/20 group">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">
                     Sisa Saldo Saat Ini
                 </p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mt-1">
                     Rp {{ number_format($saldoSaatIni, 0, ',', '.') }}
                 </p>
             </div>
 
-            <div class="p-2 bg-blue-100 rounded-lg">
-                <i class="fas fa-folder text-blue-600"></i>
+            <div class="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg group-hover:bg-blue-200 dark:group-hover:bg-blue-800/50 transition-colors">
+                <i class="fas fa-folder text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300"></i>
             </div>
         </div>
 
         <div class="flex items-center mt-3">
-            <span class="text-xs text-green-600 font-medium flex items-center">
+            <span class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
                 <i class="fas fa-arrow-up mr-1"></i> 12%
             </span>
-            <span class="text-xs text-gray-500 ml-2">
+            <span class="text-xs text-gray-500 dark:text-zinc-500 ml-2">
                 from last month
             </span>
         </div>
     </div>
 
-    <!-- CARD -->
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <!-- CARD 2: Total Pemasukan Bulan Ini -->
+    <div class="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm 
+                hover:border-green-500 dark:hover:border-green-500 transition-all hover:shadow-lg hover:shadow-green-500/10 dark:hover:shadow-green-500/20 group">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">
                     Total Pemasukan Bulan Ini
                 </p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mt-1">
                     Rp {{ number_format($pemasukanBulanIni, 0, ',', '.') }}
                 </p>
             </div>
 
-            <div class="p-2 bg-green-100 rounded-lg">
-                <i class="fas fa-check-circle text-green-600"></i>
+            <div class="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg group-hover:bg-green-200 dark:group-hover:bg-green-800/50 transition-colors">
+                <i class="fas fa-check-circle text-green-600 dark:text-green-400 group-hover:text-green-700 dark:group-hover:text-green-300"></i>
             </div>
         </div>
 
         <div class="flex items-center mt-3">
-            <span class="text-xs text-green-600 font-medium flex items-center">
+            <span class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
                 <i class="fas fa-arrow-up mr-1"></i> 5%
             </span>
-            <span class="text-xs text-gray-500 ml-2">
+            <span class="text-xs text-gray-500 dark:text-zinc-500 ml-2">
                 from last month
             </span>
         </div>
     </div>
 
-    <!-- CARD -->
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <!-- CARD 3: Pemasukan Selama Ini -->
+    <div class="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm 
+                hover:border-orange-500 dark:hover:border-orange-500 transition-all hover:shadow-lg hover:shadow-orange-500/10 dark:hover:shadow-orange-500/20 group">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">
                     Pemasukan Selama Ini
                 </p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mt-1">
                     Rp {{ number_format($totalPemasukan, 0, ',', '.') }}
                 </p>
             </div>
 
-            <div class="p-2 bg-orange-100 rounded-lg">
-                <i class="fas fa-clock text-orange-600"></i>
+            <div class="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg group-hover:bg-orange-200 dark:group-hover:bg-orange-800/50 transition-colors">
+                <i class="fas fa-clock text-orange-600 dark:text-orange-400 group-hover:text-orange-700 dark:group-hover:text-orange-300"></i>
             </div>
         </div>
 
         <div class="flex items-center mt-3">
-            <span class="text-xs text-red-600 font-medium flex items-center">
+            <span class="text-xs text-red-600 dark:text-red-400 font-medium flex items-center">
                 <i class="fas fa-arrow-down mr-1"></i> 2%
             </span>
-            <span class="text-xs text-gray-500 ml-2">
+            <span class="text-xs text-gray-500 dark:text-zinc-500 ml-2">
                 from last month
             </span>
         </div>
     </div>
 
-    <!-- CARD -->
-    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+    <!-- CARD 4: Total Pengeluaran Bulan Ini -->
+    <div class="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm 
+                hover:border-red-500 dark:hover:border-red-500 transition-all hover:shadow-lg hover:shadow-red-500/10 dark:hover:shadow-red-500/20 group">
         <div class="flex justify-between items-start">
             <div>
-                <p class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">
                     Total Pengeluaran Bulan Ini
                 </p>
-                <p class="text-2xl font-bold text-gray-900 mt-1">
+                <p class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mt-1">
                     Rp {{ number_format($pengeluaranBulanIni, 0, ',', '.') }}
                 </p>
             </div>
 
-            <div class="p-2 bg-red-100 rounded-lg">
-                <i class="fas fa-dollar-sign text-red-600"></i>
+            <div class="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg group-hover:bg-red-200 dark:group-hover:bg-red-800/50 transition-colors">
+                <i class="fas fa-dollar-sign text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300"></i>
             </div>
         </div>
 
         <div class="flex items-center mt-3">
-            <span class="text-xs text-green-600 font-medium flex items-center">
+            <span class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
                 <i class="fas fa-arrow-up mr-1"></i> 8%
             </span>
-            <span class="text-xs text-gray-500 ml-2">
+            <span class="text-xs text-gray-500 dark:text-zinc-500 ml-2">
+                from last month
+            </span>
+        </div>
+    </div>
+
+    <!-- CARD 5: Total Pengeluaran Selama Ini -->
+    <div class="bg-white dark:bg-zinc-900 p-4 rounded-xl border border-gray-200 dark:border-zinc-700 shadow-sm 
+                hover:border-red-500 dark:hover:border-red-500 transition-all hover:shadow-lg hover:shadow-red-500/10 dark:hover:shadow-red-500/20 group">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-sm font-medium text-gray-500 dark:text-zinc-400">
+                    Total Pengeluaran Selama Ini
+                </p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-zinc-100 mt-1">
+                    Rp {{ number_format($totalPengeluaran, 0, ',', '.') }}
+                </p>
+            </div>
+
+            <div class="p-2 bg-red-100 dark:bg-red-900/30 rounded-lg group-hover:bg-red-200 dark:group-hover:bg-red-800/50 transition-colors">
+                <i class="fas fa-dollar-sign text-red-600 dark:text-red-400 group-hover:text-red-700 dark:group-hover:text-red-300"></i>
+            </div>
+        </div>
+
+        <div class="flex items-center mt-3">
+            <span class="text-xs text-green-600 dark:text-green-400 font-medium flex items-center">
+                <i class="fas fa-arrow-up mr-1"></i> 8%
+            </span>
+            <span class="text-xs text-gray-500 dark:text-zinc-500 ml-2">
                 from last month
             </span>
         </div>
@@ -118,17 +150,17 @@
 
     <!-- GRAFIK 70% -->
     <div class="col-span-12 lg:col-span-8
-                bg-white rounded-xl shadow p-5
-                border border-gray-200">
+                bg-white dark:bg-zinc-900 rounded-xl shadow p-5
+                border border-gray-200 dark:border-zinc-700">
 
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold text-gray-900">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
                 Grafik Keuangan Bulanan
             </h2>
 
             <select id="tahunSelect"
-                class="px-3 py-2 rounded-lg border border-gray-300
-                       bg-white text-gray-900 text-sm">
+                class="px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-600
+                       bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-200 text-sm">
                 @foreach ($tahunTersedia as $th)
                     <option value="{{ $th }}" {{ $th == $tahun ? 'selected' : '' }}>
                         {{ $th }}
@@ -139,8 +171,8 @@
 
         <!-- Skeleton -->
         <div id="chartSkeleton" class="animate-pulse space-y-3">
-            <div class="h-4 bg-gray-200 rounded w-1/4"></div>
-            <div class="h-[380px] bg-gray-200 rounded"></div>
+            <div class="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
+            <div class="h-[380px] bg-gray-200 dark:bg-zinc-700 rounded"></div>
         </div>
 
         <!-- Chart -->
@@ -153,14 +185,14 @@
 
     <!-- DONUT 30% -->
     <div class="col-span-12 lg:col-span-4
-                bg-white rounded-xl shadow p-5
-                border border-gray-200">
+                bg-white dark:bg-zinc-900 rounded-xl shadow p-5
+                border border-gray-200 dark:border-zinc-700">
 
         <div class="flex flex-col h-full">
 
-            <h2 class="text-lg font-semibold mb-4 text-gray-900">
+            <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-zinc-100">
                 Chart Data
-                <span class="block text-sm text-gray-500">(Bulan Ini)</span>
+                <span class="block text-sm text-gray-500 dark:text-zinc-400">(Bulan Ini)</span>
             </h2>
 
             <!-- Donut Center -->
@@ -169,7 +201,7 @@
                     <canvas id="donutBulanIni"></canvas>
                     <div id="donutEmpty"
                         class="absolute inset-0 flex items-center justify-center text-center
-                               text-sm text-gray-500 hidden">
+                               text-sm text-gray-500 dark:text-zinc-400 hidden">
                         Data belum ada
                     </div>
                 </div>
@@ -179,14 +211,14 @@
             <div class="mt-4 flex items-center justify-center gap-6 text-sm">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                    <span class="text-gray-700">
+                    <span class="text-gray-700 dark:text-zinc-300">
                         Pemasukan
                     </span>
                 </div>
 
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                    <span class="text-gray-700">
+                    <span class="text-gray-700 dark:text-zinc-300">
                         Pengeluaran
                     </span>
                 </div>
@@ -216,33 +248,33 @@
         />
     @else
 
-    <div class="bg-white
-                rounded-xl border border-gray-200
+    <div class="bg-white dark:bg-zinc-900
+                rounded-xl border border-gray-200 dark:border-zinc-700
                 shadow-sm overflow-hidden">
 
-        <div class="px-6 py-4 border-b border-gray-200 
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-700
                     flex justify-between items-center">
-            <h3 class="text-lg font-semibold text-gray-900">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
                 Riwayat Transaksi
             </h3>
         </div>
 
         @if ($tipe)
-        <div class="px-6 py-3 bg-gray-50
-                    border-b border-gray-200
+        <div class="px-6 py-3 bg-gray-50 dark:bg-zinc-800/50
+                    border-b border-gray-200 dark:border-zinc-700
                     flex items-center justify-between">
 
-            <div class="text-sm text-gray-600">
+            <div class="text-sm text-gray-600 dark:text-zinc-400">
                 Menampilkan data berdasarkan:
                 <span class="font-semibold
-                    {{ $tipe === 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                    {{ $tipe === 'pemasukan' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                     {{ ucfirst($tipe) }}
                 </span>
             </div>
 
             <a href="{{ $clearFilterUrl }}"
                class="flex items-center gap-1 text-sm
-                      text-gray-500 hover:text-red-600 transition">
+                      text-gray-500 dark:text-zinc-400 hover:text-red-600 dark:hover:text-red-400 transition">
                 <i class="fas fa-times"></i>
                 <span class="hidden sm:inline">Clear</span>
             </a>
@@ -250,49 +282,49 @@
         @endif
 
         <div class="overflow-x-auto max-h-96">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
 
-                <thead class="bg-gray-50 sticky top-0 z-10">
+                <thead class="bg-gray-50 dark:bg-zinc-800 sticky top-0 z-10">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Tanggal
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Tipe
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Jumlah Rp
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Deskripsi
                         </th>
                     </tr>
                 </thead>
 
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white dark:bg-zinc-900 divide-y divide-gray-200 dark:divide-zinc-800">
 
                     @foreach ($transaksi as $item)
-                    <tr class="hover:bg-gray-50 transition">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition">
 
-                        <td class="px-6 py-4 text-sm font-medium text-gray-900">
+                        <td class="px-6 py-4 text-sm font-medium text-gray-900 dark:text-zinc-200">
                             {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
                         </td>
 
                         <td class="px-6 py-4">
                             <span class="px-3 py-1 text-xs font-semibold rounded-full
                                 {{ $item->tipe === 'Pemasukan'
-                                    ? 'bg-green-100 text-green-600'
-                                    : 'bg-red-100 text-red-600' }}">
+                                    ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
+                                    : 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' }}">
                                 {{ $item->tipe }}
                             </span>
                         </td>
 
                         <td class="px-6 py-4 text-sm font-semibold
-                            {{ $item->tipe === 'Pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                            {{ $item->tipe === 'Pemasukan' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
                             Rp{{ number_format($item->jumlah, 0, ',', '.') }}
                         </td>
 
-                        <td class="px-6 py-4 text-sm text-gray-600">
+                        <td class="px-6 py-4 text-sm text-gray-600 dark:text-zinc-400">
                             {{ $item->keterangan ?? '-' }}
                         </td>
                     </tr>
@@ -308,17 +340,17 @@
     @endif
 </div>
 
-<div class="bg-white 
+<div class="bg-white dark:bg-zinc-900 
             rounded-xl shadow-sm 
-            border border-gray-200
+            border border-gray-200 dark:border-zinc-700
             p-4 mt-6">
 
     <div class="flex justify-between items-center mb-4">
         <div>
-            <h3 class="font-semibold text-gray-900">
+            <h3 class="font-semibold text-gray-900 dark:text-zinc-100">
                 Kategori Pengeluaran Teratas
             </h3>
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-500 dark:text-zinc-400">
                 Ringkasan kategori dengan pengeluaran terbesar
             </p>
         </div>
@@ -327,9 +359,9 @@
             <form method="GET">
                 <select name="bulan_kategori"
                     class="rounded-lg px-3 py-1.5 text-sm
-                           bg-white
-                           border border-gray-300
-                           text-gray-900
+                           bg-white dark:bg-zinc-800
+                           border border-gray-300 dark:border-zinc-600
+                           text-gray-900 dark:text-zinc-200
                            focus:outline-none focus:ring-2 focus:ring-blue-500"
                     onchange="this.form.submit()">
                     @foreach ($bulanKategoriTersedia as $bulan)
@@ -357,43 +389,43 @@
                     : 0;
             @endphp
 
-            <div class="py-3 border-b border-gray-200 last:border-b-0">
+            <div class="py-3 border-b border-gray-200 dark:border-zinc-700 last:border-b-0">
 
                 <div class="flex justify-between items-center mb-1">
                     <div class="flex items-center gap-2">
-                        <span class="font-medium text-gray-800">
+                        <span class="font-medium text-gray-800 dark:text-zinc-200">
                             {{ $item->kategori->nama_kategori }}
                         </span>
 
                         @if ($index === 0)
                             <span class="text-xs px-2 py-0.5 rounded-full
-                                         bg-red-100 text-red-600 font-semibold">
+                                         bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-semibold">
                                 🔥 Paling Boros
                             </span>
                         @elseif ($index === 1)
                             <span class="text-xs px-2 py-0.5 rounded-full
-                                         bg-orange-100 text-orange-600">
+                                         bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400">
                                 🔁 Sering
                             </span>
                         @endif
                     </div>
 
-                    <span class="text-sm font-semibold text-red-600">
+                    <span class="text-sm font-semibold text-red-600 dark:text-red-400">
                         Rp {{ number_format($item->total_nominal, 0, ',', '.') }}
                     </span>
                 </div>
 
-                <p class="text-xs text-gray-500 mb-1">
+                <p class="text-xs text-gray-500 dark:text-zinc-400 mb-1">
                     {{ $item->jumlah_transaksi }} transaksi • {{ $percentTotal }}%
                 </p>
 
-                <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden"
+                <div class="w-full bg-gray-200 dark:bg-zinc-700 rounded-full h-2 overflow-hidden"
                      title="{{ $percentTotal }}% dari total pengeluaran">
 
                     <div class="h-2 rounded-full transition-all duration-700 ease-out
                         {{ $index === 0 
-                            ? 'bg-red-500' 
-                            : ($index === 1 ? 'bg-orange-500' : 'bg-blue-500') }}"
+                            ? 'bg-red-500 dark:bg-red-500' 
+                            : ($index === 1 ? 'bg-orange-500 dark:bg-orange-500' : 'bg-blue-500 dark:bg-blue-500') }}"
                         style="width: {{ $percentBar }}%">
                     </div>
 
@@ -403,7 +435,7 @@
         @endforeach
 
     @else
-        <div class="text-center py-8 text-gray-400 text-sm">
+        <div class="text-center py-8 text-gray-400 dark:text-zinc-500 text-sm">
             <div class="text-2xl mb-2">📉</div>
             Belum ada data pengeluaran untuk bulan ini
         </div>

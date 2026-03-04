@@ -6,24 +6,24 @@
 
             const types = {
                 success: {
-                    bg: "bg-emerald-100 border border-emerald-300 text-emerald-800 dark:bg-emerald-900 dark:border-emerald-700 dark:text-emerald-300",
+                    bg: "bg-emerald-100 border border-emerald-300 text-emerald-800 dark:bg-emerald-900/30 dark:border-emerald-800 dark:text-emerald-400",
                     icon: "fa-check-circle",
-                    close: "text-emerald-800 dark:text-emerald-300 hover:text-emerald-600 dark:hover:text-emerald-200"
+                    close: "text-emerald-800 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300"
                 },
                 error: {
-                    bg: "bg-red-100 border border-red-300 text-red-800 dark:bg-red-900 dark:border-red-700 dark:text-red-300",
+                    bg: "bg-red-100 border border-red-300 text-red-800 dark:bg-red-900/30 dark:border-red-800 dark:text-red-400",
                     icon: "fa-times-circle",
-                    close: "text-red-800 dark:text-red-300 hover:text-red-600 dark:hover:text-red-200"
+                    close: "text-red-800 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300"
                 },
                 info: {
-                    bg: "bg-blue-100 border border-blue-300 text-blue-800 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300",
+                    bg: "bg-blue-100 border border-blue-300 text-blue-800 dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-400",
                     icon: "fa-info-circle",
-                    close: "text-blue-800 dark:text-blue-300 hover:text-blue-600 dark:hover:text-blue-200"
+                    close: "text-blue-800 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300"
                 },
                 warning: {
-                    bg: "bg-yellow-100 border border-yellow-300 text-yellow-800 dark:bg-yellow-900 dark:border-yellow-700 dark:text-yellow-300",
+                    bg: "bg-yellow-100 border border-yellow-300 text-yellow-800 dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-400",
                     icon: "fa-exclamation-circle",
-                    close: "text-yellow-800 dark:text-yellow-300 hover:text-yellow-600 dark:hover:text-yellow-200"
+                    close: "text-yellow-800 dark:text-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-300"
                 }
             };
 
@@ -41,7 +41,7 @@
             const toast = document.createElement("div");
             toast.className = `
                 ${types[type].bg}
-                flex items-center justify-between gap-3 px-4 py-3 rounded-lg shadow-lg
+                flex items-center justify-between gap-3 px-4 py-3 rounded-lg shadow-lg dark:shadow-zinc-900/50
                 transition-all duration-500 ease-out
                 opacity-0 translate-y-4 scale-95
                 min-w-[320px] max-w-[420px]

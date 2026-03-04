@@ -17,13 +17,8 @@ class KategoriPengeluaranSeeder extends Seeder
             ['nama_kategori' => 'Listrik'],
             ['nama_kategori' => 'Air'],
             ['nama_kategori' => 'Internet'],
-            ['nama_kategori' => 'Bahan Produksi'],
             ['nama_kategori' => 'Transportasi'],
-            ['nama_kategori' => 'Perlengkapan Kantor'],
-            ['nama_kategori' => 'Gaji Karyawan'],
-            ['nama_kategori' => 'Perawatan Mesin'],
-            ['nama_kategori' => 'Pemeliharaan Gedung'],
-            ['nama_kategori' => 'Konsumsi'],
+            ['nama_kategori' => 'Konsumsi']
         ];
 
         foreach ($data as $item) {

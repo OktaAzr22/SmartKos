@@ -1,6 +1,7 @@
 import Chart from 'chart.js/auto'
 
     let chart
+    let donutChart
 
     const chartSkeleton = document.getElementById('chartSkeleton')
     const chartContainer = document.getElementById('chartContainer')
@@ -19,6 +20,14 @@ import Chart from 'chart.js/auto'
         return document.documentElement.classList.contains('dark')
     }
 
+    function getTextColor() {
+        return isDark() ? '#e4e4e7' : '#374151'; // zinc-300 vs gray-700
+    }
+
+    function getGridColor() {
+        return isDark() ? '#3f3f46' : '#e5e7eb'; // zinc-700 vs gray-200
+    }
+
     function getChartDensity(totalMonth) {
         if (totalMonth <= 3) return { category: 0.95, bar: 0.7, point: 5, minWidth: 500 }
         if (totalMonth <= 6) return { category: 0.9, bar: 0.65, point: 4, minWidth: 700 }
@@ -28,8 +37,12 @@ import Chart from 'chart.js/auto'
 
     function renderChart(labels, pemasukan, pengeluaran, saldo) {
         const ctx = document.getElementById('grafikBulanan')
+        if (!ctx) return
+        
         const dark = isDark()
         const density = getChartDensity(labels.length)
+        const textColor = getTextColor()
+        const gridColor = getGridColor()
 
         ctx.parentElement.style.minWidth = density.minWidth + 'px'
 
@@ -43,7 +56,7 @@ import Chart from 'chart.js/auto'
                         type: 'bar',
                         label: 'Pemasukan',
                         data: pemasukan,
-                        backgroundColor: dark ? '#22c55e99' : '#22c55e',
+                        backgroundColor: dark ? '#22c55e80' : '#22c55e', // 50% opacity di dark mode
                         barPercentage: density.bar,
                         categoryPercentage: density.category,
                         borderRadius: 6
@@ -52,7 +65,7 @@ import Chart from 'chart.js/auto'
                         type: 'bar',
                         label: 'Pengeluaran',
                         data: pengeluaran,
-                        backgroundColor: dark ? '#ef444499' : '#ef4444',
+                        backgroundColor: dark ? '#ef444480' : '#ef4444', // 50% opacity di dark mode
                         barPercentage: density.bar,
                         categoryPercentage: density.category,
                         borderRadius: 6
@@ -62,8 +75,12 @@ import Chart from 'chart.js/auto'
                         label: 'Saldo Akhir',
                         data: saldo,
                         borderColor: '#3b82f6',
+                        backgroundColor: 'transparent',
                         tension: 0.35,
-                        pointRadius: density.point
+                        pointRadius: density.point,
+                        pointBackgroundColor: dark ? '#3b82f6' : '#3b82f6',
+                        pointBorderColor: dark ? '#e4e4e7' : '#ffffff',
+                        pointBorderWidth: 2
                     }
                 ]
             },
@@ -71,11 +88,30 @@ import Chart from 'chart.js/auto'
                 responsive: true,
                 maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: textColor,
+                            font: { size: 12 }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: dark ? '#18181b' : '#ffffff', // zinc-900 vs white
+                        titleColor: dark ? '#e4e4e7' : '#111827',
+                        bodyColor: dark ? '#a1a1aa' : '#4b5563', // zinc-400 vs gray-600
+                        borderColor: dark ? '#3f3f46' : '#e5e7eb', // zinc-700 vs gray-200
+                        borderWidth: 1
+                    }
+                },
                 scales: {
-                    x: { ticks: { color: dark ? '#e5e7eb' : '#374151' } },
+                    x: { 
+                        grid: { color: gridColor },
+                        ticks: { color: textColor }
+                    },
                     y: {
+                        grid: { color: gridColor },
                         ticks: {
-                            color: dark ? '#e5e7eb' : '#374151',
+                            color: textColor,
                             callback: v => formatRupiah(v)
                         }
                     }
@@ -84,20 +120,17 @@ import Chart from 'chart.js/auto'
         })
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        const d = window.dashboardChart
-
-        showSkeleton(true)
-
-        setTimeout(() => {
-            renderChart(d.labels, d.pemasukan, d.pengeluaran, d.saldo)
-            showSkeleton(false)
-        }, 400)
-
+    function renderDonutChart(pemasukan, pengeluaran) {
         const donutCanvas = document.getElementById('donutBulanIni')
         const donutEmpty = document.getElementById('donutEmpty')
+        
+        if (!donutCanvas) return
 
-        const totalDonut = d.pemasukanBulanIni + d.pengeluaranBulanIni
+        const totalDonut = pemasukan + pengeluaran
+        const dark = isDark()
+        const textColor = getTextColor()
+
+        if (donutChart) donutChart.destroy()
 
         if (totalDonut === 0) {
             donutCanvas.classList.add('hidden')
@@ -106,13 +139,18 @@ import Chart from 'chart.js/auto'
             donutCanvas.classList.remove('hidden')
             donutEmpty.classList.add('hidden')
 
-            new Chart(donutCanvas, {
+            donutChart = new Chart(donutCanvas, {
                 type: 'doughnut',
                 data: {
                     labels: ['Pemasukan', 'Pengeluaran'],
                     datasets: [{
-                        data: [d.pemasukanBulanIni, d.pengeluaranBulanIni],
-                        backgroundColor: ['#22c55e', '#ef4444']
+                        data: [pemasukan, pengeluaran],
+                        backgroundColor: [
+                            dark ? '#22c55e80' : '#22c55e', // 50% opacity di dark mode
+                            dark ? '#ef444480' : '#ef4444'
+                        ],
+                        borderColor: dark ? '#3f3f46' : '#ffffff', // zinc-700 vs white
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -120,6 +158,11 @@ import Chart from 'chart.js/auto'
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: dark ? '#18181b' : '#ffffff',
+                            titleColor: dark ? '#e4e4e7' : '#111827',
+                            bodyColor: dark ? '#a1a1aa' : '#4b5563',
+                            borderColor: dark ? '#3f3f46' : '#e5e7eb',
+                            borderWidth: 1,
                             callbacks: {
                                 label: c => c.label + ': ' + formatRupiah(c.raw)
                             }
@@ -128,6 +171,20 @@ import Chart from 'chart.js/auto'
                 }
             })
         }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const d = window.dashboardChart
+
+        if (!d) return
+
+        showSkeleton(true)
+
+        setTimeout(() => {
+            renderChart(d.labels, d.pemasukan, d.pengeluaran, d.saldo)
+            renderDonutChart(d.pemasukanBulanIni, d.pengeluaranBulanIni)
+            showSkeleton(false)
+        }, 400)
     })
 
     tahunSelect.addEventListener('change', function () {
@@ -137,16 +194,25 @@ import Chart from 'chart.js/auto'
             .then(r => r.json())
             .then(d => {
                 renderChart(d.labels, d.pemasukan, d.pengeluaran, d.saldoAkhir)
+                renderDonutChart(d.pemasukanBulanIni, d.pengeluaranBulanIni)
                 showSkeleton(false)
             })
     })
 
-    new MutationObserver(() => {
+    // Observer untuk dark mode toggle
+    const observer = new MutationObserver(() => {
         const d = window.dashboardChart
-        renderChart(
-            chart.data.labels,
-            chart.data.datasets[0].data,
-            chart.data.datasets[1].data,
-            chart.data.datasets[2].data
-        )
-    }).observe(document.documentElement, { attributes: true })
+        if (chart) {
+            renderChart(
+                chart.data.labels,
+                chart.data.datasets[0].data,
+                chart.data.datasets[1].data,
+                chart.data.datasets[2].data
+            )
+        }
+        if (d) {
+            renderDonutChart(d.pemasukanBulanIni, d.pengeluaranBulanIni)
+        }
+    })
+    
+    observer.observe(document.documentElement, { attributes: true })

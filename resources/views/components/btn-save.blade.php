@@ -9,7 +9,7 @@
     id="{{ $id }}"
     class="px-4 py-2 text-sm font-medium text-white bg-blue-600 
            rounded-lg hover:bg-blue-700 focus:outline-none 
-           focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
+           focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-zinc-900
            flex items-center gap-2 transition disabled:opacity-70"
 >
 
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         spinner.classList.remove("hidden");
 
-        txt.textContent = "Meproses...";
+        txt.textContent = "Memproses..."; // Fix typo: Meproses → Memproses
 
         btn.disabled = true;
     });
