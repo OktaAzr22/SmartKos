@@ -79,14 +79,7 @@
             </div>
         </div>
 
-        <a href="{{ route('test') }}"
-           class="menu-item flex items-center px-4 py-3 rounded-lg transition-colors duration-200
-           {{ request()->routeIs('test') 
-                ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 border-l-4 border-indigo-600 dark:border-indigo-400' 
-                : 'text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 hover:text-indigo-600 dark:hover:text-indigo-400' }}">
-            <i class="fas fa-chart-bar mr-3"></i>
-            <span class="font-medium">Test</span>
-        </a>
+        
 
         <a href="{{ route('rekap.index') }}" 
            class="menu-item flex items-center px-4 py-3 rounded-lg transition-colors duration-200
