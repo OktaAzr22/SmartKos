@@ -38,7 +38,14 @@
     {{-- TABLE --}}
     @if($kategori->count() > 0)
 
-        <div class="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-zinc-700 scrollbar-track-gray-100 dark:scrollbar-track-zinc-800">
+        <div class="{{ $kategori->count() == $kategori->perPage() ? 'max-h-[60vh]' : 'max-h-[65vh]' }} 
+            overflow-y-auto 
+            scrollbar-thin 
+            scrollbar-thumb-gray-300 
+            dark:scrollbar-thumb-zinc-700 
+            scrollbar-track-gray-100 
+            dark:scrollbar-track-zinc-800 
+            no-scrollbar">
 
             <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
 

@@ -51,7 +51,7 @@
 
                     <div class="md:w-2/3">
                         <div class="relative bg-gray-50 dark:bg-zinc-800/50 rounded-xl border border-gray-100 dark:border-zinc-700 p-6">
-                            <button onclick="showModal('modalProfile')"
+                            <button onclick="showModalById('modalProfile')"
                                 class="absolute top-4 right-4 flex items-center gap-2 px-4 py-1.5 text-sm font-medium text-blue-600 dark:text-blue-400 border border-gray-200 dark:border-zinc-600 rounded-full hover:bg-blue-50 dark:hover:bg-blue-900/30 transition">
                                 <i class="fas fa-edit"></i>
                                 Edit
@@ -129,7 +129,6 @@
     </div>
 
     <style>
-        /* Animasi untuk modal */
         .modal {
             opacity: 0;
             visibility: hidden;
@@ -150,7 +149,6 @@
             transform: scale(1);
         }
 
-        /* Style untuk preview gambar */
         .image-preview-container {
             display: none;
             margin-top: 1rem;
@@ -273,7 +271,7 @@
             <hr class="my-6 border-gray-200 dark:border-zinc-700">
             <div class="flex justify-end space-x-3">
                 <button type="button"
-                        onclick="hideModal('modalProfile')"
+                        onclick="hideModalById('modalProfile')"
                         class="px-4 py-2 text-gray-600 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200 font-medium rounded-lg border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800">
                     Cancel
                 </button>

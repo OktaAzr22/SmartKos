@@ -21,11 +21,11 @@ import Chart from 'chart.js/auto'
     }
 
     function getTextColor() {
-        return isDark() ? '#e4e4e7' : '#374151'; // zinc-300 vs gray-700
+        return isDark() ? '#e4e4e7' : '#374151'; 
     }
 
     function getGridColor() {
-        return isDark() ? '#3f3f46' : '#e5e7eb'; // zinc-700 vs gray-200
+        return isDark() ? '#3f3f46' : '#e5e7eb'; 
     }
 
     function getChartDensity(totalMonth) {
@@ -56,7 +56,7 @@ import Chart from 'chart.js/auto'
                         type: 'bar',
                         label: 'Pemasukan',
                         data: pemasukan,
-                        backgroundColor: dark ? '#22c55e80' : '#22c55e', // 50% opacity di dark mode
+                        backgroundColor: dark ? '#22c55e80' : '#22c55e', 
                         barPercentage: density.bar,
                         categoryPercentage: density.category,
                         borderRadius: 6
@@ -65,7 +65,7 @@ import Chart from 'chart.js/auto'
                         type: 'bar',
                         label: 'Pengeluaran',
                         data: pengeluaran,
-                        backgroundColor: dark ? '#ef444480' : '#ef4444', // 50% opacity di dark mode
+                        backgroundColor: dark ? '#ef444480' : '#ef4444', 
                         barPercentage: density.bar,
                         categoryPercentage: density.category,
                         borderRadius: 6
@@ -96,10 +96,10 @@ import Chart from 'chart.js/auto'
                         }
                     },
                     tooltip: {
-                        backgroundColor: dark ? '#18181b' : '#ffffff', // zinc-900 vs white
+                        backgroundColor: dark ? '#18181b' : '#ffffff', 
                         titleColor: dark ? '#e4e4e7' : '#111827',
-                        bodyColor: dark ? '#a1a1aa' : '#4b5563', // zinc-400 vs gray-600
-                        borderColor: dark ? '#3f3f46' : '#e5e7eb', // zinc-700 vs gray-200
+                        bodyColor: dark ? '#a1a1aa' : '#4b5563', 
+                        borderColor: dark ? '#3f3f46' : '#e5e7eb', 
                         borderWidth: 1
                     }
                 },
@@ -146,10 +146,10 @@ import Chart from 'chart.js/auto'
                     datasets: [{
                         data: [pemasukan, pengeluaran],
                         backgroundColor: [
-                            dark ? '#22c55e80' : '#22c55e', // 50% opacity di dark mode
+                            dark ? '#22c55e80' : '#22c55e', 
                             dark ? '#ef444480' : '#ef4444'
                         ],
-                        borderColor: dark ? '#3f3f46' : '#ffffff', // zinc-700 vs white
+                        borderColor: dark ? '#3f3f46' : '#ffffff', 
                         borderWidth: 2
                     }]
                 },
@@ -199,7 +199,6 @@ import Chart from 'chart.js/auto'
             })
     })
 
-    // Observer untuk dark mode toggle
     const observer = new MutationObserver(() => {
         const d = window.dashboardChart
         if (chart) {

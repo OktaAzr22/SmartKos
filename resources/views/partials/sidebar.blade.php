@@ -2,7 +2,6 @@
 
 <div class="w-64 dark:bg-zinc-900 bg-white shadow-sm border-r border-gray-200 dark:border-zinc-700 flex flex-col transition-all duration-300">
 
-    {{-- LOGO --}}
     <div class="p-6">
         <div class="flex items-center space-x-3">
             <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
@@ -13,8 +12,6 @@
     </div>
     
     <nav class="flex-1 px-4 space-y-1 overflow-y-auto no-scrollbar">
-
-        {{-- DASHBOARD --}}
         <a href="{{ route('dashboard') }}" 
            class="menu-item flex items-center px-4 py-3 rounded-lg transition-colors duration-200
            {{ request()->routeIs('dashboard') 
@@ -30,7 +27,6 @@
                                request()->routeIs('pengeluaran.*');
         @endphp
         
-        {{-- KEUANGAN --}}
         <div>
             <button 
                 class="submenu-btn flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors duration-200
@@ -54,7 +50,6 @@
                     ? 'max-h-96 opacity-100' 
                     : 'max-h-0 opacity-0 overflow-hidden' }}">
                 
-                {{-- KATEGORI --}}
                 <a href="{{ route('keuangan.kategori.index') }}" 
                    class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200
                    {{ request()->routeIs('keuangan.kategori.*') 
@@ -64,7 +59,6 @@
                     <span>Kategori Keuangan</span>
                 </a>
                 
-                {{-- PEMASUKAN --}}
                 <a href="{{ route('uang_saku.index') }}" 
                    class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200
                    {{ request()->routeIs('uang_saku.*') 
@@ -74,7 +68,6 @@
                     <span>Pemasukan</span>
                 </a>
                 
-                {{-- PENGELUARAN --}}
                 <a href="{{ route('pengeluaran.index') }}" 
                    class="menu-item flex items-center px-4 py-2 text-sm rounded-lg transition-colors duration-200
                    {{ request()->routeIs('pengeluaran.*') 
@@ -86,7 +79,6 @@
             </div>
         </div>
 
-        {{-- TEST --}}
         <a href="{{ route('test') }}"
            class="menu-item flex items-center px-4 py-3 rounded-lg transition-colors duration-200
            {{ request()->routeIs('test') 
@@ -96,7 +88,6 @@
             <span class="font-medium">Test</span>
         </a>
 
-        {{-- REKAP --}}
         <a href="{{ route('rekap.index') }}" 
            class="menu-item flex items-center px-4 py-3 rounded-lg transition-colors duration-200
            {{ request()->routeIs('rekap.*') 
@@ -106,7 +97,6 @@
             <span class="font-medium">Rekap User</span>
         </a>
 
-        {{-- ANGGARAN --}}
         <button onclick="openDevModal()" 
             class="menu-item flex items-center w-full px-4 py-3 text-gray-600 dark:text-zinc-400 hover:bg-gray-50 dark:hover:bg-zinc-800/50 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-colors duration-200">
             <i class="fas fa-users mr-3"></i>
@@ -115,7 +105,6 @@
         
         <div class="border-t border-gray-200 dark:border-zinc-700 my-4"></div>
         
-        {{-- INFO BOX --}}
         <div class="px-4 py-3 bg-gray-50 dark:bg-zinc-800/50 rounded-lg">
             <div class="flex items-center space-x-3">
                 <div class="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
@@ -129,14 +118,9 @@
         </div>
     </nav>
     
-    {{-- FOOTER --}}
     <div class="p-4 border-t border-gray-200 dark:border-zinc-700">
-        <div class="flex items-center justify-between text-xs text-gray-500 dark:text-zinc-400">
-            <span>&copy; 2026 SmartKost</span>
-            <span class="flex items-center">
-                <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-                <span class="dark:text-zinc-300">Online</span>
-            </span>
+        <div class="text-center text-xs text-gray-500 dark:text-zinc-400">
+            &copy; 2026 SmartKost
         </div>
     </div>
 

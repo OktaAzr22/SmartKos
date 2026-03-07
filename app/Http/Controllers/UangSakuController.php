@@ -14,7 +14,7 @@ class UangSakuController extends Controller
     {
         $data = UangSaku::where('user_id', Auth::id())
             ->orderBy('tanggal', 'desc')
-            ->paginate(5);
+            ->paginate(10);
 
         return view('keuangan.pemasukan.index', compact('data'));
     }
