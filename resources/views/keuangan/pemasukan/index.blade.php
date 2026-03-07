@@ -76,9 +76,25 @@
                                 </div>
                             </td>
 
-                            <td class="px-6 py-4 whitespace-nowrap">
+                            <td class="px-6 py-4">
                                 <div class="text-sm text-gray-600 dark:text-zinc-400">
-                                    {{ $item->keterangan ?? '-' }}
+
+                                    @if(!empty(trim($item->keterangan)))
+
+                                        <span 
+                                            class="cursor-pointer hover:underline"
+                                            data-popover="{{ $item->keterangan }}"
+                                        >
+                                            {{ \Illuminate\Support\Str::limit($item->keterangan, 50) }}
+                                        </span>
+
+                                    @else
+                                        <span class="italic text-gray-400 dark:text-zinc-500">
+                                            Tidak ada keterangan.
+                                        </span>
+
+                                    @endif
+
                                 </div>
                             </td>
 
@@ -114,14 +130,14 @@
                     Jumlah (Rp)
                 </label>
                 <input
-                    type="number"
+                    type="text"
                     name="jumlah"
                     id="jumlah"
                     min="1"
                     required
                     value="{{ old('jumlah') }}"
                     placeholder="Masukkan jumlah uang saku"
-                    class="w-full px-3 py-2 rounded-lg border
+                    class="format-rupiah w-full px-3 py-2 rounded-lg border
                            bg-white dark:bg-zinc-800
                            border-gray-300 dark:border-zinc-600
                            text-gray-800 dark:text-zinc-200
@@ -166,4 +182,6 @@
             </div>
         </form>
     </x-animated-modal>
+
+
 @endsection

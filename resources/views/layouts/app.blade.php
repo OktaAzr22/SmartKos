@@ -33,14 +33,15 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 font-sans">
+
   <div class="flex h-screen">
+
     @include('partials.sidebar')
 
-    
-    <div class="flex-1 flex flex-col overflow-hidden">       
+    <div class="flex-1 flex flex-col overflow-hidden">  
+
       @include('partials.header')
 
-     
       <main class="flex-1 overflow-y-auto p-6">
         @yield('content')
       </main> 
@@ -48,6 +49,9 @@
     </div>
     
   </div>  
+
+  <div id="globalPopover" class="hidden fixed z-50 max-w-xs bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg p-3 text-sm text-gray-700 dark:text-zinc-200"> </div>
+
   <script src="{{ asset('js/app.js') }}"></script>
   @include('components.alert')
 

@@ -26,7 +26,7 @@
             </div>
         </div>
         
-        <div class="max-h-96 overflow-y-auto">
+        <div class="overflow-y-auto overflow-x-auto max-h-[60vh] no-scrollbar">
             <table class="min-w-full divide-y divide-gray-200 dark:divide-zinc-700">
                 <thead class="bg-gray-50 dark:bg-zinc-800 sticky top-0 z-10">
                     <tr>
@@ -68,11 +68,21 @@
 
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-600 dark:text-zinc-400">
+
                                     @if(!empty(trim($item->keterangan)))
-                                        {{ $item->keterangan }}
+
+                                        <span 
+                                            class="cursor-pointer hover:underline"
+                                            data-popover="{{ $item->keterangan }}">
+                                            {{ \Illuminate\Support\Str::limit($item->keterangan, 50) }}
+                                        </span>
+
                                     @else
-                                        <span class="italic text-gray-400 dark:text-zinc-500">Tidak ada deskripsi</span>
+                                        <span class="italic text-gray-400 dark:text-zinc-500">
+                                            Tidak ada deskripsi
+                                        </span>
                                     @endif
+
                                 </div>
                             </td>
                         </tr>
@@ -93,5 +103,7 @@
         </a>
     </x-empty-state>
 @endif
+
+
 
 @endsection

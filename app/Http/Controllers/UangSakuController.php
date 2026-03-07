@@ -21,6 +21,10 @@ class UangSakuController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'jumlah' => str_replace('.', '', $request->jumlah)
+        ]);
+        
         $request->validate([
             'jumlah' => 'required|numeric|min:2',
             'keterangan' => 'nullable|string',

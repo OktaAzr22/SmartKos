@@ -60,88 +60,132 @@
 
     document.addEventListener('DOMContentLoaded', function () {
 
-    const submenuButtons = document.querySelectorAll('.submenu-btn');
+        const submenuButtons = document.querySelectorAll('.submenu-btn');
 
-    submenuButtons.forEach(button => {
-        button.addEventListener('click', function () {
+        submenuButtons.forEach(button => {
+            button.addEventListener('click', function () {
 
-            const submenuId = this.dataset.submenu;
-            const submenu = document.getElementById(submenuId);
-            const chevron = this.querySelector('.submenu-chevron');
+                const submenuId = this.dataset.submenu;
+                const submenu = document.getElementById(submenuId);
+                const chevron = this.querySelector('.submenu-chevron');
 
-            const isOpen = submenu.classList.contains('max-h-96');
+                const isOpen = submenu.classList.contains('max-h-96');
 
-            // Tutup semua submenu
-            document.querySelectorAll('.submenu').forEach(sm => {
-                sm.classList.remove('max-h-96', 'opacity-100');
-                sm.classList.add('max-h-0', 'opacity-0', 'overflow-hidden');
+                document.querySelectorAll('.submenu').forEach(sm => {
+                    sm.classList.remove('max-h-96', 'opacity-100');
+                    sm.classList.add('max-h-0', 'opacity-0', 'overflow-hidden');
+                });
+
+                document.querySelectorAll('.submenu-chevron').forEach(ch => {
+                    ch.classList.remove('rotate-90');
+                });
+
+                document.querySelectorAll('.submenu-btn').forEach(btn => {
+                    btn.classList.remove('bg-primary-50', 'text-primary-600');
+                });
+
+                if (!isOpen) {
+                    submenu.classList.remove('max-h-0', 'opacity-0', 'overflow-hidden');
+                    submenu.classList.add('max-h-96', 'opacity-100');
+
+                    chevron.classList.add('rotate-90');
+                    this.classList.add('bg-primary-50', 'text-primary-600');
+                }
+
             });
+        });
 
-            document.querySelectorAll('.submenu-chevron').forEach(ch => {
-                ch.classList.remove('rotate-90');
-            });
+    });
 
-            document.querySelectorAll('.submenu-btn').forEach(btn => {
-                btn.classList.remove('bg-primary-50', 'text-primary-600');
-            });
+    document.addEventListener("DOMContentLoaded", function () {
+        const html = document.documentElement;
+        const toggle = document.getElementById("dark-mode-toggle");
 
-            // Kalau sebelumnya tertutup → buka
-            if (!isOpen) {
-                submenu.classList.remove('max-h-0', 'opacity-0', 'overflow-hidden');
-                submenu.classList.add('max-h-96', 'opacity-100');
+        const savedTheme = localStorage.getItem("theme");
 
-                chevron.classList.add('rotate-90');
-                this.classList.add('bg-primary-50', 'text-primary-600');
+        if (savedTheme === "dark") {
+            html.classList.add("dark");
+            toggle.checked = true; 
+        } else {
+            html.classList.remove("dark");
+            toggle.checked = false; 
+        }
+
+        toggle.addEventListener("change", function () {
+            if (this.checked) {
+                html.classList.add("dark");
+                localStorage.setItem("theme", "dark");
+            } else {
+                html.classList.remove("dark");
+                localStorage.setItem("theme", "light");
             }
-
         });
     });
 
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function () {
 
-    document.addEventListener("DOMContentLoaded", function () {
-    const html = document.documentElement;
-    const toggle = document.getElementById("dark-mode-toggle");
+                const action = this.dataset.action;
+                const form = document.getElementById('delete-form');
 
-    const savedTheme = localStorage.getItem("theme");
+                if (!action || !form) {
+                    console.error('Delete form atau action tidak ditemukan');
+                    return;
+                }
 
-    if (savedTheme === "dark") {
-        html.classList.add("dark");
-        toggle.checked = true; 
-    } else {
-        html.classList.remove("dark");
-        toggle.checked = false; 
-    }
+                form.action = action;
+                showModalById('modal-delete');
+            });
+        });
 
-    toggle.addEventListener("change", function () {
-        if (this.checked) {
-            html.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-        } else {
-            html.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
+        document.getElementById('cancel-delete')?.addEventListener('click', function () {
+            hideModalById('modal-delete');
+        });
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.delete-btn').forEach(button => {
-        button.addEventListener('click', function () {
+    document.querySelectorAll('.format-rupiah').forEach(function(input) {
 
-            const action = this.dataset.action;
-            const form = document.getElementById('delete-form');
+        input.addEventListener('input', function () {
 
-            if (!action || !form) {
-                console.error('Delete form atau action tidak ditemukan');
+            let angka = this.value.replace(/\D/g, '');
+
+            if (!angka) {
+                this.value = '';
                 return;
             }
 
-            form.action = action;
-            showModalById('modal-delete');
+            this.value = new Intl.NumberFormat('id-ID').format(angka);
         });
+        input.closest('form').addEventListener('submit', function() {
+            input.value = input.value.replace(/\./g, '');
+        });
+
     });
 
-    document.getElementById('cancel-delete')?.addEventListener('click', function () {
-        hideModalById('modal-delete');
+    const popover = document.getElementById('globalPopover');
+
+    document.addEventListener('click', function(e){
+
+        const trigger = e.target.closest('[data-popover]');
+
+        if(trigger){
+
+            const text = trigger.dataset.popover;
+
+            popover.innerText = text;
+
+            const rect = trigger.getBoundingClientRect();
+
+            popover.style.top = rect.bottom + window.scrollY + 8 + "px";
+            popover.style.left = rect.left + window.scrollX + "px";
+
+            popover.classList.remove('hidden');
+
+        } else {
+
+            popover.classList.add('hidden');
+
+        }
+
     });
-});

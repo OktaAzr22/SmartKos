@@ -58,9 +58,9 @@
                                 <span class="text-gray-500 dark:text-zinc-400">Rp</span>
                             </div>
 
-                            <input type="number" name="jumlah" id="jumlah" step="0.01"
+                            <input type="text" name="jumlah" id="jumlah" step="0.01"
                                 value="{{ old('jumlah') }}"
-                                class="w-full pl-12 pr-3 py-2 border border-gray-300 dark:border-zinc-600 
+                                class="format-rupiah w-full pl-12 pr-3 py-2 border border-gray-300 dark:border-zinc-600 
                                        rounded-lg bg-white dark:bg-zinc-800
                                        text-gray-900 dark:text-zinc-200
                                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500  @error('jumlah') border-red-500 @enderror"

@@ -18,7 +18,7 @@ class PengeluaranController extends Controller
         $data = Pengeluaran::where('user_id', Auth::id())
         ->with('kategori')
         ->latest()
-        ->paginate(6);
+        ->paginate(10);
 
         $kategori = KategoriPengeluaran::all();
 
