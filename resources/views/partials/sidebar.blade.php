@@ -132,7 +132,7 @@
     {{-- FOOTER --}}
     <div class="p-4 border-t border-gray-200 dark:border-zinc-700">
         <div class="flex items-center justify-between text-xs text-gray-500 dark:text-zinc-400">
-            <span>&copy; 2026 DashboardPro</span>
+            <span>&copy; 2026 SmartKost</span>
             <span class="flex items-center">
                 <span class="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
                 <span class="dark:text-zinc-300">Online</span>

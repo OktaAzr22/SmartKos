@@ -43,11 +43,11 @@
                         @endif
                     </div>
 
-                    <i class="fas fa-chevron-down text-gray-500 dark:text-zinc-400 text-xs transition-transform duration-200 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
+                    <i id="profile-chevron" class="fas fa-chevron-down text-gray-500 dark:text-zinc-400 text-xs transition-transform duration-200 group-hover:text-blue-600 dark:group-hover:text-blue-400"></i>
                 </button>
 
                 <div id="profile-dropdown"
-                     class="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-800 rounded-xl shadow-lg py-2 z-10 border border-gray-100 dark:border-zinc-700 opacity-0 invisible transition-all duration-200 transform -translate-y-2">
+                     class="absolute right-0 mt-2 w-56 bg-white dark:bg-zinc-800 rounded-xl shadow-lg py-2 z-50 border border-gray-100 dark:border-zinc-700 opacity-0 invisible transition-all duration-200 transform -translate-y-2">
                     
                     <div class="px-4 py-3 border-b border-gray-100 dark:border-zinc-700">
                         <p class="text-sm font-medium text-gray-900 dark:text-zinc-200">
