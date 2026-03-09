@@ -41,6 +41,8 @@ class DashboardController extends Controller
         /* =========================
         * TRANSAKSI LIST
         * ========================= */
+        $perPage = $request->get('per_page', 10);
+
         $tipe = $request->query('tipe');
 
         $pemasukan = UangSaku::select(
@@ -68,11 +70,21 @@ class DashboardController extends Controller
                 ->get();
         }
 
+        $nextTipe = match ($tipe) {
+            'pemasukan' => 'pengeluaran',
+            'pengeluaran' => null,
+            default => 'pemasukan'
+        };
+
+        $toggleTipeUrl = request()
+            ->fullUrlWithQuery(['tipe' => $nextTipe])
+            .'#riwayat-transaksi';
+
         $transaksi = new LengthAwarePaginator(
-            $transaksiAll->forPage(request('page', 1), 5),
-            $transaksiAll->count(),
-            5,
-            request('page', 1),
+        $transaksiAll->forPage(request('page', 1), $perPage),
+        $transaksiAll->count(),
+        $perPage,
+        request('page', 1),
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
@@ -152,6 +164,7 @@ class DashboardController extends Controller
             'totalPengeluaranRekap',
             'bulanKategori',
             'bulanKategoriTersedia',
+            'toggleTipeUrl',
         ));
     }
 

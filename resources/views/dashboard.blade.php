@@ -148,42 +148,58 @@
 
 <div class="grid grid-cols-12 gap-6 items-stretch">
 
-    <!-- GRAFIK 70% -->
-    <div class="col-span-12 lg:col-span-8
+    <div class=" col-span-12 lg:col-span-8
                 bg-white dark:bg-zinc-900 rounded-xl shadow p-5
                 border border-gray-200 dark:border-zinc-700">
 
         <div class="flex justify-between items-center mb-4">
+
             <h2 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
                 Grafik Keuangan Bulanan
             </h2>
+             
+            @if($tahunTersedia->isNotEmpty())
+                <select id="tahunSelect"
+                        class="px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-600
+                            bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-200 text-sm">
+                    @foreach ($tahunTersedia as $th)
+                        <option value="{{ $th }}" {{ $th == $tahun ? 'selected' : '' }}>
+                            {{ $th }}
+                        </option>
+                    @endforeach
+                </select>
+            @endif
 
-            <select id="tahunSelect"
-                class="px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-600
-                       bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-200 text-sm">
-                @foreach ($tahunTersedia as $th)
-                    <option value="{{ $th }}" {{ $th == $tahun ? 'selected' : '' }}>
-                        {{ $th }}
-                    </option>
-                @endforeach
-            </select>
         </div>
 
-        <!-- Skeleton -->
-        <div id="chartSkeleton" class="animate-pulse space-y-3">
-            <div class="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
-            <div class="h-[380px] bg-gray-200 dark:bg-zinc-700 rounded"></div>
-        </div>
+        <div class="relative">
+            <div id="chartSkeleton" class="animate-pulse space-y-3">
+                <div class="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
+                <div class="h-[380px] bg-gray-200 dark:bg-zinc-700 rounded"></div>
+            </div>
 
-        <!-- Chart -->
-        <div id="chartContainer" class="hidden overflow-x-auto no-scrollbar">
-            <div class="min-w-[900px] h-[320px]">
-                <canvas id="grafikBulanan"></canvas>
+            <div id="chartContainer" class="hidden overflow-x-auto no-scrollbar">
+                <div class="min-w-[900px] h-[320px]">
+                    <canvas id="grafikBulanan"></canvas>
+                </div>
+            </div>
+
+            <div id="chartEmpty"
+                class="absolute inset-0 flex flex-col items-center justify-center
+                text-gray-500 dark:text-zinc-400 hidden">
+
+                <svg class="w-8 h-8 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 3v18h18M7 14l4-4 4 4 4-4"/>
+                </svg>
+
+                <p class="text-sm">Data grafik belum tersedia</p>
+
             </div>
         </div>
+
     </div>
 
-    <!-- DONUT 30% -->
     <div class="col-span-12 lg:col-span-4
                 bg-white dark:bg-zinc-900 rounded-xl shadow p-5
                 border border-gray-200 dark:border-zinc-700">
@@ -195,20 +211,25 @@
                 <span class="block text-sm text-gray-500 dark:text-zinc-400">(Bulan Ini)</span>
             </h2>
 
-            <!-- Donut Center -->
             <div class="flex-1 flex items-center justify-center">
                 <div class="relative w-full max-w-[200px] h-[200px]">
                     <canvas id="donutBulanIni"></canvas>
                     <div id="donutEmpty"
-                        class="absolute inset-0 flex items-center justify-center text-center
-                               text-sm text-gray-500 dark:text-zinc-400 hidden">
-                        Data belum ada
+                        class="absolute inset-0 flex flex-col items-center justify-center
+                        text-gray-500 dark:text-zinc-400 hidden">
+
+                        <svg class="w-7 h-7 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3v18h18M7 14l4-4 4 4 4-4"/>
+                        </svg>
+
+                        <p class="text-xs">Data belum tersedia</p>
+
                     </div>
                 </div>
             </div>
 
-            <!-- Legend -->
-            <div class="mt-4 flex items-center justify-center gap-6 text-sm">
+            <div id="donutLegend" class="mt-4 flex items-center justify-center gap-6 text-sm">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-green-500"></span>
                     <span class="text-gray-700 dark:text-zinc-300">
@@ -255,8 +276,19 @@
         <div class="px-6 py-4 border-b border-gray-200 dark:border-zinc-700
                     flex justify-between items-center">
             <h3 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-                Riwayat Transaksi
+                Riwayat Transaksia
             </h3>
+            <form method="GET">
+                <select name="per_page"
+                        onchange="this.form.submit()"
+                        class="text-sm border-gray-300 rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white">
+
+                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                    <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+
+                </select>
+            </form>
         </div>
 
         @if ($tipe)
@@ -289,8 +321,21 @@
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Tanggal
                         </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
-                            Tipe
+                        <th class="px-6 py-3 text-left text-xs font-medium uppercase">
+                            <a href="{{ $toggleTipeUrl }}"
+                            class="flex items-center gap-1 text-gray-500 dark:text-zinc-400 hover:text-indigo-600 transition">
+
+                                Tipe
+
+                                @if($tipe === 'pemasukan')
+                                    <i class="fas fa-arrow-up text-green-500 text-xs"></i>
+                                @elseif($tipe === 'pengeluaran')
+                                    <i class="fas fa-arrow-down text-red-500 text-xs"></i>
+                                @else
+                                    <i class="fas fa-sort text-xs"></i>
+                                @endif
+
+                            </a>
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-zinc-400 uppercase">
                             Jumlah Rp
@@ -437,7 +482,7 @@
     @else
         <div class="text-center py-8 text-gray-400 dark:text-zinc-500 text-sm">
             <div class="text-2xl mb-2">📉</div>
-            Belum ada data pengeluaran untuk bulan ini
+            Data pengeluaran bulan ini belum tersedia.
         </div>
     @endif
 
