@@ -147,105 +147,199 @@
 </div>
 
 <div class="grid grid-cols-12 gap-6 items-stretch">
+    
+    <!-- CHART BULANAN -->
+    <div class="group relative col-span-12 lg:col-span-8
+                bg-white dark:bg-zinc-900 rounded-xl shadow
+                border border-gray-200 dark:border-zinc-700
+                p-5 overflow-hidden
+                transform 
+                transition-all duration-300
+                hover:shadow-blue-500/10 
+                dark:hover:shadow-blue-500/20
+                hover:shadow-xl
+                hover:border-blue-500">
 
-    <div class=" col-span-12 lg:col-span-8
-                bg-white dark:bg-zinc-900 rounded-xl shadow p-5
-                border border-gray-200 dark:border-zinc-700">
-
-        <div class="flex justify-between items-center mb-4">
-
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-zinc-100">
-                Grafik Keuangan Bulanan
-            </h2>
-             
-            @if($tahunTersedia->isNotEmpty())
-                <select id="tahunSelect"
-                        class="px-3 py-2 rounded-lg border border-gray-300 dark:border-zinc-600
-                            bg-white dark:bg-zinc-800 text-gray-900 dark:text-zinc-200 text-sm">
-                    @foreach ($tahunTersedia as $th)
-                        <option value="{{ $th }}" {{ $th == $tahun ? 'selected' : '' }}>
-                            {{ $th }}
-                        </option>
-                    @endforeach
-                </select>
-            @endif
-
-        </div>
+        <div class="absolute inset-0 opacity-0
+        group-hover:opacity-100
+        transition duration-300
+        bg-gradient-to-r
+        from-blue-500/5
+        to-purple-500/5"></div>
 
         <div class="relative">
-            <div id="chartSkeleton" class="animate-pulse space-y-3">
-                <div class="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
-                <div class="h-[380px] bg-gray-200 dark:bg-zinc-700 rounded"></div>
+
+            <div class="flex justify-between items-center mb-4">
+
+                <h2 class="text-lg font-semibold
+                text-gray-900 dark:text-zinc-100
+                group-hover:text-blue-600
+                transition-colors duration-300">
+
+                    Grafik Keuangan Bulanan
+                </h2>
+
+                @if($tahunTersedia->isNotEmpty())
+                <select id="tahunSelect"
+                        class="px-3 py-2 rounded-lg border
+                        border-gray-300 dark:border-zinc-600
+                        bg-white dark:bg-zinc-800
+                        text-gray-900 dark:text-zinc-200 text-sm
+                        transition
+                        group-hover:border-blue-400">
+                    @foreach ($tahunTersedia as $th)
+                    <option value="{{ $th }}" {{ $th == $tahun ? 'selected' : '' }}>
+                        {{ $th }}
+                    </option>
+                    @endforeach
+                </select>
+                @endif
+
             </div>
 
-            <div id="chartContainer" class="hidden overflow-x-auto no-scrollbar">
-                <div class="min-w-[900px] h-[320px]">
-                    <canvas id="grafikBulanan"></canvas>
+
+            <div class="relative">
+
+                <!-- Skeleton -->
+                <div id="chartSkeleton" class="animate-pulse space-y-3">
+                    <div class="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/4"></div>
+                    <div class="h-[380px] bg-gray-200 dark:bg-zinc-700 rounded"></div>
                 </div>
+
+                <!-- Chart -->
+                <div id="chartContainer" class="hidden overflow-x-auto no-scrollbar">
+                    <div class="min-w-[900px] h-[320px]">
+                        <canvas id="grafikBulanan"></canvas>
+                    </div>
+                </div>
+
+                <!-- Empty -->
+                <div id="chartEmpty"
+                    class="absolute inset-0 flex flex-col items-center justify-center
+                    text-gray-500 dark:text-zinc-400 hidden">
+
+                    <svg class="w-8 h-8 mb-2 opacity-50
+                    text-gray-400
+                    group-hover:text-blue-500
+                    group-hover:scale-110
+                    transition-all duration-300"
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 3v18h18M7 14l4-4 4 4 4-4"/>
+                    </svg>
+
+                    <p class="text-sm
+                    group-hover:text-blue-500
+                    transition-colors">
+                        Data grafik belum tersedia
+                    </p>
+
+                </div>
+
             </div>
 
-            <div id="chartEmpty"
-                class="absolute inset-0 flex flex-col items-center justify-center
-                text-gray-500 dark:text-zinc-400 hidden">
-
-                <svg class="w-8 h-8 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 3v18h18M7 14l4-4 4 4 4-4"/>
-                </svg>
-
-                <p class="text-sm">Data grafik belum tersedia</p>
-
-            </div>
         </div>
-
     </div>
 
-    <div class="col-span-12 lg:col-span-4
-                bg-white dark:bg-zinc-900 rounded-xl shadow p-5
-                border border-gray-200 dark:border-zinc-700">
 
-        <div class="flex flex-col h-full">
+    <!-- DONUT CHART -->
+    <div class="group relative col-span-12 lg:col-span-4
+                bg-white dark:bg-zinc-900 rounded-xl shadow
+                border border-gray-200 dark:border-zinc-700
+                p-5 overflow-hidden
+                transform 
+                transition-all duration-300
+                hover:shadow-blue-500/10 
+                dark:hover:shadow-blue-500/20
+                hover:shadow-xl
+                hover:border-blue-500">
 
-            <h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-zinc-100">
+        <div class="absolute inset-0 opacity-0
+        group-hover:opacity-100
+        transition duration-300
+        bg-gradient-to-r
+        from-blue-500/5
+        to-purple-500/5"></div>
+
+        <div class="relative flex flex-col h-full">
+
+            <h2 class="text-lg font-semibold mb-4
+            text-gray-900 dark:text-zinc-100
+            group-hover:text-blue-600
+            transition-colors duration-300">
+
                 Chart Data
-                <span class="block text-sm text-gray-500 dark:text-zinc-400">(Bulan Ini)</span>
+                <span class="block text-sm text-gray-500 dark:text-zinc-400">
+                    (Bulan Ini)
+                </span>
+
             </h2>
 
+            <!-- Donut -->
             <div class="flex-1 flex items-center justify-center">
+
                 <div class="relative w-full max-w-[200px] h-[200px]">
+
                     <canvas id="donutBulanIni"></canvas>
+
+                    <!-- Empty -->
                     <div id="donutEmpty"
                         class="absolute inset-0 flex flex-col items-center justify-center
                         text-gray-500 dark:text-zinc-400 hidden">
 
-                        <svg class="w-7 h-7 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-7 h-7 mb-2 opacity-50
+                        text-gray-400
+                        group-hover:text-blue-500
+                        group-hover:scale-110
+                        transition-all duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 3v18h18M7 14l4-4 4 4 4-4"/>
                         </svg>
 
-                        <p class="text-xs">Data belum tersedia</p>
+                        <p class="text-xs
+                        group-hover:text-blue-500
+                        transition-colors">
+                            Data belum tersedia
+                        </p>
 
                     </div>
+
                 </div>
+
             </div>
 
-            <div id="donutLegend" class="mt-4 flex items-center justify-center gap-6 text-sm">
-                <div class="flex items-center gap-2">
+
+            <!-- Legend -->
+            <div id="donutLegend"
+            class="mt-4 flex items-center justify-center gap-6 text-sm">
+
+                <div class="flex items-center gap-2
+                text-gray-700 dark:text-zinc-300
+                group-hover:text-green-500
+                transition-colors">
+
                     <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                    <span class="text-gray-700 dark:text-zinc-300">
-                        Pemasukan
-                    </span>
+                    <span>Pemasukan</span>
+
                 </div>
 
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2
+                text-gray-700 dark:text-zinc-300
+                group-hover:text-red-500
+                transition-colors">
+
                     <span class="w-3 h-3 rounded-full bg-red-500"></span>
-                    <span class="text-gray-700 dark:text-zinc-300">
-                        Pengeluaran
-                    </span>
+                    <span>Pengeluaran</span>
+
                 </div>
+
             </div>
 
         </div>
+
     </div>
 
 </div>
